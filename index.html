@@ -9033,7 +9033,7 @@
     summaryHTML += '</tr>';
 
     // ── Data rows ───────────────────────────────────────────────────────────
-    var tbodyHTML = '<tbody>' + summaryHTML;
+    var tbodyHTML = '<tbody>' + ((!single && !state.showTotals) ? '' : summaryHTML);
     sorted.forEach(function (r) {
       if (!single && matrix.rowTotals[r] === 0) return;
       var labelCell;
