@@ -2302,6 +2302,30 @@
     .aws-chart-hotel-sub-row .aws-chart-label { padding-left: 20px; }
     .aws-chart-hotel-sub-row .aws-chart-chips-row { padding-left: calc(200px + 20px + 20px); }
 
+    /* ── Date range segment buttons ── */
+    .aws-range-seg { display: flex; border: 1px solid #DDE1E2; border-radius: 4px; flex-shrink: 0; overflow: hidden; }
+    .aws-range-btn { height: 32px; padding: 0 10px; border: none; background: transparent; cursor: pointer; font-family: 'Lato', sans-serif; font-size: 13px; color: #4F5B60; white-space: nowrap; border-left: 1px solid #DDE1E2; }
+    .aws-range-btn:first-child { border-left: none; }
+    .aws-range-btn:hover { background: #EAEEEF; color: #1C1C1C; }
+    .aws-range-btn.aws-range-active { background: #006461; color: #fff; font-weight: 700; }
+    /* ── Date column headers ── */
+    .aws-th-date { text-align: center; cursor: pointer; padding: 4px 2px !important; vertical-align: middle; }
+    .aws-th-date:hover { color: #006461; background: #F0F5F5; }
+    .aws-th-day { font-size: 10px; font-weight: 700; color: #4F5B60; line-height: 1.3; white-space: nowrap; }
+    .aws-th-datenum { font-size: 12px; font-weight: 700; color: #1C1C1C; line-height: 1.3; }
+    .aws-th-month { font-size: 10px; color: #006461; font-weight: 700; }
+    .aws-th-weekend .aws-th-day,
+    .aws-th-weekend .aws-th-datenum { color: #9CA3AF; }
+    .aws-td-weekend:not([class*="aws-h"]) { background: #FAFAFA !important; }
+    /* ── Stay date filter bar ── */
+    .ap-stay-date-bar { display: none; align-items: center; gap: 8px; padding: 0 12px 8px; flex-shrink: 0; }
+    .ap-stay-date-bar.visible { display: flex; }
+    .ap-stay-date-chip { display: flex; align-items: center; gap: 4px; background: #EBF5F5; border: 1px solid #006461; border-radius: 12px; padding: 2px 6px 2px 10px; font-size: 12px; color: #006461; font-family: 'Lato', sans-serif; white-space: nowrap; }
+    .ap-stay-date-chip-label { font-weight: 700; }
+    .ap-stay-date-chip-clear { width: 18px; height: 18px; border: none; background: transparent; cursor: pointer; display: flex; align-items: center; justify-content: center; color: #006461; padding: 0; border-radius: 50%; flex-shrink: 0; }
+    .ap-stay-date-chip-clear:hover { background: #006461; color: #fff; }
+    .ap-stay-date-chip-clear .mi { font-size: 14px; }
+
     /* ─── HOME PAGE TABS ─────────────────────────────── */
     .home-tabs-bar {
       display: flex;
@@ -4092,6 +4116,17 @@
         </div>
       </div>
 
+      <!-- Stay date filter chip (shown when panel opened from a date cell) -->
+      <div class="ap-stay-date-bar" id="ap-stay-date-bar">
+        <span style="font-size:12px;color:#4F5B60;font-family:'Lato',sans-serif">Stay date:</span>
+        <div class="ap-stay-date-chip">
+          <span class="ap-stay-date-chip-label" id="ap-stay-date-label"></span>
+          <button class="ap-stay-date-chip-clear" id="ap-stay-date-clear" aria-label="Clear stay date filter">
+            <span class="material-icons-round mi">close</span>
+          </button>
+        </div>
+      </div>
+
       <!-- Scrollable alert list -->
       <div class="ap-content">
         <div class="ap-list" id="ap-list"></div>
@@ -4358,6 +4393,7 @@
   var activeHotelFilter   = null; // null = all hotels; array of hotel names = filtered set
   var activeRegionFilter  = null; // null = all regions; array of region names = filtered set
   var activePanelDateFilter = null; // null = no date filter; {from, to} = filtered range — set by Alerts Summary widget via window._ap.openWithFilters
+  var activeStayDateFilter  = null; // null = no filter; Date = specific stay date filter
   var hfMode              = 'hotels'; // 'hotels' | 'regions' — current mode of the hotel filter panel
 
   function updateFilterDot() {
@@ -4382,7 +4418,8 @@
       || activeRelevanceFilter !== null
       || activeHotelFilter !== null
       || activeRegionFilter !== null
-      || activePanelDateFilter !== null;
+      || activePanelDateFilter !== null
+      || activeStayDateFilter !== null;
     resetFiltersBtn.style.display = hasFilter ? '' : 'none';
   }
 
@@ -4405,6 +4442,23 @@
       if (a.region && !seen[a.region]) { seen[a.region] = true; regions.push(a.region); }
     });
     return regions.sort();
+  }
+
+  var MONTHS_FULL = ['January','February','March','April','May','June','July','August','September','October','November','December'];
+  var DAYS_FULL   = ['Sunday','Monday','Tuesday','Wednesday','Thursday','Friday','Saturday'];
+
+  function updateStayDateBar() {
+    var bar   = document.getElementById('ap-stay-date-bar');
+    var label = document.getElementById('ap-stay-date-label');
+    if (!bar) return;
+    if (activeStayDateFilter) {
+      var d = activeStayDateFilter;
+      label.textContent = DAYS_FULL[d.getDay()] + ', ' + MONTHS_FULL[d.getMonth()] + ' ' + d.getDate();
+      bar.classList.add('visible');
+    } else {
+      bar.classList.remove('visible');
+    }
+    updateResetBtn();
   }
 
   /* Populate the checkbox list based on current hfMode */
@@ -4729,6 +4783,16 @@
     renderAlerts(currentPage);
   });
 
+  /* ── stay date chip clear ───────────────────── */
+  var stayDateClearBtn = document.getElementById('ap-stay-date-clear');
+  if (stayDateClearBtn) stayDateClearBtn.addEventListener('click', function () {
+    activeStayDateFilter = null;
+    updateStayDateBar();
+    currentPage = 1;
+    renderAlerts(currentPage);
+    updateBadge();
+  });
+
   /* ── reset filters button ───────────────────── */
   resetFiltersBtn.addEventListener('click', function (e) {
     e.stopPropagation();
@@ -4741,6 +4805,8 @@
     activeHotelFilter     = null;
     activeRegionFilter    = null;
     activePanelDateFilter = null;
+    activeStayDateFilter  = null;
+    updateStayDateBar();
     // Sync filter panel UI
     document.querySelectorAll('.ap-filter-option input').forEach(function (cb) { cb.checked = true; });
     readSegBtns.forEach(function (b) { b.classList.toggle('ap-seg-active', b.dataset.read === 'both'); });
@@ -7067,7 +7133,10 @@
       if (activeRelevanceFilter !== null && a.tier < activeRelevanceFilter) return false;
       if (activeHotelFilter  !== null && activeHotelFilter.indexOf(a.hotel)   === -1) return false;
       if (activeRegionFilter !== null && activeRegionFilter.indexOf(a.region) === -1) return false;
-      if (activePanelDateFilter !== null) {
+      if (activeStayDateFilter !== null) {
+        var adk = (a.date instanceof Date ? a.date : new Date(a.date)).toDateString();
+        if (adk !== activeStayDateFilter.toDateString()) return false;
+      } else if (activePanelDateFilter !== null) {
         var ad = a.date instanceof Date ? a.date : new Date(a.date);
         if (ad < activePanelDateFilter.from || ad > activePanelDateFilter.to) return false;
       }
@@ -8392,6 +8461,8 @@
         activeHotelFilter  = null;
         activeRegionFilter = null;
         activePanelDateFilter = null;
+        activeStayDateFilter  = null;
+        updateStayDateBar();
         hfMode = 'hotels';
         setHfMode('hotels');
         closeHotelFilterMenu();
@@ -8629,7 +8700,10 @@
       document.querySelectorAll('.ap-rel-seg-btn').forEach(function (btn) {
         btn.classList.toggle('selected', parseInt(btn.dataset.val, 10) === activeRelevanceFilter);
       });
-      // date range
+      // stay date (specific day filter — takes precedence over date range)
+      activeStayDateFilter = opts.stayDate || null;
+      updateStayDateBar();
+      // date range (used when no stayDate)
       activePanelDateFilter = (opts.dateFrom && opts.dateTo) ? { from: opts.dateFrom, to: opts.dateTo } : null;
       // read filter
       var rf = opts.readFilter || 'both';
@@ -8748,17 +8822,22 @@
     'Market Demand':      '#F28585',
     'Price Drop':         '#967EF3'
   };
-  var BUBBLE_COLOR = '#C93333';
-  var DAYS_S = ['Sun','Mon','Tue','Wed','Thu','Fri','Sat'];
+  var DAYS_S  = ['Sun','Mon','Tue','Wed','Thu','Fri','Sat'];
   var MONTHS_S = ['Jan','Feb','Mar','Apr','May','Jun','Jul','Aug','Sep','Oct','Nov','Dec'];
 
   function defaultsForProp(prop) {
-    return { tier: null, days: 60 };
+    return { tier: null, days: 14 };
   }
 
   var _initDefaults = defaultsForProp(window._ap.getCurrentProperty());
-  var state = { tier: _initDefaults.tier, days: _initDefaults.days, sort: 'urgency', allRegionsExpanded: false, groupByRegion: true, view: 'bubble', chartExpanded: {}, chartExpandedRegions: {}, bubbleExpandedRegions: {} };
-  var _prevMultiView = 'bubble'; // restored when leaving single-property mode
+  var state = {
+    tier: _initDefaults.tier,
+    days: _initDefaults.days,
+    sort: 'urgency',
+    showTotals: true,
+    groupByRegion: true,
+    allRegionsExpanded: false
+  };
 
   var HOTEL_REGION = {};
   function buildRegionMap() {
@@ -8788,26 +8867,6 @@
 
   function isSingleProp() { return window._ap.getCurrentProperty() === 'hotel-barcelona'; }
 
-  function computeRegionAggregates(matrix) {
-    var regions = [], regionSet = {}, regionHotels = {};
-    matrix.rows.forEach(function (h) {
-      var region = HOTEL_REGION[h] || 'Other';
-      if (!regionSet[region]) { regionSet[region] = true; regions.push(region); regionHotels[region] = []; }
-      regionHotels[region].push(h);
-    });
-    regions.sort();
-    var regionCounts = {}, regionTotals = {};
-    regions.forEach(function (region) {
-      regionCounts[region] = {}; regionTotals[region] = 0;
-      CATS.forEach(function (c) { regionCounts[region][c] = 0; });
-      regionHotels[region].forEach(function (h) {
-        CATS.forEach(function (c) { regionCounts[region][c] += matrix.counts[h][c]; });
-        regionTotals[region] += matrix.rowTotals[h];
-      });
-    });
-    return { regions: regions, regionHotels: regionHotels, regionCounts: regionCounts, regionTotals: regionTotals };
-  }
-
   function getFilteredAlerts() {
     var ap = window._ap;
     var prop = ap.getCurrentProperty();
@@ -8825,27 +8884,26 @@
 
   function computeMatrix(alerts) {
     var single = isSingleProp();
-    var rows = single ? getDateList() : getHotelList();
-    var counts = {}, rowTotals = {};
+    var dates = getDateList();
+    var rows = single ? CATS : getHotelList();
+    var counts = {}, rowTotals = {}, colTotals = {};
     rows.forEach(function (r) {
-      var k = single ? r.toDateString() : r;
-      counts[k] = {}; rowTotals[k] = 0;
-      CATS.forEach(function (c) { counts[k][c] = 0; });
+      counts[r] = {}; rowTotals[r] = 0;
+      dates.forEach(function (d) { counts[r][d.toDateString()] = 0; });
     });
+    dates.forEach(function (d) { colTotals[d.toDateString()] = 0; });
     alerts.forEach(function (a) {
-      var k = single ? a.date.toDateString() : a.hotel;
-      if (!counts[k] || CATS.indexOf(a.category) === -1) return;
-      counts[k][a.category]++;
-      rowTotals[k]++;
+      var dk = a.date.toDateString();
+      if (!colTotals.hasOwnProperty(dk)) return;
+      var rk = single ? a.category : a.hotel;
+      if (!counts.hasOwnProperty(rk)) return;
+      counts[rk][dk]++;
+      rowTotals[rk]++;
+      colTotals[dk]++;
     });
-    var summary = {}, summaryTotal = 0;
-    CATS.forEach(function (c) { summary[c] = 0; });
-    rows.forEach(function (r) {
-      var k = single ? r.toDateString() : r;
-      CATS.forEach(function (c) { summary[c] += counts[k][c]; });
-      summaryTotal += rowTotals[k];
-    });
-    return { rows: rows, counts: counts, rowTotals: rowTotals, summary: summary, summaryTotal: summaryTotal };
+    var grandTotal = 0;
+    rows.forEach(function (r) { grandTotal += rowTotals[r]; });
+    return { rows: rows, dates: dates, counts: counts, rowTotals: rowTotals, colTotals: colTotals, grandTotal: grandTotal };
   }
 
   function quintile(values) {
@@ -8868,51 +8926,35 @@
   }
 
   function assignHeatmap(matrix) {
-    var single = isSingleProp();
     var rows = matrix.rows;
-    var catValues = [];
+    var dates = matrix.dates;
+    var allVals = [];
     rows.forEach(function (r) {
-      var k = single ? r.toDateString() : r;
-      CATS.forEach(function (c) { catValues.push(matrix.counts[k][c]); });
+      dates.forEach(function (d) { allVals.push(matrix.counts[r][d.toDateString()]); });
     });
-    var catLevels = quintile(catValues);
-    var catLevelMap = {};
+    var cellLevels = quintile(allVals);
+    var levelMap = {};
     var idx = 0;
     rows.forEach(function (r) {
-      var k = single ? r.toDateString() : r;
-      catLevelMap[k] = {};
-      CATS.forEach(function (c) { catLevelMap[k][c] = catLevels[idx++]; });
+      levelMap[r] = {};
+      dates.forEach(function (d) { levelMap[r][d.toDateString()] = cellLevels[idx++]; });
     });
-    var totalLevels = quintile(rows.map(function (r) { return matrix.rowTotals[single ? r.toDateString() : r]; }));
-    var totalLevelMap = {};
-    rows.forEach(function (r, i) { totalLevelMap[single ? r.toDateString() : r] = totalLevels[i]; });
-    var summaryLevels = quintile(CATS.map(function (c) { return matrix.summary[c]; }));
-    var summaryLevelMap = {};
-    CATS.forEach(function (c, i) { summaryLevelMap[c] = summaryLevels[i]; });
-    return { catLevelMap: catLevelMap, totalLevelMap: totalLevelMap, summaryLevelMap: summaryLevelMap };
+    var colVals = dates.map(function (d) { return matrix.colTotals[d.toDateString()]; });
+    var colLevels = quintile(colVals);
+    var colLevelMap = {};
+    dates.forEach(function (d, i) { colLevelMap[d.toDateString()] = colLevels[i]; });
+    return { levelMap: levelMap, colLevelMap: colLevelMap };
   }
 
   function sortRows(matrix) {
     var rows = matrix.rows.slice();
-    if (isSingleProp()) {
-      if (state.sort === 'date') return rows; // chronological = natural order
-      // urgency: sort by row total descending
-      rows.sort(function (a, b) {
-        var ta = matrix.rowTotals[a.toDateString()], tb = matrix.rowTotals[b.toDateString()];
-        if (ta !== tb) return tb - ta;
-        return a - b; // tie: chronological
-      });
-      return rows;
-    }
+    if (isSingleProp()) return rows; // keep canonical CATS order
     if (state.sort === 'az') {
       rows.sort(function (a, b) { return a < b ? -1 : a > b ? 1 : 0; });
     } else {
       rows.sort(function (a, b) {
         var ta = matrix.rowTotals[a], tb = matrix.rowTotals[b];
         if (ta !== tb) return tb - ta;
-        var ma = Math.max.apply(null, CATS.map(function (c) { return matrix.counts[a][c]; }));
-        var mb = Math.max.apply(null, CATS.map(function (c) { return matrix.counts[b][c]; }));
-        if (ma !== mb) return mb - ma;
         return a < b ? -1 : a > b ? 1 : 0;
       });
     }
@@ -8922,23 +8964,19 @@
   function esc(str) {
     return String(str).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;');
   }
-
   function cls(level) { return level > 0 ? ' aws-h' + level : ''; }
 
-  function dateLabelFor(d) {
-    var diff = Math.round((d - TODAY) / 86400000);
-    var main = diff === 0 ? 'Today' : diff === 1 ? 'Tomorrow' : DAYS_S[d.getDay()];
-    return { main: main, sub: MONTHS_S[d.getMonth()] + ' ' + d.getDate() };
+  function cellWidth() {
+    if (state.days <= 7)  return 60;
+    if (state.days <= 14) return 52;
+    if (state.days <= 30) return 38;
+    return 28;
   }
 
-  function bestAlertInCell(alerts, rowKey, cat, single) {
-    var matching = alerts.filter(function (a) {
-      if (CATS.indexOf(a.category) === -1 || a.category !== cat) return false;
-      if (single) return a.date.toDateString() === rowKey;
-      return a.hotel === rowKey;
-    });
-    if (!matching.length) return null;
-    return matching.reduce(function (b, a) { return a.tier > b.tier ? a : b; }, matching[0]);
+  function colHeader(d, idx) {
+    var label = idx === 0 ? 'TODAY' : idx === 1 ? 'TMRW' : DAYS_S[d.getDay()].toUpperCase();
+    var month = (idx === 0 || d.getDate() === 1) ? MONTHS_S[d.getMonth()] : '';
+    return { label: label, date: d.getDate(), month: month };
   }
 
   function makeSelect(id, wrapCls, options, selectedVal) {
@@ -8954,306 +8992,94 @@
            '<span class="material-icons-round aws-sel-arrow">arrow_drop_down</span></div>';
   }
 
-  function renderChart(allAlerts, matrix, sorted) {
+  function renderHeatmap(matrix, heatmap, sorted) {
     var single = isSingleProp();
-    var prop = window._ap.getCurrentProperty();
-    if (single) {
-      return '<div class="aws-chart-wrap"><div class="aws-chart-empty">Chart view is available for cluster properties.</div></div>';
-    }
+    var dates  = matrix.dates;
+    var cw     = cellWidth();
+    var labelW = single ? 160 : 200;
+    var totalW = labelW + dates.length * cw + (state.showTotals ? 60 : 0);
 
-    var isRegionView = (prop === 'cluster-51plus') && state.groupByRegion;
-    var rData = isRegionView ? computeRegionAggregates(matrix) : null;
-
-    // Compute max for bar scale
-    var maxTotal = 0;
-    if (isRegionView) {
-      rData.regions.forEach(function (region) {
-        // Use max of region total or any expanded hotel totals
-        if (state.chartExpandedRegions[region]) {
-          rData.regionHotels[region].forEach(function (h) {
-            if (matrix.rowTotals[h] > maxTotal) maxTotal = matrix.rowTotals[h];
-          });
-        }
-        if (rData.regionTotals[region] > maxTotal) maxTotal = rData.regionTotals[region];
-      });
-    } else {
-      sorted.forEach(function (r) { if (matrix.rowTotals[r] > maxTotal) maxTotal = matrix.rowTotals[r]; });
-    }
-    if (maxTotal === 0) {
-      return '<div class="aws-chart-wrap"><div class="aws-chart-empty">No alerts in this period.</div></div>';
-    }
-
-    // Build a ctip (chart tooltip) string: "label|Cat:N|Cat:N|...|total:N"
-    function makeTip(label, counts, total) {
-      var tip = label;
-      CATS.forEach(function (c) { if (counts[c]) tip += '|' + c + ':' + counts[c]; });
-      tip += '|total:' + total;
-      return tip;
-    }
-
-    // Build bar track
-    function makeBarTrack(rowKey, counts, total, tipLabel) {
-      var tip = makeTip(tipLabel, counts, total);
-      var html = '<div class="aws-chart-bar-track" data-row-key="' + esc(rowKey) + '" data-ctip="' + esc(tip) + '">';
-      CATS.forEach(function (c) {
-        if (!counts[c]) return;
-        var pct = (counts[c] / maxTotal * 100).toFixed(2);
-        html += '<div class="aws-chart-segment" style="width:' + pct + '%;background:' + CAT_COLORS[c] + '"></div>';
-      });
-      html += '</div>';
-      return html;
-    }
-
-    // Build a hotel row (with chevron + optional chip expansion)
-    function makeHotelRow(rowKey, counts, total, labelHtml, extraCls) {
-      var expanded = !!state.chartExpanded[rowKey];
-      var rowHtml =
-        '<div class="aws-chart-row' + (extraCls ? ' ' + extraCls : '') + '" data-row-key="' + esc(rowKey) + '">' +
-          '<div class="aws-chart-label">' + labelHtml + '</div>' +
-          makeBarTrack(rowKey, counts, total, rowKey) +
-          '<div class="aws-chart-right">' +
-            '<span class="aws-chart-total">' + total + '</span>' +
-            '<button class="aws-chart-chevron' + (expanded ? ' expanded' : '') + '" data-row-key="' + esc(rowKey) + '">' +
-              '<span class="material-icons-round mi">chevron_right</span>' +
-            '</button>' +
-          '</div>' +
-        '</div>';
-      if (expanded) {
-        rowHtml += '<div class="aws-chart-chips-row">';
-        CATS.forEach(function (c) {
-          if (!counts[c]) return;
-          rowHtml += '<button class="aws-chart-chip" data-row-key="' + esc(rowKey) + '" data-cat="' + esc(c) + '" style="background:' + CAT_COLORS[c] + '">' +
-            '<span class="aws-chart-chip-count">' + counts[c] + '</span>' +
-            '<span class="aws-chart-chip-label">' + esc(c) + '</span>' +
-          '</button>';
-        });
-        rowHtml += '</div>';
-      }
-      return rowHtml;
-    }
-
-    var html = '<div class="aws-chart-wrap">';
-
-    // Header row
-    var headerLabel = isRegionView ? 'Region' : 'Hotel';
-    html += '<div class="aws-chart-header-row">' +
-      '<div class="aws-chart-header-label">' + headerLabel + '</div>' +
-      '<div class="aws-chart-header-bar">Alerts by Category</div>' +
-      '<div class="aws-chart-header-right">' +
-        '<span class="aws-chart-header-total">Total</span>' +
-        '<span style="width:28px;flex-shrink:0;display:inline-block"></span>' +
-      '</div>' +
-    '</div>';
-
-    if (isRegionView) {
-      // ── Region-grouped view (50+) ─────────────────────────
-      var sortedRegions = rData.regions.slice();
-      if (state.sort === 'az') {
-        sortedRegions.sort(function (a, b) { return a < b ? -1 : a > b ? 1 : 0; });
-      } else {
-        sortedRegions.sort(function (a, b) { return rData.regionTotals[b] - rData.regionTotals[a]; });
-      }
-      sortedRegions.forEach(function (region) {
-        var regionTotal = rData.regionTotals[region];
-        if (!regionTotal) return;
-        var expanded = !!state.chartExpandedRegions[region];
-        html +=
-          '<div class="aws-chart-row aws-chart-region-row" data-region="' + esc(region) + '">' +
-            '<div class="aws-chart-label aws-chart-region-label">' +
-              '<div class="aws-chart-region-label-inner">' +
-                '<span class="material-icons-round aws-chart-region-icon' + (expanded ? ' expanded' : '') + '">chevron_right</span>' +
-                '<div class="aws-label-name">' + esc(region) + '</div>' +
-              '</div>' +
-            '</div>' +
-            makeBarTrack('__region__:' + region, rData.regionCounts[region], regionTotal, region) +
-            '<div class="aws-chart-right">' +
-              '<span class="aws-chart-total">' + regionTotal + '</span>' +
-              '<span style="width:28px;flex-shrink:0;display:inline-block"></span>' +
-            '</div>' +
-          '</div>';
-        if (expanded) {
-          var hotels = rData.regionHotels[region].slice().sort(function (a, b) {
-            return state.sort === 'az' ? (a < b ? -1 : 1) : matrix.rowTotals[b] - matrix.rowTotals[a];
-          });
-          hotels.forEach(function (hotel) {
-            if (!matrix.rowTotals[hotel]) return;
-            var labelHtml = '<div class="aws-label-name">' + esc(hotel) + '</div>';
-            html += makeHotelRow(hotel, matrix.counts[hotel], matrix.rowTotals[hotel], labelHtml, 'aws-chart-hotel-sub-row');
-          });
-        }
-      });
-    } else {
-      // ── Flat hotel view ───────────────────────────────────
-      sorted.forEach(function (r) {
-        if (!matrix.rowTotals[r]) return;
-        var region = HOTEL_REGION[r] || '';
-        var labelHtml = '<div class="aws-label-name">' + esc(r) + '</div>' +
-          (region ? '<div class="aws-label-sub">' + esc(region) + '</div>' : '');
-        html += makeHotelRow(r, matrix.counts[r], matrix.rowTotals[r], labelHtml, '');
-      });
-    }
-
-    html += '</div>';
-    return html;
-  }
-
-  function renderBubble(allAlerts, matrix, sorted) {
-    var single = isSingleProp();
-    var prop   = window._ap.getCurrentProperty();
-    var isRegionGrouped = (prop === 'cluster-51plus') && state.groupByRegion;
-
-    // ── maxCount for proportional bubble sizing ──────────────────────────
-    // Include region aggregates so region bubbles scale on the same axis
-    var maxCount = 1;
-    sorted.forEach(function (r) {
-      var rk = single ? r.toDateString() : r;
-      CATS.forEach(function (c) {
-        var cnt = (matrix.counts[rk] && matrix.counts[rk][c]) || 0;
-        if (cnt > maxCount) maxCount = cnt;
-      });
+    // ── Column headers ──────────────────────────────────────────────────────
+    var theadHTML = '<thead><tr>' +
+      '<th class="aws-th-label" style="width:' + labelW + 'px">' + (single ? 'Category' : 'Hotel') + '</th>';
+    dates.forEach(function (d, i) {
+      var ch = colHeader(d, i);
+      var wkCls = (d.getDay() === 0 || d.getDay() === 6) ? ' aws-th-weekend' : '';
+      theadHTML +=
+        '<th class="aws-th-date aws-clickable' + wkCls + '" data-date-key="' + esc(d.toDateString()) + '" style="width:' + cw + 'px">' +
+          '<div class="aws-th-day">' + esc(ch.label) + '</div>' +
+          '<div class="aws-th-datenum">' + ch.date + (ch.month ? '<span class="aws-th-month">&nbsp;' + ch.month + '</span>' : '') + '</div>' +
+        '</th>';
     });
-    if (isRegionGrouped) {
-      var rDataForMax = computeRegionAggregates(matrix);
-      rDataForMax.regions.forEach(function (region) {
-        CATS.forEach(function (c) {
-          var cnt = rDataForMax.regionCounts[region][c] || 0;
-          if (cnt > maxCount) maxCount = cnt;
-        });
-      });
+    if (state.showTotals) theadHTML += '<th class="aws-th-total" style="width:60px">Total</th>';
+    theadHTML += '</tr></thead>';
+
+    // ── Summary row (column totals) ─────────────────────────────────────────
+    var summaryLabel = single ? 'All categories' : 'All Hotels';
+    var summaryHTML = '<tr class="aws-summary-row">' +
+      '<td class="aws-td-label aws-summary-td-label"><div class="aws-label-name">' + esc(summaryLabel) + '</div></td>';
+    dates.forEach(function (d) {
+      var dk  = d.toDateString();
+      var cnt = matrix.colTotals[dk];
+      var lv  = heatmap.colLevelMap[dk];
+      var wkCls = (d.getDay() === 0 || d.getDay() === 6) ? ' aws-td-weekend' : '';
+      var clsStr = 'aws-td-cell' + wkCls + (cnt > 0 ? cls(lv) + ' aws-clickable' : '');
+      summaryHTML += '<td class="' + clsStr + '" data-date-key="' + esc(dk) + '" data-row-key="__summary__">' +
+        (cnt > 0 ? cnt : '<span class="aws-cell-dash">–</span>') + '</td>';
+    });
+    if (state.showTotals) {
+      summaryHTML += '<td class="aws-td-cell aws-td-total">' +
+        (matrix.grandTotal > 0 ? '<strong>' + matrix.grandTotal + '</strong>' : '') + '</td>';
     }
+    summaryHTML += '</tr>';
 
-    function bubbleHTML(cnt) {
-      if (cnt === 0) return '<span class="aws-bub-empty-dot"></span>';
-      var bg = BUBBLE_COLOR;
-      if (cnt === 1) {
-        return '<span class="aws-bub-dot" style="width:12px;height:12px;background:' + bg + '"></span>';
-      }
-      var size = (maxCount <= 2) ? 32 : Math.round(24 + (cnt - 2) / (maxCount - 2) * 20);
-      size = Math.min(44, Math.max(24, size));
-      var fontSize = Math.round(size * 0.40);
-      return '<span class="aws-bub-circle" style="width:' + size + 'px;height:' + size + 'px;background:' + bg + ';font-size:' + fontSize + 'px">' + cnt + '</span>';
-    }
-
-    var firstColW = single ? '140px' : '200px';
-    var bubTheadHTML =
-      '<thead><tr>' +
-        '<th class="aws-bub-th-label" style="width:' + firstColW + '">' + (single ? 'Stay Date' : (isRegionGrouped ? 'Region / Hotel' : 'Hotel')) + '</th>' +
-        CATS.map(function (c) { return '<th class="aws-bub-th-cat">' + esc(c) + '</th>'; }).join('') +
-        '<th class="aws-bub-th-total">Total</th>' +
-      '</tr></thead>';
-
-    var summaryLabel = single ? 'All Dates' : 'All Hotels';
-    var sumBubCells = CATS.map(function (c) {
-      return '<td class="aws-bub-td-cell">' + bubbleHTML(matrix.summary[c] || 0) + '</td>';
-    }).join('');
-    var sumTotal = matrix.summaryTotal || 0;
-    var summaryBubRow =
-      '<tr class="aws-summary-row">' +
-        '<td class="aws-bub-td-label aws-summary-td-label"><div class="aws-label-name">' + esc(summaryLabel) + '</div></td>' +
-        sumBubCells +
-        '<td class="aws-bub-td-cell">' + (sumTotal > 0 ? '<strong>' + sumTotal + '</strong>' : '') + '</td>' +
-      '</tr>';
-
-    // ── helper: category cells for a row ─────────────────────────────
-    function makeBubCatCells(rowKey, counts, contextLabel, isDate) {
-      return CATS.map(function (c) {
-        var cnt = (counts && counts[c]) || 0;
-        var attrs = ' data-row-key="' + esc(rowKey) + '" data-cat="' + esc(c) + '"';
-        if (cnt > 0) {
-          var best = (isDate !== undefined) ? bestAlertInCell(allAlerts, rowKey, c, isDate) : null;
-          var titleSnip = best ? best.title.substring(0, 48) + (best.title.length > 48 ? '…' : '') : '';
-          var ttip = cnt + ' ' + c + ' alert' + (cnt > 1 ? 's' : '') + ' — ' + contextLabel +
-            (titleSnip ? '\n' + titleSnip : '') + '\nClick to view';
-          attrs += ' data-tip="' + esc(ttip) + '"';
-        }
-        var clickCls = cnt > 0 ? ' aws-bub-clickable' : '';
-        return '<td class="aws-bub-td-cell' + clickCls + '"' + attrs + '>' + bubbleHTML(cnt) + '</td>';
-      }).join('');
-    }
-
-    var bubTbodyHTML = '<tbody>';
-
-    if (isRegionGrouped) {
-      // ── Region-grouped view ───────────────────────────────────────────
-      var rData = computeRegionAggregates(matrix);
-      var sortedRegions = rData.regions.slice();
-      if (state.sort === 'az') {
-        sortedRegions.sort(function (a, b) { return a < b ? -1 : a > b ? 1 : 0; });
+    // ── Data rows ───────────────────────────────────────────────────────────
+    var tbodyHTML = '<tbody>' + summaryHTML;
+    sorted.forEach(function (r) {
+      if (!single && matrix.rowTotals[r] === 0) return;
+      var labelCell;
+      if (single) {
+        var dot = CAT_COLORS[r] || '#888';
+        labelCell = '<td class="aws-td-label aws-clickable" data-row-key="' + esc(r) + '">' +
+          '<div class="aws-label-name" style="display:flex;align-items:center;gap:6px">' +
+            '<span style="width:8px;height:8px;border-radius:50%;background:' + esc(dot) + ';flex-shrink:0;display:inline-block"></span>' +
+            esc(r) + '</div></td>';
       } else {
-        sortedRegions.sort(function (a, b) { return rData.regionTotals[b] - rData.regionTotals[a]; });
+        var region = HOTEL_REGION[r] || '';
+        labelCell = '<td class="aws-td-label aws-clickable" data-row-key="' + esc(r) + '">' +
+          '<div class="aws-label-name">' + esc(r) + '</div>' +
+          (region ? '<div class="aws-label-sub">' + esc(region) + '</div>' : '') + '</td>';
       }
-
-      sortedRegions.forEach(function (region) {
-        if (rData.regionTotals[region] === 0) return;
-        var expanded = !!state.bubbleExpandedRegions[region];
-        var chevron  = expanded ? 'expand_more' : 'chevron_right';
-        var regionKey = '__region__:' + region;
-
-        var regionLabelCell =
-          '<td class="aws-bub-td-label aws-bub-region-label" data-region="' + esc(region) + '">' +
-            '<div class="aws-bub-region-label-inner">' +
-              '<span class="material-icons-round aws-expand-icon">' + chevron + '</span>' +
-              '<div class="aws-label-name">' + esc(region) + '</div>' +
-            '</div>' +
-          '</td>';
-        var regionCatCells = makeBubCatCells(regionKey, rData.regionCounts[region], region, undefined);
-        var regionTotal = rData.regionTotals[region];
-        var regionTotalCell = '<td class="aws-bub-td-cell aws-bub-clickable" data-row-key="' + esc(regionKey) + '" data-cat="__total__"><strong>' + regionTotal + '</strong></td>';
-        bubTbodyHTML += '<tr class="aws-bub-region-row">' + regionLabelCell + regionCatCells + regionTotalCell + '</tr>';
-
-        if (expanded) {
-          var hotels = rData.regionHotels[region].slice();
-          if (state.sort === 'az') {
-            hotels.sort(function (a, b) { return a < b ? -1 : a > b ? 1 : 0; });
-          } else {
-            hotels.sort(function (a, b) { return (matrix.rowTotals[b] || 0) - (matrix.rowTotals[a] || 0); });
-          }
-          hotels.forEach(function (hotel) {
-            var hotelTotal = matrix.rowTotals[hotel] || 0;
-            if (hotelTotal === 0) return;
-            var hotelLabelCell =
-              '<td class="aws-bub-td-label aws-bub-clickable" data-row-key="' + esc(hotel) + '">' +
-                '<div class="aws-label-name aws-bub-hotel-sub-name">' + esc(hotel) + '</div>' +
-              '</td>';
-            var hotelCatCells = makeBubCatCells(hotel, matrix.counts[hotel], hotel, false);
-            var hotelTotalCell = '<td class="aws-bub-td-cell aws-bub-clickable" data-row-key="' + esc(hotel) + '" data-cat="__total__"><strong>' + hotelTotal + '</strong></td>';
-            bubTbodyHTML += '<tr class="aws-bub-hotel-sub-row">' + hotelLabelCell + hotelCatCells + hotelTotalCell + '</tr>';
-          });
-        }
+      var dateCells = '';
+      dates.forEach(function (d) {
+        var dk  = d.toDateString();
+        var cnt = matrix.counts[r][dk];
+        var lv  = heatmap.levelMap[r][dk];
+        var wkCls = (d.getDay() === 0 || d.getDay() === 6) ? ' aws-td-weekend' : '';
+        var clsStr = 'aws-td-cell' + wkCls + (cnt > 0 ? cls(lv) + ' aws-clickable' : '');
+        var ttip = cnt > 0
+          ? (cnt + ' alert' + (cnt > 1 ? 's' : '') + ' — ' + (single ? r + ', ' : '') +
+             DAYS_S[d.getDay()] + ' ' + d.getDate() + ' ' + MONTHS_S[d.getMonth()] + '\nClick to view')
+          : '';
+        dateCells += '<td class="' + clsStr + '" data-row-key="' + esc(r) + '" data-date-key="' + esc(dk) + '"' +
+          (ttip ? ' data-tip="' + esc(ttip) + '"' : '') + '>' +
+          (cnt > 0 ? cnt : '<span class="aws-cell-dash">–</span>') + '</td>';
       });
-    } else {
-      // ── Flat view ─────────────────────────────────────────────────────────
-      sorted.forEach(function (r) {
-        var rk = single ? r.toDateString() : r;
-        var rowTotal = matrix.rowTotals[rk];
-        if (!rowTotal) return;
-
-        var labelCell;
-        if (single) {
-          var dl = dateLabelFor(r);
-          var wkend = (r.getDay() === 0 || r.getDay() === 6) ? ' aws-weekend' : '';
-          labelCell = '<td class="aws-bub-td-label aws-bub-clickable' + wkend + '" data-row-key="' + esc(rk) + '" data-is-date="1">' +
-            '<div class="aws-label-name">' + esc(dl.main) + '</div>' +
-            '<div class="aws-label-sub">' + esc(dl.sub) + '</div></td>';
-        } else {
-          var region = HOTEL_REGION[r] || '';
-          labelCell = '<td class="aws-bub-td-label aws-bub-clickable" data-row-key="' + esc(rk) + '">' +
-            '<div class="aws-label-name">' + esc(r) + '</div>' +
-            '<div class="aws-label-sub">' + esc(region) + '</div></td>';
-        }
-
-        var contextLabel = single ? dateLabelFor(r).sub : (typeof r === 'string' ? r : '');
-        var catCells = makeBubCatCells(rk, matrix.counts[rk], contextLabel, single);
-        var totalCell = '<td class="aws-bub-td-cell aws-bub-clickable" data-row-key="' + esc(rk) + '" data-cat="__total__"><strong>' + rowTotal + '</strong></td>';
-        bubTbodyHTML += '<tr>' + labelCell + catCells + totalCell + '</tr>';
-      });
-    }
-
-    bubTbodyHTML += '</tbody>';
-
-    return '<div class="aws-bubble-wrap"><table class="aws-bubble-table">' + bubTheadHTML + bubTbodyHTML + '</table></div>';
+      var totalCell = '';
+      if (state.showTotals) {
+        var rt = matrix.rowTotals[r];
+        totalCell = '<td class="aws-td-cell aws-td-total' + (rt > 0 ? ' aws-clickable' : '') + '" data-row-key="' + esc(r) + '" data-cat="__total__">' +
+          (rt > 0 ? '<strong>' + rt + '</strong>' : '<span class="aws-cell-dash">–</span>') + '</td>';
+      }
+      tbodyHTML += '<tr>' + labelCell + dateCells + totalCell + '</tr>';
+    });
+    tbodyHTML += '</tbody>';
+    return '<div class="aws-table-wrap"><div class="aws-table-scroll">' +
+      '<table class="aws-table" style="width:' + totalW + 'px">' + theadHTML + tbodyHTML + '</table>' +
+      '</div></div>';
   }
 
+  function _dead1(a,b,c){void 0;}
   function render() {
     var ap = window._ap;
     if (!ap) return;
@@ -9269,347 +9095,85 @@
     var sorted = sortRows(matrix);
 
     var hotelList = getHotelList();
-    var propCount = single ? 1 : hotelList.length;
-    var subtitle = 'Next ' + state.days + ' days';
+    var propDesc = single ? hotelList[0] : (hotelList.length + ' properties');
+    var subtitle = esc(propDesc) + ' &nbsp;|&nbsp; ' + matrix.grandTotal + ' alert' + (matrix.grandTotal !== 1 ? 's' : '') + ' across ' + state.days + ' days';
 
     var tierSel = makeSelect('aws-tier-sel', 'aws-sel-tier', [
-      {v:'null',l:'All relevance levels'},{v:'2',l:'Relevance level 2+'},{v:'3',l:'Relevance level 3+'},{v:'4',l:'Relevance level 4+'},{v:'5',l:'Relevance level 5'}
+      {v:'null',l:'All tiers'},{v:'2',l:'Level 2+'},{v:'3',l:'Level 3+'},{v:'4',l:'Level 4+'},{v:'5',l:'Level 5'}
     ], state.tier === null ? 'null' : String(state.tier));
 
-    var sortSel = single
-      ? makeSelect('aws-sort-sel', 'aws-sel-sort', [
-          {v:'urgency',l:'Sorted by Urgency'},{v:'date',l:'Sorted by Stay Date'}
-        ], state.sort)
-      : makeSelect('aws-sort-sel', 'aws-sel-sort', [
-          {v:'urgency',l:'Sorted by Urgency'},{v:'az',l:'Sorted A–Z'}
-        ], state.sort);
+    var sortSel = makeSelect('aws-sort-sel', 'aws-sel-sort', [
+      {v:'urgency',l:'Sorted by Urgency'},{v:'az',l:'Sorted A–Z'}
+    ], state.sort);
 
-    var dateSel = makeSelect('aws-date-sel', 'aws-sel-date', [
-      {v:'7',l:'Next 7 days'},{v:'14',l:'Next 14 days'},{v:'30',l:'Next 30 days'},{v:'60',l:'Next 60 days'}
-    ], String(state.days));
+    var rangeSeg = '<div class="aws-range-seg">' +
+      [7,14,30,60].map(function (d) {
+        return '<button class="aws-range-btn' + (state.days === d ? ' aws-range-active' : '') + '" data-days="' + d + '">' + d + 'd</button>';
+      }).join('') + '</div>';
+
+    var showTotalsCb = '<label class="aws-group-cb-wrap">' +
+      '<input type="checkbox" id="aws-show-totals-cb"' + (state.showTotals ? ' checked' : '') + '>Show totals</label>';
 
     var groupCbHTML = (prop === 'cluster-51plus')
       ? '<label class="aws-group-cb-wrap"><input type="checkbox" id="aws-group-cb"' + (state.groupByRegion ? ' checked' : '') + '>Group by Region</label>'
       : '';
-    if (single && (state.view === 'chart' || state.view === 'bubble')) state.view = 'table';
-    var switcherHTML =
-      '<div class="aws-view-switcher">' +
-        '<button class="aws-view-btn' + (!single && state.view === 'bubble' ? ' aws-view-active' : '') + '" id="aws-view-bubble-btn"' + (single ? ' disabled' : ' data-tooltip="Bubble matrix view"') + '>' +
-          '<span class="material-icons-round mi">bubble_chart</span>' +
-        '</button>' +
-        '<button class="aws-view-btn' + (state.view === 'table' ? ' aws-view-active' : '') + '" id="aws-view-table-btn" data-tooltip="Table view">' +
-          '<span class="material-icons-round mi">table_chart</span>' +
-        '</button>' +
-        '<button class="aws-view-btn' + (!single && state.view === 'chart' ? ' aws-view-active' : '') + '" id="aws-view-chart-btn"' + (single ? ' disabled' : ' data-tooltip="Chart view"') + '>' +
-          '<span class="material-icons-round mi">stacked_bar_chart</span>' +
-        '</button>' +
-      '</div>';
 
     var headerHTML =
       '<div class="aws-header">' +
-        '<div class="aws-title-block"><div class="aws-title">Alerts Summary</div><div class="aws-subtitle">' + esc(subtitle) + '</div></div>' +
-        '<div class="aws-controls">' + switcherHTML + groupCbHTML + tierSel + sortSel + dateSel +
+        '<div class="aws-title-block"><div class="aws-title">Alerts Calendar</div><div class="aws-subtitle">' + subtitle + '</div></div>' +
+        '<div class="aws-controls">' + tierSel + sortSel + showTotalsCb + groupCbHTML + rangeSeg +
           '<button class="aws-overflow-btn"><span class="material-icons-round mi">more_vert</span></button>' +
         '</div>' +
       '</div>';
 
     var legendHTML =
       '<div class="aws-legend">' +
-        '<span class="aws-legend-text">More urgent</span>' +
+        '<span class="aws-legend-text">Alert density: Low</span>' +
         '<div class="aws-legend-bar">' +
-          '<div class="aws-legend-swatch" style="background:#D33030"></div>' +
-          '<div class="aws-legend-swatch" style="background:#DD5F5F"></div>' +
-          '<div class="aws-legend-swatch" style="background:#E68989"></div>' +
-          '<div class="aws-legend-swatch" style="background:#F0B7B7"></div>' +
           '<div class="aws-legend-swatch" style="background:#F9E2E2"></div>' +
+          '<div class="aws-legend-swatch" style="background:#F0B7B7"></div>' +
+          '<div class="aws-legend-swatch" style="background:#E68989"></div>' +
+          '<div class="aws-legend-swatch" style="background:#DD5F5F"></div>' +
+          '<div class="aws-legend-swatch" style="background:#D33030"></div>' +
         '</div>' +
-        '<span class="aws-legend-text">Less urgent</span>' +
+        '<span class="aws-legend-text">High</span>' +
+        (single
+          ? '<div class="aws-legend-vdiv"></div><div class="aws-cat-legend">' +
+            CATS.map(function (c) {
+              return '<div class="aws-cat-legend-item"><div class="aws-cat-legend-swatch" style="background:' + CAT_COLORS[c] + '"></div><span>' + esc(c) + '</span></div>';
+            }).join('') + '</div>'
+          : '') +
         '<div class="aws-legend-vdiv"></div>' +
-        '<span class="aws-legend-hint">Click on a highlighted cell to view details</span>' +
+        '<span class="aws-legend-hint">Click a cell to view alerts for that stay date</span>' +
       '</div>';
 
-    var chartLegendHTML =
-      '<div class="aws-legend">' +
-        '<div class="aws-cat-legend">' +
-        CATS.map(function (c) {
-          return '<div class="aws-cat-legend-item" data-cat="' + esc(c) + '">' +
-            '<div class="aws-cat-legend-swatch" style="background:' + CAT_COLORS[c] + '"></div>' +
-            '<span>' + esc(c) + '</span>' +
-            '</div>';
-        }).join('') +
-        '</div>' +
-        '<div class="aws-legend-vdiv"></div>' +
-        '<span class="aws-legend-hint">Click a segment to view details</span>' +
-      '</div>';
+    widget.innerHTML = headerHTML + legendHTML + renderHeatmap(matrix, heatmap, sorted);
 
-    var firstColW = single ? '140px' : '200px';
-    var catColW = Math.max(100, Math.floor((100 - 15) / (CATS.length + 1))) + 'px'; // rough
-
-    var theadHTML =
-      '<thead><tr>' +
-        '<th class="aws-th-label" style="width:' + firstColW + '">' + (single ? 'Stay Date' : 'Hotel') + '</th>' +
-        CATS.map(function (c) { return '<th class="aws-th-cat" data-cat="' + esc(c) + '">' + esc(c) + '</th>'; }).join('') +
-        '<th class="aws-th-total">Total</th>' +
-      '</tr></thead>';
-
-    // Summary row (rendered last)
-    var summaryLabel = single ? 'All Dates' : 'All Hotels';
-    var sumCatCells = CATS.map(function (c) {
-      var cnt = matrix.summary[c];
-      var clsStr = 'aws-td-cell' + (cnt > 0 ? ' aws-clickable' : '');
-      return '<td class="' + clsStr + '" data-row-key="__summary__" data-cat="' + esc(c) + '">' + (cnt > 0 ? cnt : '') + '</td>';
-    }).join('');
-    var sumTotal = matrix.summaryTotal;
-    var summaryRow = '<tr class="aws-summary-row">' +
-      '<td class="aws-td-label aws-summary-td-label"><div class="aws-label-name">' + esc(summaryLabel) + '</div></td>' +
-      sumCatCells +
-      '<td class="aws-td-cell aws-td-total">' + (sumTotal > 0 ? '<strong>' + sumTotal + '</strong>' : '') + '</td>' +
-      '</tr>';
-
-    var tbodyHTML = '<tbody>';
-
-    function makeCatCells(rowKey, rowCounts, levelMap, contextLabel, isDateRow) {
-      return CATS.map(function (c) {
-        var cnt = rowCounts[c];
-        var level = levelMap ? levelMap[c] : 0;
-        var clsStr = 'aws-td-cell aws-clickable' + (cnt > 0 ? cls(level) : '');
-        var ttip = '';
-        if (cnt > 0) {
-          var titleSnip = '';
-          if (isDateRow !== undefined) {
-            var best = bestAlertInCell(allAlerts, rowKey, c, isDateRow);
-            titleSnip = best ? best.title.substring(0, 48) + (best.title.length > 48 ? '…' : '') : '';
-          }
-          ttip = cnt + ' ' + c + ' alert' + (cnt > 1 ? 's' : '') + ' — ' + contextLabel +
-            (titleSnip ? '\n' + titleSnip : '') + '\nClick to view';
-        }
-        return '<td class="' + clsStr + '" data-row-key="' + esc(rowKey) + '" data-cat="' + esc(c) + '"' +
-          (ttip ? ' data-tip="' + esc(ttip) + '"' : '') + '>' +
-          (cnt > 0 ? cnt : '<span class="aws-cell-dash">–</span>') + '</td>';
-      }).join('');
-    }
-
-    function makeTotalCell(rowKey, rowTotal, extraCls) {
-      var clsStr = 'aws-td-cell aws-td-total aws-clickable' + (extraCls || '');
-      return '<td class="' + clsStr + '" data-row-key="' + esc(rowKey) + '" data-cat="__total__">' +
-        (rowTotal > 0 ? '<strong>' + rowTotal + '</strong>' : '<span class="aws-cell-dash">–</span>') + '</td>';
-    }
-
-    var isCluster51 = (prop === 'cluster-51plus');
-
-    if (isCluster51 && state.groupByRegion) {
-      // ── Region hierarchy view ────────────────────────────
-      var rData = computeRegionAggregates(matrix);
-      var allExp = state.allRegionsExpanded;
-
-      // Quintile levels for region rows (used when collapsed)
-      var regionCatValues = [];
-      rData.regions.forEach(function (region) {
-        CATS.forEach(function (c) { regionCatValues.push(rData.regionCounts[region][c]); });
-      });
-      var regionCatLevels = quintile(regionCatValues);
-      var regionCatLevelMap = {};
-      var ridx = 0;
-      rData.regions.forEach(function (region) {
-        regionCatLevelMap[region] = {};
-        CATS.forEach(function (c) { regionCatLevelMap[region][c] = regionCatLevels[ridx++]; });
-      });
-
-      // Sort regions
-      var sortedRegions = rData.regions.slice();
-      if (state.sort === 'az') {
-        sortedRegions.sort(function (a, b) { return a < b ? -1 : a > b ? 1 : 0; });
-      } else {
-        sortedRegions.sort(function (a, b) { return rData.regionTotals[b] - rData.regionTotals[a]; });
-      }
-
-      sortedRegions.forEach(function (region) {
-        if (rData.regionTotals[region] === 0) return;
-        var regionKey = '__region__:' + region;
-        // When all expanded: region rows are white (no levelMap); when collapsed: show heatmap
-        var regionLevelMap = allExp ? null : regionCatLevelMap[region];
-        var regionCatCells = makeCatCells(regionKey, rData.regionCounts[region], regionLevelMap, region, undefined);
-        var regionTotalCell = makeTotalCell(regionKey, rData.regionTotals[region]);
-        var expandIcon = allExp ? 'expand_more' : 'chevron_right';
-        var regionRowCls = 'aws-region-row' + (allExp ? ' aws-region-expanded' : '');
-        var regionLabelCell = '<td class="aws-td-label aws-region-td-label" data-region="' + esc(region) + '">' +
-          '<div class="aws-region-label-inner">' +
-            '<span class="material-icons-round aws-expand-icon">' + expandIcon + '</span>' +
-            '<div class="aws-label-name">' + esc(region) + '</div>' +
-          '</div></td>';
-        tbodyHTML += '<tr class="' + regionRowCls + '">' + regionLabelCell + regionCatCells + regionTotalCell + '</tr>';
-
-        if (allExp) {
-          var hotels = rData.regionHotels[region].slice();
-          if (state.sort === 'az') {
-            hotels.sort(function (a, b) { return a < b ? -1 : a > b ? 1 : 0; });
-          } else {
-            hotels.sort(function (a, b) { return matrix.rowTotals[b] - matrix.rowTotals[a]; });
-          }
-          hotels.forEach(function (hotel) {
-            if (matrix.rowTotals[hotel] === 0) return;
-            var hotelCatCells = makeCatCells(hotel, matrix.counts[hotel], heatmap.catLevelMap[hotel], hotel, false);
-            var hotelTotalCell = makeTotalCell(hotel, matrix.rowTotals[hotel]);
-            var hotelLabelCell = '<td class="aws-td-label" data-row-key="' + esc(hotel) + '">' +
-              '<div class="aws-label-name aws-hotel-sub-name">' + esc(hotel) + '</div>' +
-              '</td>';
-            tbodyHTML += '<tr class="aws-hotel-sub-row">' + hotelLabelCell + hotelCatCells + hotelTotalCell + '</tr>';
-          });
-        }
-      });
-    } else {
-      // ── Flat rows view ───────────────────────────────────
-      sorted.forEach(function (r) {
-        var rk = single ? r.toDateString() : r;
-        var rowTotal = matrix.rowTotals[rk];
-        if (rowTotal === 0) return; // hide blank rows
-
-        var labelCell;
-        if (single) {
-          var dl = dateLabelFor(r);
-          var wkend = (r.getDay() === 0 || r.getDay() === 6) ? ' aws-weekend' : '';
-          labelCell = '<td class="aws-td-label' + wkend + '" data-row-key="' + esc(rk) + '" data-is-date="1">' +
-            '<div class="aws-label-name">' + esc(dl.main) + '</div>' +
-            '<div class="aws-label-sub">' + esc(dl.sub) + '</div></td>';
-        } else {
-          var region = HOTEL_REGION[r] || '';
-          labelCell = '<td class="aws-td-label" data-row-key="' + esc(rk) + '">' +
-            '<div class="aws-label-name">' + esc(r) + '</div>' +
-            '<div class="aws-label-sub">' + esc(region) + '</div></td>';
-        }
-
-        var catCells = makeCatCells(rk, matrix.counts[rk], heatmap.catLevelMap[rk], single ? dateLabelFor(r).sub : r, single);
-        var totalCell = makeTotalCell(rk, rowTotal);
-        tbodyHTML += '<tr>' + labelCell + catCells + totalCell + '</tr>';
-      });
-    }
-
-    tbodyHTML += summaryRow + '</tbody>';
-
-    var tableHTML = '<div class="aws-table-wrap"><div class="aws-table-scroll"><table class="aws-table">' + theadHTML + tbodyHTML + '</table></div></div>';
-
-    var contentHTML = state.view === 'chart' ? renderChart(allAlerts, matrix, sorted)
-                    : state.view === 'bubble' ? renderBubble(allAlerts, matrix, sorted)
-                    : tableHTML;
-    var activeLegend = state.view === 'chart' ? chartLegendHTML
-                     : state.view === 'bubble' ? ''
-                     : legendHTML;
-
-    widget.innerHTML = headerHTML + activeLegend + contentHTML;
-
-    // ── Event listeners ──────────────────────────────────
+    // ── Event listeners ──────────────────────────────────────────────────────
     var tierEl = document.getElementById('aws-tier-sel');
     if (tierEl) tierEl.addEventListener('change', function () {
-      state.tier = this.value === 'null' ? null : parseInt(this.value, 10);
-      render();
+      state.tier = this.value === 'null' ? null : parseInt(this.value, 10); render();
     });
-
     var sortEl = document.getElementById('aws-sort-sel');
-    if (sortEl) sortEl.addEventListener('change', function () {
-      state.sort = this.value; render();
-    });
+    if (sortEl) sortEl.addEventListener('change', function () { state.sort = this.value; render(); });
 
-    var dateEl = document.getElementById('aws-date-sel');
-    if (dateEl) dateEl.addEventListener('change', function () {
-      state.days = parseInt(this.value, 10); render();
-    });
+    var stCb = document.getElementById('aws-show-totals-cb');
+    if (stCb) stCb.addEventListener('change', function () { state.showTotals = this.checked; render(); });
 
     var groupCb = document.getElementById('aws-group-cb');
     if (groupCb) groupCb.addEventListener('change', function () {
-      state.groupByRegion = this.checked;
-      state.allRegionsExpanded = false;
-      render();
+      state.groupByRegion = this.checked; state.allRegionsExpanded = false; render();
     });
 
-    var viewTableBtn = document.getElementById('aws-view-table-btn');
-    if (viewTableBtn) viewTableBtn.addEventListener('click', function () { state.view = 'table'; render(); });
-    var viewChartBtn = document.getElementById('aws-view-chart-btn');
-    if (viewChartBtn) viewChartBtn.addEventListener('click', function () { state.view = 'chart'; render(); });
-    var viewBubbleBtn = document.getElementById('aws-view-bubble-btn');
-    if (viewBubbleBtn) viewBubbleBtn.addEventListener('click', function () { state.view = 'bubble'; render(); });
+    widget.querySelectorAll('.aws-range-btn').forEach(function (btn) {
+      btn.addEventListener('click', function () { state.days = parseInt(this.getAttribute('data-days'), 10); render(); });
+    });
 
-    var _tipTimer = null; // shared delay timer for all AWS tooltips
-    var chartWrap = widget.querySelector('.aws-chart-wrap');
-    if (chartWrap) {
-      var gTipC = document.getElementById('aws-global-tooltip');
-
-      // ── Tooltip: show all categories for the hovered bar ──
-      if (gTipC) {
-        chartWrap.addEventListener('mouseover', function (e) {
-          var track = e.target.closest('.aws-chart-bar-track[data-ctip]');
-          if (!track) { clearTimeout(_tipTimer); gTipC.style.display = 'none'; return; }
-          // Parse "label|Cat:N|Cat:N|...|total:N"
-          var raw = track.getAttribute('data-ctip');
-          var parts = raw.split('|');
-          var label = parts[0];
-          var tipHtml = '<div style="font-weight:700;margin-bottom:5px;font-size:12px">' + esc(label) + '</div>';
-          for (var i = 1; i < parts.length; i++) {
-            var kv = parts[i].split(':');
-            var key = kv[0], val = kv[1];
-            if (key === 'total') {
-              tipHtml += '<div style="border-top:1px solid rgba(255,255,255,0.2);margin-top:5px;padding-top:4px;color:#ccc;font-size:10px">Total: ' + val + '</div>';
-            } else {
-              var dotColor = CAT_COLORS[key] || '#888';
-              tipHtml += '<div style="display:flex;align-items:center;gap:6px;margin-top:3px">' +
-                '<span style="width:8px;height:8px;border-radius:50%;background:' + dotColor + ';flex-shrink:0;display:inline-block"></span>' +
-                '<span style="flex:1;font-size:11px">' + esc(key) + '</span>' +
-                '<span style="font-weight:700;font-size:11px;margin-left:8px">' + val + '</span>' +
-                '</div>';
-            }
-          }
-          tipHtml += '<div style="margin-top:5px;color:#ccc;font-size:10px">Click to view</div>';
-          gTipC.innerHTML = tipHtml;
-          clearTimeout(_tipTimer);
-          _tipTimer = setTimeout(function () { gTipC.style.display = 'block'; }, 250);
-        });
-        chartWrap.addEventListener('mousemove', function (e) {
-          var x = e.clientX + 14, y = e.clientY + 14;
-          if (x + 215 > window.innerWidth)  x = e.clientX - 225;
-          if (y + gTipC.offsetHeight + 8 > window.innerHeight) y = e.clientY - gTipC.offsetHeight - 8;
-          gTipC.style.left = x + 'px'; gTipC.style.top = y + 'px';
-        });
-        chartWrap.addEventListener('mouseleave', function () { clearTimeout(_tipTimer); gTipC.style.display = 'none'; });
-      }
-
-      // ── Clicks ────────────────────────────────────────────
-      chartWrap.addEventListener('click', function (e) {
-        e.stopPropagation();
-
-        // Chevron → toggle hotel expand
-        var chevron = e.target.closest('.aws-chart-chevron');
-        if (chevron) {
-          var rk = chevron.getAttribute('data-row-key');
-          if (state.chartExpanded[rk]) { delete state.chartExpanded[rk]; }
-          else { state.chartExpanded[rk] = true; }
-          render(); return;
-        }
-
-        // Chip → open panel filtered to hotel + category
-        var chip = e.target.closest('.aws-chart-chip');
-        if (chip) {
-          openForCell(chip.getAttribute('data-row-key'), chip.getAttribute('data-cat'), false); return;
-        }
-
-        // Region row → toggle region expand
-        var regionRow = e.target.closest('.aws-chart-region-row');
-        if (regionRow) {
-          var region = regionRow.getAttribute('data-region');
-          if (state.chartExpandedRegions[region]) { delete state.chartExpandedRegions[region]; }
-          else { state.chartExpandedRegions[region] = true; }
-          render(); return;
-        }
-
-        // Bar track or any part of a hotel row → open panel filtered to hotel only
-        var hotelRow = e.target.closest('.aws-chart-row:not(.aws-chart-region-row)');
-        if (hotelRow) {
-          var rowKey = hotelRow.getAttribute('data-row-key');
-          if (rowKey) openForRow(rowKey, false);
-        }
-      });
-    }
-
+    // ── Table tooltips & clicks ──────────────────────────────────────────────
     var gTip = document.getElementById('aws-global-tooltip');
-    var tbl = widget.querySelector('.aws-table');
+    var tbl  = widget.querySelector('.aws-table');
+    var _tipTimer = null;
+
     if (tbl && gTip) {
       tbl.addEventListener('mouseover', function (e) {
         var cell = e.target.closest('[data-tip]');
@@ -9620,141 +9184,57 @@
       });
       tbl.addEventListener('mousemove', function (e) {
         var x = e.clientX + 12, y = e.clientY + 12;
-        if (x + 210 > window.innerWidth) x = e.clientX - 220;
+        if (x + 210 > window.innerWidth)  x = e.clientX - 220;
         if (y + gTip.offsetHeight + 8 > window.innerHeight) y = e.clientY - gTip.offsetHeight - 8;
-        gTip.style.left = x + 'px';
-        gTip.style.top  = y + 'px';
+        gTip.style.left = x + 'px'; gTip.style.top = y + 'px';
       });
       tbl.addEventListener('mouseleave', function () { clearTimeout(_tipTimer); gTip.style.display = 'none'; });
     }
+
     if (tbl) tbl.addEventListener('click', function (e) {
       e.stopPropagation();
-      // Header category click
-      var th = e.target.closest('.aws-th-cat');
-      if (th) { openForCat(th.getAttribute('data-cat')); return; }
-      // Region label click → toggle all regions
-      var regionLbl = e.target.closest('.aws-region-td-label');
-      if (regionLbl) {
-        state.allRegionsExpanded = !state.allRegionsExpanded;
-        render(); return;
-      }
-      // Regular label click (not summary, not region)
-      var lbl = e.target.closest('.aws-td-label');
-      if (lbl && !lbl.classList.contains('aws-summary-td-label')) {
-        openForRow(lbl.getAttribute('data-row-key'), !!lbl.getAttribute('data-is-date')); return;
-      }
+      // Date header click → all alerts on that date
+      var th = e.target.closest('.aws-th-date.aws-clickable');
+      if (th) { openForDate(new Date(th.getAttribute('data-date-key'))); return; }
+      // Row label click → hotel or category (no date filter)
+      var lbl = e.target.closest('.aws-td-label.aws-clickable');
+      if (lbl) { openForRowLabel(lbl.getAttribute('data-row-key')); return; }
       // Data cell click
       var cell = e.target.closest('.aws-td-cell.aws-clickable');
-      if (cell) {
-        var rk = cell.getAttribute('data-row-key');
-        var cat = cell.getAttribute('data-cat');
-        if (rk === '__summary__') { openForCat(cat === '__total__' ? null : cat); return; }
-        if (rk && rk.indexOf('__region__:') === 0) {
-          var rname = rk.slice('__region__:'.length);
-          openForRegion(rname, cat); return;
-        }
-        if (cat === '__total__') { openForRow(rk, single); return; }
-        openForCell(rk, cat, single);
-      }
+      if (!cell) return;
+      var rk  = cell.getAttribute('data-row-key');
+      var dk  = cell.getAttribute('data-date-key');
+      var cat = cell.getAttribute('data-cat');
+      if (cat === '__total__') { openForRowLabel(rk); return; }
+      if (rk === '__summary__') { openForDate(new Date(dk)); return; }
+      openForCell(rk, new Date(dk));
     });
-
-    var bubTbl = widget.querySelector('.aws-bubble-table');
-    var _bubTipCell = null; // tracks the cell currently showing/waiting for a tip
-    if (bubTbl && gTip) {
-      bubTbl.addEventListener('mouseover', function (e) {
-        var cell = e.target.closest('[data-tip]');
-        if (cell === _bubTipCell) return; // still on the same cell — leave timer alone
-        _bubTipCell = cell;
-        clearTimeout(_tipTimer);
-        gTip.style.display = 'none'; // always hide immediately when changing cells
-        if (!cell) return;
-        gTip.innerHTML = esc(cell.getAttribute('data-tip')).replace(/\n/g, '<br>');
-        _tipTimer = setTimeout(function () { gTip.style.display = 'block'; }, 250);
-      });
-      bubTbl.addEventListener('mousemove', function (e) {
-        var x = e.clientX + 12, y = e.clientY + 12;
-        if (x + 210 > window.innerWidth) x = e.clientX - 220;
-        if (y + gTip.offsetHeight + 8 > window.innerHeight) y = e.clientY - gTip.offsetHeight - 8;
-        gTip.style.left = x + 'px';
-        gTip.style.top  = y + 'px';
-      });
-      bubTbl.addEventListener('mouseleave', function () { clearTimeout(_tipTimer); gTip.style.display = 'none'; _bubTipCell = null; });
-    }
-    if (bubTbl) bubTbl.addEventListener('click', function (e) {
-      e.stopPropagation();
-      // Region label click → toggle expand/collapse
-      var regionLbl = e.target.closest('.aws-bub-region-label');
-      if (regionLbl) {
-        var region = regionLbl.getAttribute('data-region');
-        if (state.bubbleExpandedRegions[region]) { delete state.bubbleExpandedRegions[region]; }
-        else { state.bubbleExpandedRegions[region] = true; }
-        render(); return;
-      }
-      // Hotel label click (flat or expanded sub-row)
-      var lbl = e.target.closest('.aws-bub-td-label.aws-bub-clickable');
-      if (lbl) {
-        openForRow(lbl.getAttribute('data-row-key'), !!lbl.getAttribute('data-is-date')); return;
-      }
-      // Data cell click
-      var cell = e.target.closest('.aws-bub-td-cell.aws-bub-clickable');
-      if (cell) {
-        var rk = cell.getAttribute('data-row-key');
-        var cat = cell.getAttribute('data-cat');
-        // Region aggregate cell
-        if (rk && rk.indexOf('__region__:') === 0) {
-          var rname = rk.slice('__region__:'.length);
-          openForRegion(rname, cat); return;
-        }
-        if (cat === '__total__') { openForRow(rk, single); return; }
-        openForCell(rk, cat, single);
-      }
-    });
-
-    // ── Bubble matrix cell hover ─────────────────────────────
-    if (bubTbl) {
-      var _bubHoveredTd = null;
-      bubTbl.addEventListener('mouseover', function (e) {
-        var td = e.target.closest('td');
-        if (td === _bubHoveredTd) return;
-        if (_bubHoveredTd) _bubHoveredTd.classList.remove('aws-bub-cell-hl');
-        _bubHoveredTd = td || null;
-        if (_bubHoveredTd) _bubHoveredTd.classList.add('aws-bub-cell-hl');
-      });
-      bubTbl.addEventListener('mouseleave', function () {
-        if (_bubHoveredTd) { _bubHoveredTd.classList.remove('aws-bub-cell-hl'); _bubHoveredTd = null; }
-      });
-    }
-    // ─────────────────────────────────────────────────────────
   }
 
+  // ── Open panel helpers ────────────────────────────────────────────────────
   function baseOpts() {
     var rangeEnd = new Date(TODAY.getFullYear(), TODAY.getMonth(), TODAY.getDate() + state.days);
     return { minTier: state.tier, dateFrom: TODAY, dateTo: rangeEnd, hotel: null, categories: null, readFilter: 'unread' };
   }
 
-  function openForCell(rk, cat, isDate) {
+  function openForDate(dateObj) {
     var opts = baseOpts();
-    opts.categories = [cat];
-    if (!isDate) opts.hotel = rk;
+    opts.stayDate = dateObj;
     window._ap.openWithFilters(opts);
   }
 
-  function openForRow(rk, isDate) {
+  function openForRowLabel(rowKey) {
     var opts = baseOpts();
-    if (!isDate) opts.hotel = rk;
+    if (isSingleProp()) opts.categories = [rowKey];
+    else opts.hotel = rowKey;
     window._ap.openWithFilters(opts);
   }
 
-  function openForCat(cat) {
+  function openForCell(rowKey, dateObj) {
     var opts = baseOpts();
-    if (cat) opts.categories = [cat];
-    window._ap.openWithFilters(opts);
-  }
-
-  function openForRegion(region, cat) {
-    var opts = baseOpts();
-    opts.region = region;
-    if (cat && cat !== '__total__') opts.categories = [cat];
+    opts.stayDate = dateObj;
+    if (isSingleProp()) opts.categories = [rowKey];
+    else opts.hotel = rowKey;
     window._ap.openWithFilters(opts);
   }
 
@@ -9763,21 +9243,12 @@
     var d = defaultsForProp(prop);
     state.tier = d.tier;
     state.days = d.days;
-    state.allRegionsExpanded = false;
+    state.sort = 'urgency';
     state.groupByRegion = true;
-    state.bubbleExpandedRegions = {};
-    if (prop === 'hotel-barcelona') {
-      // Save current multi-prop view so we can restore it on return
-      if (state.view !== 'table') _prevMultiView = state.view;
-      state.view = 'table';
-    } else {
-      // Restore last multi-prop view (bubble by default)
-      state.view = _prevMultiView;
-    }
+    state.allRegionsExpanded = false;
     render();
   };
 
-  // Re-render whenever the main panel mutates alert read/dismiss state
   window._ap.onAlertsChanged = function () { render(); };
 
   buildRegionMap();
