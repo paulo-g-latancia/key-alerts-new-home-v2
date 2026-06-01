@@ -9006,7 +9006,7 @@
       var ch = colHeader(d, i);
       var wkCls = (d.getDay() === 0 || d.getDay() === 6) ? ' aws-th-weekend' : '';
       theadHTML +=
-        '<th class="aws-th-date aws-clickable' + wkCls + '" data-date-key="' + esc(d.toDateString()) + '" style="width:' + cw + 'px">' +
+        '<th class="aws-th-date aws-clickable' + wkCls + '" data-date-key="' + esc(d.toDateString()) + '" style="min-width:' + cw + 'px">' +
           '<div class="aws-th-day">' + esc(ch.label) + '</div>' +
           '<div class="aws-th-datenum">' + ch.date + (ch.month ? '<span class="aws-th-month">&nbsp;' + ch.month + '</span>' : '') + '</div>' +
         '</th>';
@@ -9075,7 +9075,7 @@
     });
     tbodyHTML += '</tbody>';
     return '<div class="aws-table-wrap"><div class="aws-table-scroll">' +
-      '<table class="aws-table" style="width:' + totalW + 'px">' + theadHTML + tbodyHTML + '</table>' +
+      '<table class="aws-table" style="width:100%;min-width:' + totalW + 'px">' + theadHTML + tbodyHTML + '</table>' +
       '</div></div>';
   }
 
