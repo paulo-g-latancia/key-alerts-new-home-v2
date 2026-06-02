@@ -1155,6 +1155,98 @@
 
     .ap-header-btn:focus, .ap-header-btn:focus-visible { outline: none; }
 
+    /* ── Date range picker button dirty dot ── */
+    #ap-date-filter-btn.ap-filter-dirty::before {
+      content: '';
+      position: absolute;
+      top: 4px; right: 4px;
+      width: 7px; height: 7px;
+      border-radius: 50%;
+      background: var(--blue-500);
+      border: 1.5px solid white;
+    }
+    /* ── Date range picker dropdown ── */
+    .ap-date-menu {
+      position: absolute;
+      top: 100%; left: 80px;
+      width: 272px;
+      background: white;
+      border: 1px solid var(--grey-300);
+      border-radius: 4px;
+      box-shadow: 0 4px 12px rgba(0,0,0,0.14);
+      z-index: 200;
+      display: none;
+      flex-direction: column;
+    }
+    .ap-date-menu.visible { display: flex; }
+    .ap-date-menu-title {
+      padding: 10px 14px 6px;
+      font-size: 12px; font-weight: 700;
+      color: var(--text-sec);
+      font-family: 'Lato', sans-serif;
+      text-transform: uppercase; letter-spacing: 0.04em;
+      flex-shrink: 0;
+    }
+    .ap-date-quick-row {
+      display: flex; gap: 6px;
+      padding: 0 14px 10px;
+      flex-wrap: wrap;
+      flex-shrink: 0;
+    }
+    .ap-date-quick-btn {
+      height: 28px; padding: 0 10px;
+      border: 1px solid var(--grey-300);
+      border-radius: 14px;
+      background: white; cursor: pointer;
+      font-size: 12px; font-family: 'Lato', sans-serif;
+      color: var(--text-primary);
+      white-space: nowrap;
+      transition: background 0.12s, border-color 0.12s;
+    }
+    .ap-date-quick-btn:hover { background: var(--grey-100); }
+    .ap-date-quick-btn.active {
+      background: #006461; border-color: #006461; color: #fff;
+    }
+    .ap-date-divider { height: 1px; background: var(--grey-200); flex-shrink: 0; }
+    .ap-date-range-body {
+      padding: 12px 14px;
+      display: flex; flex-direction: column; gap: 10px;
+      flex-shrink: 0;
+    }
+    .ap-date-row {
+      display: flex; align-items: center; gap: 8px;
+    }
+    .ap-date-row label {
+      width: 36px; font-size: 12px; color: var(--text-sec);
+      font-family: 'Lato', sans-serif; flex-shrink: 0;
+    }
+    .ap-date-row input[type="date"] {
+      flex: 1; height: 32px;
+      border: 1px solid var(--grey-300); border-radius: 4px;
+      padding: 0 8px; font-size: 13px;
+      font-family: 'Lato', sans-serif; color: var(--text-primary);
+      background: white; outline: none; cursor: pointer;
+    }
+    .ap-date-row input[type="date"]:focus { border-color: #006461; }
+    .ap-date-footer {
+      display: flex; justify-content: space-between; align-items: center;
+      padding: 0 14px 12px;
+      flex-shrink: 0;
+    }
+    .ap-date-clear-btn {
+      border: none; background: none; cursor: pointer;
+      font-size: 12px; font-family: 'Lato', sans-serif;
+      color: var(--text-sec); padding: 4px 0;
+    }
+    .ap-date-clear-btn:hover { color: var(--text-primary); text-decoration: underline; }
+    .ap-date-apply-btn {
+      height: 30px; padding: 0 14px;
+      background: #006461; color: white; border: none;
+      border-radius: 4px; cursor: pointer;
+      font-size: 13px; font-family: 'Lato', sans-serif; font-weight: 700;
+    }
+    .ap-date-apply-btn:hover { background: #004d4a; }
+
     #ap-filter-btn.ap-filter-dirty::before {
       content: '';
       position: absolute;
@@ -3953,6 +4045,9 @@
         <button class="ap-header-btn" id="ap-filter-btn" data-tooltip="Filter" aria-label="Filter">
           <span class="material-icons-round mi">filter_alt</span>
         </button>
+        <button class="ap-header-btn" id="ap-date-filter-btn" data-tooltip="Filter by stay date" aria-label="Filter by stay date">
+          <span class="material-icons-round mi">calendar_month</span>
+        </button>
         <button class="ap-header-btn" id="ap-hotel-filter-btn" data-tooltip="Filter by hotel" aria-label="Filter by hotel" style="display:none">
           <span class="material-icons-round mi">business</span>
         </button>
@@ -4055,6 +4150,32 @@
           </div>
 
           <button class="ap-filter-apply" id="ap-filter-apply">Apply</button>
+        </div>
+
+        <!-- Stay date range picker dropdown -->
+        <div class="ap-date-menu" id="ap-date-menu">
+          <div class="ap-date-menu-title">Stay date range</div>
+          <div class="ap-date-quick-row">
+            <button class="ap-date-quick-btn" data-days="7">Next 7d</button>
+            <button class="ap-date-quick-btn" data-days="14">Next 14d</button>
+            <button class="ap-date-quick-btn" data-days="30">Next 30d</button>
+            <button class="ap-date-quick-btn" data-days="60">Next 60d</button>
+          </div>
+          <div class="ap-date-divider"></div>
+          <div class="ap-date-range-body">
+            <div class="ap-date-row">
+              <label for="ap-date-from">From</label>
+              <input type="date" id="ap-date-from">
+            </div>
+            <div class="ap-date-row">
+              <label for="ap-date-to">To</label>
+              <input type="date" id="ap-date-to">
+            </div>
+          </div>
+          <div class="ap-date-footer">
+            <button class="ap-date-clear-btn" id="ap-date-clear-btn">Clear filter</button>
+            <button class="ap-date-apply-btn" id="ap-date-apply-btn">Apply</button>
+          </div>
         </div>
 
         <!-- Hotel filter dropdown -->
@@ -4394,6 +4515,7 @@
   var activeRegionFilter  = null; // null = all regions; array of region names = filtered set
   var activePanelDateFilter = null; // null = no date filter; {from, to} = filtered range — set by Alerts Summary widget via window._ap.openWithFilters
   var activeStayDateFilter  = null; // null = no filter; Date = specific stay date filter
+  var activeDateRangeFilter = null; // null = no filter; {from,to} = user-set range from calendar picker
   var hfMode              = 'hotels'; // 'hotels' | 'regions' — current mode of the hotel filter panel
 
   function updateFilterDot() {
@@ -4419,7 +4541,8 @@
       || activeHotelFilter !== null
       || activeRegionFilter !== null
       || activePanelDateFilter !== null
-      || activeStayDateFilter !== null;
+      || activeStayDateFilter !== null
+      || activeDateRangeFilter !== null;
     resetFiltersBtn.style.display = hasFilter ? '' : 'none';
   }
 
@@ -4446,6 +4569,126 @@
 
   var MONTHS_FULL = ['January','February','March','April','May','June','July','August','September','October','November','December'];
   var DAYS_FULL   = ['Sunday','Monday','Tuesday','Wednesday','Thursday','Friday','Saturday'];
+
+  /* ── Date range filter helpers ─────────────────── */
+  var dateFilterBtn  = document.getElementById('ap-date-filter-btn');
+  var dateMenu       = document.getElementById('ap-date-menu');
+  var dateFromInput  = document.getElementById('ap-date-from');
+  var dateToInput    = document.getElementById('ap-date-to');
+  var dateApplyBtn   = document.getElementById('ap-date-apply-btn');
+  var dateClearBtn   = document.getElementById('ap-date-clear-btn');
+  var dateQuickBtns  = dateMenu ? dateMenu.querySelectorAll('.ap-date-quick-btn') : [];
+
+  var _TODAY = (window._ap && window._ap.TODAY) ? window._ap.TODAY : new Date();
+
+  function fmtInputDate(d) {
+    var m = d.getMonth() + 1;
+    return d.getFullYear() + '-' + (m < 10 ? '0' : '') + m + '-' + (d.getDate() < 10 ? '0' : '') + d.getDate();
+  }
+
+  function parseInputDate(str) {
+    if (!str) return null;
+    var p = str.split('-');
+    return new Date(parseInt(p[0], 10), parseInt(p[1], 10) - 1, parseInt(p[2], 10));
+  }
+
+  function updateDateFilterDot() {
+    if (dateFilterBtn) dateFilterBtn.classList.toggle('ap-filter-dirty', activeDateRangeFilter !== null);
+    updateResetBtn();
+  }
+
+  function syncDateQuickBtns() {
+    if (!activeDateRangeFilter) {
+      dateQuickBtns.forEach(function (b) { b.classList.remove('active'); });
+      return;
+    }
+    dateQuickBtns.forEach(function (b) {
+      var days = parseInt(b.getAttribute('data-days'), 10);
+      var expectedTo = new Date(_TODAY.getFullYear(), _TODAY.getMonth(), _TODAY.getDate() + days - 1);
+      var match = activeDateRangeFilter.from.toDateString() === _TODAY.toDateString() &&
+                  activeDateRangeFilter.to.toDateString()   === expectedTo.toDateString();
+      b.classList.toggle('active', match);
+    });
+  }
+
+  function applyDateRange(from, to) {
+    activeDateRangeFilter = { from: from, to: to };
+    if (dateFromInput) dateFromInput.value = fmtInputDate(from);
+    if (dateToInput)   dateToInput.value   = fmtInputDate(to);
+    syncDateQuickBtns();
+    updateDateFilterDot();
+    currentPage = 1;
+    renderAlerts(currentPage);
+    updateBadge();
+  }
+
+  function clearDateRange() {
+    activeDateRangeFilter = null;
+    if (dateFromInput) dateFromInput.value = '';
+    if (dateToInput)   dateToInput.value   = '';
+    syncDateQuickBtns();
+    updateDateFilterDot();
+    currentPage = 1;
+    renderAlerts(currentPage);
+    updateBadge();
+  }
+
+  function closeDateMenu() {
+    if (dateMenu) dateMenu.classList.remove('visible');
+    if (dateFilterBtn) dateFilterBtn.classList.remove('ap-btn-active');
+  }
+
+  if (dateFilterBtn && dateMenu) {
+    dateFilterBtn.addEventListener('click', function (e) {
+      e.stopPropagation();
+      var isOpen = dateMenu.classList.contains('visible');
+      closeSortMenu(); closeFilterMenu(); closeHotelFilterMenu(); closeSearch();
+      if (isOpen) { closeDateMenu(); return; }
+      // Sync inputs to current filter or defaults before opening
+      if (activeDateRangeFilter) {
+        dateFromInput.value = fmtInputDate(activeDateRangeFilter.from);
+        dateToInput.value   = fmtInputDate(activeDateRangeFilter.to);
+      } else {
+        dateFromInput.value = '';
+        dateToInput.value   = '';
+      }
+      syncDateQuickBtns();
+      dateMenu.classList.add('visible');
+      dateFilterBtn.classList.add('ap-btn-active');
+    });
+  }
+
+  // Quick action buttons
+  dateQuickBtns.forEach(function (btn) {
+    btn.addEventListener('click', function () {
+      var days = parseInt(btn.getAttribute('data-days'), 10);
+      var from = new Date(_TODAY.getFullYear(), _TODAY.getMonth(), _TODAY.getDate());
+      var to   = new Date(_TODAY.getFullYear(), _TODAY.getMonth(), _TODAY.getDate() + days - 1);
+      applyDateRange(from, to);
+    });
+  });
+
+  // Manual date inputs — sync quick btn highlights as user types
+  if (dateFromInput) dateFromInput.addEventListener('change', function () { syncDateQuickBtns(); });
+  if (dateToInput)   dateToInput.addEventListener('change',   function () { syncDateQuickBtns(); });
+
+  // Apply button
+  if (dateApplyBtn) dateApplyBtn.addEventListener('click', function () {
+    var from = parseInputDate(dateFromInput.value);
+    var to   = parseInputDate(dateToInput.value);
+    if (!from && !to) { clearDateRange(); closeDateMenu(); return; }
+    if (from && !to) to = from;       // single day
+    if (!from && to) from = to;       // single day (other direction)
+    if (from > to) { var tmp = from; from = to; to = tmp; } // swap if inverted
+    applyDateRange(from, to);
+    closeDateMenu();
+  });
+
+  // Clear button
+  if (dateClearBtn) dateClearBtn.addEventListener('click', function () {
+    clearDateRange();
+    closeDateMenu();
+  });
 
   function updateStayDateBar() {
     var bar   = document.getElementById('ap-stay-date-bar');
@@ -4606,6 +4849,7 @@
     closeSortMenu();
     closeFilterMenu();
     closeHotelFilterMenu();
+    closeDateMenu();
     closeSearch();
     updateBadge(); // show badge again if any unread remain
   }
@@ -4666,7 +4910,7 @@
   sortBtn.addEventListener('click', function (e) {
     e.stopPropagation();
     var open = sortMenu.classList.contains('visible');
-    closeFilterMenu(); closeHotelFilterMenu(); closeSearch();
+    closeFilterMenu(); closeHotelFilterMenu(); closeDateMenu(); closeSearch();
     if (open) { closeSortMenu(); }
     else { sortMenu.classList.add('visible'); sortBtn.classList.add('ap-btn-active'); }
   });
@@ -4688,7 +4932,7 @@
   filterBtn.addEventListener('click', function (e) {
     e.stopPropagation();
     var open = filterMenu.classList.contains('visible');
-    closeSortMenu(); closeHotelFilterMenu(); closeSearch();
+    closeSortMenu(); closeHotelFilterMenu(); closeDateMenu(); closeSearch();
     if (open) { closeFilterMenu(); }
     else {
       // Sync read status seg to currently applied state
@@ -4806,7 +5050,9 @@
     activeRegionFilter    = null;
     activePanelDateFilter = null;
     activeStayDateFilter  = null;
+    activeDateRangeFilter = null;
     updateStayDateBar();
+    updateDateFilterDot();
     // Sync filter panel UI
     document.querySelectorAll('.ap-filter-option input').forEach(function (cb) { cb.checked = true; });
     readSegBtns.forEach(function (b) { b.classList.toggle('ap-seg-active', b.dataset.read === 'both'); });
@@ -4823,7 +5069,7 @@
   hotelFilterBtn.addEventListener('click', function (e) {
     e.stopPropagation();
     var open = hotelFilterMenu.classList.contains('visible');
-    closeSortMenu(); closeFilterMenu(); closeSearch();
+    closeSortMenu(); closeFilterMenu(); closeDateMenu(); closeSearch();
     if (open) {
       closeHotelFilterMenu();
     } else {
@@ -4886,7 +5132,7 @@
   searchBtn.addEventListener('click', function (e) {
     e.stopPropagation();
     var open = searchBar.classList.contains('visible');
-    closeSortMenu(); closeFilterMenu(); closeHotelFilterMenu();
+    closeSortMenu(); closeFilterMenu(); closeHotelFilterMenu(); closeDateMenu();
     if (open) { closeSearch(); }
     else {
       searchBar.classList.add('visible');
@@ -4933,6 +5179,11 @@
     if (hotelFilterMenu.classList.contains('visible') &&
         !hotelFilterMenu.contains(e.target) && !hotelFilterBtn.contains(e.target)) {
       closeHotelFilterMenu();
+    }
+    // Close date range picker if click outside it
+    if (dateMenu && dateMenu.classList.contains('visible') &&
+        !dateMenu.contains(e.target) && dateFilterBtn && !dateFilterBtn.contains(e.target)) {
+      closeDateMenu();
     }
     // Close entire panel if click outside panel + alerts button,
     // but never when the Apply modal is open (it sits outside the panel DOM)
@@ -7140,6 +7391,10 @@
         var ad = a.date instanceof Date ? a.date : new Date(a.date);
         if (ad < activePanelDateFilter.from || ad > activePanelDateFilter.to) return false;
       }
+      if (activeDateRangeFilter !== null) {
+        var adr = a.date instanceof Date ? a.date : new Date(a.date);
+        if (adr < activeDateRangeFilter.from || adr > activeDateRangeFilter.to) return false;
+      }
       if (searchQuery) {
         var q = searchQuery;
         var inTitle  = a.title.toLowerCase().indexOf(q) !== -1;
@@ -8462,7 +8717,9 @@
         activeRegionFilter = null;
         activePanelDateFilter = null;
         activeStayDateFilter  = null;
+        activeDateRangeFilter = null;
         updateStayDateBar();
+        updateDateFilterDot();
         hfMode = 'hotels';
         setHfMode('hotels');
         closeHotelFilterMenu();
@@ -8814,6 +9071,7 @@
   'use strict';
 
   var TODAY = new Date(2026, 3, 13); // April 13, 2026
+  if (window._ap) window._ap.TODAY = TODAY; // expose for panel date picker
   var CATS = ['Anomaly', 'Demand Signal', 'Inventory Mismatch', 'Market Demand', 'Price Drop'];
   var CAT_COLORS = {
     'Anomaly':            '#47C5BC',
@@ -9119,7 +9377,7 @@
 
     var headerHTML =
       '<div class="aws-header">' +
-        '<div class="aws-title-block"><div class="aws-title">Alerts Calendar</div><div class="aws-subtitle">' + subtitle + '</div></div>' +
+        '<div class="aws-title-block"><div class="aws-title">Alerts Summary</div><div class="aws-subtitle">' + subtitle + '</div></div>' +
         '<div class="aws-controls">' + tierSel + sortSel + showTotalsCb + groupCbHTML + rangeSeg +
           '<button class="aws-overflow-btn"><span class="material-icons-round mi">more_vert</span></button>' +
         '</div>' +
