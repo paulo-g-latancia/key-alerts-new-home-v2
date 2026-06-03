@@ -4658,13 +4658,15 @@
     });
   }
 
-  // Quick action buttons
+  // Quick action buttons — populate inputs only; Apply button commits the filter
   dateQuickBtns.forEach(function (btn) {
     btn.addEventListener('click', function () {
       var days = parseInt(btn.getAttribute('data-days'), 10);
       var from = new Date(_TODAY.getFullYear(), _TODAY.getMonth(), _TODAY.getDate());
       var to   = new Date(_TODAY.getFullYear(), _TODAY.getMonth(), _TODAY.getDate() + days - 1);
-      applyDateRange(from, to);
+      if (dateFromInput) dateFromInput.value = fmtInputDate(from);
+      if (dateToInput)   dateToInput.value   = fmtInputDate(to);
+      syncDateQuickBtns();
     });
   });
 
@@ -8957,8 +8959,16 @@
       document.querySelectorAll('.ap-rel-seg-btn').forEach(function (btn) {
         btn.classList.toggle('selected', parseInt(btn.dataset.val, 10) === activeRelevanceFilter);
       });
-      // stay date (specific day filter — takes precedence over date range)
-      activeStayDateFilter = opts.stayDate || null;
+      // stay date cell click → apply as a single-day range in the calendar picker (no chip)
+      activeStayDateFilter = null; // chip never shown
+      if (opts.stayDate) {
+        var _sd = opts.stayDate;
+        activeDateRangeFilter = { from: _sd, to: _sd };
+        if (dateFromInput) dateFromInput.value = fmtInputDate(_sd);
+        if (dateToInput)   dateToInput.value   = fmtInputDate(_sd);
+        syncDateQuickBtns();
+        updateDateFilterDot();
+      }
       updateStayDateBar();
       // date range (used when no stayDate)
       activePanelDateFilter = (opts.dateFrom && opts.dateTo) ? { from: opts.dateFrom, to: opts.dateTo } : null;
