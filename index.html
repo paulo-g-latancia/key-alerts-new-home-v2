@@ -4598,16 +4598,14 @@
   }
 
   function syncDateQuickBtns() {
-    if (!activeDateRangeFilter) {
-      dateQuickBtns.forEach(function (b) { b.classList.remove('active'); });
-      return;
-    }
+    var fromVal = dateFromInput ? dateFromInput.value : '';
+    var toVal   = dateToInput   ? dateToInput.value   : '';
     dateQuickBtns.forEach(function (b) {
-      var days = parseInt(b.getAttribute('data-days'), 10);
-      var expectedTo = new Date(_TODAY.getFullYear(), _TODAY.getMonth(), _TODAY.getDate() + days - 1);
-      var match = activeDateRangeFilter.from.toDateString() === _TODAY.toDateString() &&
-                  activeDateRangeFilter.to.toDateString()   === expectedTo.toDateString();
-      b.classList.toggle('active', match);
+      if (!fromVal || !toVal) { b.classList.remove('active'); return; }
+      var days        = parseInt(b.getAttribute('data-days'), 10);
+      var expectedFrom = fmtInputDate(new Date(_TODAY.getFullYear(), _TODAY.getMonth(), _TODAY.getDate()));
+      var expectedTo   = fmtInputDate(new Date(_TODAY.getFullYear(), _TODAY.getMonth(), _TODAY.getDate() + days - 1));
+      b.classList.toggle('active', fromVal === expectedFrom && toVal === expectedTo);
     });
   }
 
