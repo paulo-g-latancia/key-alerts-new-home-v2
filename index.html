@@ -3692,19 +3692,20 @@
     .fsc-ctrl-pipe { color:#DDE1E2; margin:0 6px; font-weight:300; }
     .fsc-subtitle { font-size:11px; color:#9CA3AF; font-family:'Lato',sans-serif; flex-shrink:0; }
     .fsc-kpi-row { display:flex; flex:1; min-height:0; gap:0; border:1px solid #DDE1E2; border-radius:4px; overflow:hidden; }
-    .fsc-kpi { flex:1; min-width:0; padding:12px 14px 10px; display:flex; flex-direction:column; gap:4px; border-right:1px solid #DDE1E2; }
+    .fsc-kpi { flex:1; min-width:0; padding:14px 16px 12px; display:flex; flex-direction:column; justify-content:space-between; border-right:1px solid #DDE1E2; }
     .fsc-kpi:last-child { border-right:none; }
     .fsc-kpi-label { font-size:12px; color:#4F5B60; font-family:'Lato',sans-serif; white-space:nowrap; }
-    .fsc-kpi-value { font-size:22px; font-weight:700; color:#1C1C1C; font-family:'Lato',sans-serif; line-height:1.1; }
-    .fsc-bar-area { position:relative; padding-top:14px; flex-shrink:0; }
-    .fsc-bar { height:10px; border-radius:2px; margin-bottom:3px; }
+    .fsc-kpi-value { font-size:30px; font-weight:700; color:#1C1C1C; font-family:'Lato',sans-serif; line-height:1.1; margin-top:4px; }
+    .fsc-kpi-mid { flex:1; min-height:0; display:flex; flex-direction:column; justify-content:center; padding:10px 0 4px; }
+    .fsc-bar-area { position:relative; padding-top:16px; }
+    .fsc-bar { height:16px; border-radius:3px; margin-bottom:6px; }
     .fsc-bar-committed { background:#4DD0C4; }
     .fsc-bar-duetto { background:#A3D977; }
-    .fsc-budget-line { position:absolute; top:0; bottom:13px; border-left:2px dashed #5B4FBE; z-index:2; }
-    .fsc-budget-diamond { position:absolute; top:-1px; left:50%; transform:translateX(-50%); width:8px; height:8px; background:#5B4FBE; clip-path:polygon(50% 0%,100% 50%,50% 100%,0% 50%); }
-    .fsc-axis { display:flex; justify-content:space-between; margin-top:2px; }
-    .fsc-axis span { font-size:10px; color:#9CA3AF; font-family:'Lato',sans-serif; }
-    .fsc-status { display:flex; align-items:center; gap:4px; margin-top:4px; flex-wrap:wrap; }
+    .fsc-budget-line { position:absolute; top:0; bottom:6px; border-left:2px dashed #5B4FBE; z-index:2; }
+    .fsc-budget-diamond { position:absolute; top:-1px; left:50%; transform:translateX(-50%); width:10px; height:10px; background:#5B4FBE; clip-path:polygon(50% 0%,100% 50%,50% 100%,0% 50%); }
+    .fsc-axis { display:flex; justify-content:space-between; margin-top:6px; }
+    .fsc-axis span { font-size:11px; color:#9CA3AF; font-family:'Lato',sans-serif; }
+    .fsc-status { display:flex; align-items:center; gap:5px; flex-wrap:wrap; }
     .fsc-status-icon { font-size:14px !important; }
     .fsc-status-text { font-size:11px; color:#4F5B60; font-family:'Lato',sans-serif; white-space:nowrap; }
     .fsc-status-val { font-size:12px; font-weight:700; font-family:'Lato',sans-serif; white-space:nowrap; }
@@ -4122,45 +4123,45 @@
                     <div class="fsc-kpi">
                       <div class="fsc-kpi-label">Room Nights</div>
                       <div class="fsc-kpi-value">61</div>
-                      <div class="fsc-bar-area">
+                      <div class="fsc-kpi-mid"><div class="fsc-bar-area">
                         <div class="fsc-budget-line" style="left:93.3%"><div class="fsc-budget-diamond"></div></div>
                         <div class="fsc-bar fsc-bar-committed" style="width:33.9%"></div>
                         <div class="fsc-bar fsc-bar-duetto" style="width:98.9%"></div>
                       </div>
-                      <div class="fsc-axis"><span>0</span><span>60</span><span>120</span><span>180</span></div>
+                      <div class="fsc-axis"><span>0</span><span>60</span><span>120</span><span>180</span></div></div>
                       <div class="fsc-status fsc-status-pos"><span class="material-icons-round mi fsc-status-icon">arrow_upward</span><span class="fsc-status-text">Projected above budget</span><span class="fsc-status-val">+5%</span></div>
                     </div>
                     <div class="fsc-kpi">
                       <div class="fsc-kpi-label">ADR</div>
                       <div class="fsc-kpi-value">$150</div>
-                      <div class="fsc-bar-area">
+                      <div class="fsc-kpi-mid"><div class="fsc-bar-area">
                         <div class="fsc-budget-line" style="left:97.8%"><div class="fsc-budget-diamond"></div></div>
                         <div class="fsc-bar fsc-bar-committed" style="width:83.3%"></div>
                         <div class="fsc-bar fsc-bar-duetto" style="width:84.4%"></div>
                       </div>
-                      <div class="fsc-axis"><span>$0</span><span>$60</span><span>$120</span><span>$180</span></div>
+                      <div class="fsc-axis"><span>$0</span><span>$60</span><span>$120</span><span>$180</span></div></div>
                       <div class="fsc-status fsc-status-neg"><span class="material-icons-round mi fsc-status-icon">arrow_downward</span><span class="fsc-status-text">Below budget</span><span class="fsc-status-val">-15%</span></div>
                     </div>
                     <div class="fsc-kpi">
                       <div class="fsc-kpi-label">RevPAR</div>
                       <div class="fsc-kpi-value">$116</div>
-                      <div class="fsc-bar-area">
+                      <div class="fsc-kpi-mid"><div class="fsc-bar-area">
                         <div class="fsc-budget-line" style="left:96.9%"><div class="fsc-budget-diamond"></div></div>
                         <div class="fsc-bar fsc-bar-committed" style="width:89.2%"></div>
                         <div class="fsc-bar fsc-bar-duetto" style="width:90.8%"></div>
                       </div>
-                      <div class="fsc-axis"><span>$0</span><span>$40</span><span>$80</span><span>$120</span></div>
+                      <div class="fsc-axis"><span>$0</span><span>$40</span><span>$80</span><span>$120</span></div></div>
                       <div class="fsc-status fsc-status-neg"><span class="material-icons-round mi fsc-status-icon">arrow_downward</span><span class="fsc-status-text">Below budget</span><span class="fsc-status-val">-6%</span></div>
                     </div>
                     <div class="fsc-kpi">
                       <div class="fsc-kpi-label">Room Revenue</div>
                       <div class="fsc-kpi-value">$9,075</div>
-                      <div class="fsc-bar-area">
+                      <div class="fsc-kpi-mid"><div class="fsc-bar-area">
                         <div class="fsc-budget-line" style="left:88.6%"><div class="fsc-budget-diamond"></div></div>
                         <div class="fsc-bar fsc-bar-committed" style="width:25.9%"></div>
                         <div class="fsc-bar fsc-bar-duetto" style="width:79.7%"></div>
                       </div>
-                      <div class="fsc-axis"><span>$0</span><span>$10K</span><span>$20K</span><span>$30K</span></div>
+                      <div class="fsc-axis"><span>$0</span><span>$10K</span><span>$20K</span><span>$30K</span></div></div>
                       <div class="fsc-status fsc-status-neg"><span class="material-icons-round mi fsc-status-icon">arrow_downward</span><span class="fsc-status-text">Below budget</span><span class="fsc-status-val">-10%</span></div>
                     </div>
                   </div>
@@ -4189,45 +4190,45 @@
                     <div class="fsc-kpi">
                       <div class="fsc-kpi-label">Room Nights</div>
                       <div class="fsc-kpi-value">61</div>
-                      <div class="fsc-bar-area">
+                      <div class="fsc-kpi-mid"><div class="fsc-bar-area">
                         <div class="fsc-budget-line" style="left:93.3%"><div class="fsc-budget-diamond"></div></div>
                         <div class="fsc-bar fsc-bar-committed" style="width:33.9%"></div>
                         <div class="fsc-bar fsc-bar-duetto" style="width:98.9%"></div>
                       </div>
-                      <div class="fsc-axis"><span>0</span><span>60</span><span>120</span><span>180</span></div>
+                      <div class="fsc-axis"><span>0</span><span>60</span><span>120</span><span>180</span></div></div>
                       <div class="fsc-status fsc-status-pos"><span class="material-icons-round mi fsc-status-icon">arrow_upward</span><span class="fsc-status-text">Projected above budget</span><span class="fsc-status-val">+5%</span></div>
                     </div>
                     <div class="fsc-kpi">
                       <div class="fsc-kpi-label">ADR</div>
                       <div class="fsc-kpi-value">$150</div>
-                      <div class="fsc-bar-area">
+                      <div class="fsc-kpi-mid"><div class="fsc-bar-area">
                         <div class="fsc-budget-line" style="left:97.8%"><div class="fsc-budget-diamond"></div></div>
                         <div class="fsc-bar fsc-bar-committed" style="width:83.3%"></div>
                         <div class="fsc-bar fsc-bar-duetto" style="width:84.4%"></div>
                       </div>
-                      <div class="fsc-axis"><span>$0</span><span>$60</span><span>$120</span><span>$180</span></div>
+                      <div class="fsc-axis"><span>$0</span><span>$60</span><span>$120</span><span>$180</span></div></div>
                       <div class="fsc-status fsc-status-neg"><span class="material-icons-round mi fsc-status-icon">arrow_downward</span><span class="fsc-status-text">Below budget</span><span class="fsc-status-val">-15%</span></div>
                     </div>
                     <div class="fsc-kpi">
                       <div class="fsc-kpi-label">RevPAR</div>
                       <div class="fsc-kpi-value">$116</div>
-                      <div class="fsc-bar-area">
+                      <div class="fsc-kpi-mid"><div class="fsc-bar-area">
                         <div class="fsc-budget-line" style="left:96.9%"><div class="fsc-budget-diamond"></div></div>
                         <div class="fsc-bar fsc-bar-committed" style="width:89.2%"></div>
                         <div class="fsc-bar fsc-bar-duetto" style="width:90.8%"></div>
                       </div>
-                      <div class="fsc-axis"><span>$0</span><span>$40</span><span>$80</span><span>$120</span></div>
+                      <div class="fsc-axis"><span>$0</span><span>$40</span><span>$80</span><span>$120</span></div></div>
                       <div class="fsc-status fsc-status-neg"><span class="material-icons-round mi fsc-status-icon">arrow_downward</span><span class="fsc-status-text">Below budget</span><span class="fsc-status-val">-6%</span></div>
                     </div>
                     <div class="fsc-kpi">
                       <div class="fsc-kpi-label">Room Revenue</div>
                       <div class="fsc-kpi-value">$9,075</div>
-                      <div class="fsc-bar-area">
+                      <div class="fsc-kpi-mid"><div class="fsc-bar-area">
                         <div class="fsc-budget-line" style="left:88.6%"><div class="fsc-budget-diamond"></div></div>
                         <div class="fsc-bar fsc-bar-committed" style="width:25.9%"></div>
                         <div class="fsc-bar fsc-bar-duetto" style="width:79.7%"></div>
                       </div>
-                      <div class="fsc-axis"><span>$0</span><span>$10K</span><span>$20K</span><span>$30K</span></div>
+                      <div class="fsc-axis"><span>$0</span><span>$10K</span><span>$20K</span><span>$30K</span></div></div>
                       <div class="fsc-status fsc-status-neg"><span class="material-icons-round mi fsc-status-icon">arrow_downward</span><span class="fsc-status-text">Below budget</span><span class="fsc-status-val">-10%</span></div>
                     </div>
                   </div>
@@ -4255,45 +4256,45 @@
                     <div class="fsc-kpi">
                       <div class="fsc-kpi-label">Room Nights</div>
                       <div class="fsc-kpi-value">61</div>
-                      <div class="fsc-bar-area">
+                      <div class="fsc-kpi-mid"><div class="fsc-bar-area">
                         <div class="fsc-budget-line" style="left:93.3%"><div class="fsc-budget-diamond"></div></div>
                         <div class="fsc-bar fsc-bar-committed" style="width:33.9%"></div>
                         <div class="fsc-bar fsc-bar-duetto" style="width:98.9%"></div>
                       </div>
-                      <div class="fsc-axis"><span>0</span><span>60</span><span>120</span><span>180</span></div>
+                      <div class="fsc-axis"><span>0</span><span>60</span><span>120</span><span>180</span></div></div>
                       <div class="fsc-status fsc-status-pos"><span class="material-icons-round mi fsc-status-icon">arrow_upward</span><span class="fsc-status-text">Projected above budget</span><span class="fsc-status-val">+5%</span></div>
                     </div>
                     <div class="fsc-kpi">
                       <div class="fsc-kpi-label">ADR</div>
                       <div class="fsc-kpi-value">$150</div>
-                      <div class="fsc-bar-area">
+                      <div class="fsc-kpi-mid"><div class="fsc-bar-area">
                         <div class="fsc-budget-line" style="left:97.8%"><div class="fsc-budget-diamond"></div></div>
                         <div class="fsc-bar fsc-bar-committed" style="width:83.3%"></div>
                         <div class="fsc-bar fsc-bar-duetto" style="width:84.4%"></div>
                       </div>
-                      <div class="fsc-axis"><span>$0</span><span>$60</span><span>$120</span><span>$180</span></div>
+                      <div class="fsc-axis"><span>$0</span><span>$60</span><span>$120</span><span>$180</span></div></div>
                       <div class="fsc-status fsc-status-neg"><span class="material-icons-round mi fsc-status-icon">arrow_downward</span><span class="fsc-status-text">Below budget</span><span class="fsc-status-val">-15%</span></div>
                     </div>
                     <div class="fsc-kpi">
                       <div class="fsc-kpi-label">RevPAR</div>
                       <div class="fsc-kpi-value">$116</div>
-                      <div class="fsc-bar-area">
+                      <div class="fsc-kpi-mid"><div class="fsc-bar-area">
                         <div class="fsc-budget-line" style="left:96.9%"><div class="fsc-budget-diamond"></div></div>
                         <div class="fsc-bar fsc-bar-committed" style="width:89.2%"></div>
                         <div class="fsc-bar fsc-bar-duetto" style="width:90.8%"></div>
                       </div>
-                      <div class="fsc-axis"><span>$0</span><span>$40</span><span>$80</span><span>$120</span></div>
+                      <div class="fsc-axis"><span>$0</span><span>$40</span><span>$80</span><span>$120</span></div></div>
                       <div class="fsc-status fsc-status-neg"><span class="material-icons-round mi fsc-status-icon">arrow_downward</span><span class="fsc-status-text">Below budget</span><span class="fsc-status-val">-6%</span></div>
                     </div>
                     <div class="fsc-kpi">
                       <div class="fsc-kpi-label">Room Revenue</div>
                       <div class="fsc-kpi-value">$9,075</div>
-                      <div class="fsc-bar-area">
+                      <div class="fsc-kpi-mid"><div class="fsc-bar-area">
                         <div class="fsc-budget-line" style="left:88.6%"><div class="fsc-budget-diamond"></div></div>
                         <div class="fsc-bar fsc-bar-committed" style="width:25.9%"></div>
                         <div class="fsc-bar fsc-bar-duetto" style="width:79.7%"></div>
                       </div>
-                      <div class="fsc-axis"><span>$0</span><span>$10K</span><span>$20K</span><span>$30K</span></div>
+                      <div class="fsc-axis"><span>$0</span><span>$10K</span><span>$20K</span><span>$30K</span></div></div>
                       <div class="fsc-status fsc-status-neg"><span class="material-icons-round mi fsc-status-icon">arrow_downward</span><span class="fsc-status-text">Below budget</span><span class="fsc-status-val">-10%</span></div>
                     </div>
                   </div>
