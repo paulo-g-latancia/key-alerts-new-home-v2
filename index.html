@@ -3682,6 +3682,22 @@
       font-size: 16px; font-family: 'Lato', sans-serif; font-weight: 400; cursor: pointer;
     }
     .ob-btn-ghost:hover { background: #F0FAFA; }
+
+    /* ── Highest / Lowest Variance chart ───────────── */
+    .hvw-wrap { display:flex; flex-direction:column; flex:1; min-height:0; overflow:hidden; gap:4px; }
+    .hvw-ctrl-row { display:flex; align-items:center; gap:5px; flex-wrap:wrap; flex-shrink:0; }
+    .hvw-ctrl-item { display:inline-flex; align-items:center; gap:1px; font-size:12px; color:#006461; font-family:'Lato',sans-serif; font-weight:700; cursor:pointer; white-space:nowrap; }
+    .hvw-ctrl-item .mi { font-size:13px; }
+    .hvw-ctrl-sep { font-size:12px; color:#4F5B60; font-family:'Lato',sans-serif; }
+    .hvw-ctrl-pipe { color:#DDE1E2; margin:0 4px; }
+    .hvw-subtitle { font-size:11px; color:#9CA3AF; font-family:'Lato',sans-serif; flex-shrink:0; }
+    .hvw-chart-wrap { flex:1; min-height:0; position:relative; }
+    .hvw-svg { display:block; }
+    .hvw-tabs { display:flex; justify-content:center; flex-shrink:0; padding:2px 0 0; }
+    .hvw-tab { height:30px; padding:0 20px; border:1px solid #DDE1E2; background:#fff; font-size:12px; font-family:'Lato',sans-serif; color:#4F5B60; cursor:pointer; }
+    .hvw-tab:first-child { border-radius:4px 0 0 4px; }
+    .hvw-tab:last-child  { border-radius:0 4px 4px 0; border-left:none; }
+    .hvw-tab.hvw-active  { background:#EBF5F5; color:#006461; font-weight:700; border-color:#006461; }
   </style>
 </head>
 <body>
@@ -3887,7 +3903,21 @@
                   <span class="home-card-title">Highest/Lowest Variance</span>
                   <button class="home-more-btn"><span class="material-icons-round mi">more_vert</span></button>
                 </div>
-                <div class="home-placeholder-xl"></div>
+                <div class="hvw-wrap" data-hvw>
+                  <div class="hvw-ctrl-row">
+                    <span class="hvw-ctrl-item">Occupancy (Commit)<span class="material-icons-round mi">expand_more</span></span>
+                    <span class="hvw-ctrl-sep">for</span>
+                    <span class="hvw-ctrl-item">Market Segments (4)<span class="material-icons-round mi">expand_more</span></span>
+                    <span class="hvw-ctrl-sep">vs</span>
+                    <span class="hvw-ctrl-item">STLY (DOW)<span class="material-icons-round mi">expand_more</span></span>
+                  </div>
+                  <div class="hvw-subtitle">Updated Monday, Apr 13, 2026 12:13 PM</div>
+                  <div class="hvw-chart-wrap"><svg class="hvw-svg"></svg></div>
+                  <div class="hvw-tabs">
+                    <button class="hvw-tab hvw-active">Aggregate</button>
+                    <button class="hvw-tab">Timeline</button>
+                  </div>
+                </div>
               </div>
             </div>
           </div>
@@ -3911,7 +3941,21 @@
                   <span class="home-card-title">Highest/Lowest Variance</span>
                   <button class="home-more-btn"><span class="material-icons-round mi">more_vert</span></button>
                 </div>
-                <div class="home-placeholder-xl"></div>
+                <div class="hvw-wrap" data-hvw>
+                  <div class="hvw-ctrl-row">
+                    <span class="hvw-ctrl-item">Occupancy (Commit)<span class="material-icons-round mi">expand_more</span></span>
+                    <span class="hvw-ctrl-sep">for</span>
+                    <span class="hvw-ctrl-item">Market Segments (4)<span class="material-icons-round mi">expand_more</span></span>
+                    <span class="hvw-ctrl-sep">vs</span>
+                    <span class="hvw-ctrl-item">STLY (DOW)<span class="material-icons-round mi">expand_more</span></span>
+                  </div>
+                  <div class="hvw-subtitle">Updated Monday, Apr 13, 2026 12:13 PM</div>
+                  <div class="hvw-chart-wrap"><svg class="hvw-svg"></svg></div>
+                  <div class="hvw-tabs">
+                    <button class="hvw-tab hvw-active">Aggregate</button>
+                    <button class="hvw-tab">Timeline</button>
+                  </div>
+                </div>
               </div>
             </div>
           </div>
@@ -11717,6 +11761,193 @@
     });
   }
 
+}());
+</script>
+
+<!-- ─── HIGHEST / LOWEST VARIANCE CHART ─── -->
+<script>
+(function () {
+  'use strict';
+
+  /* ── Fixed data ─────────────────────────────────────────────────── */
+  var START_DATE = new Date(2026, 3, 13); // Apr 13, 2026
+  var DAYS       = 30;
+
+  var SEG = [
+    { name: 'Leisure',   colorPos: '#006461', colorNeg: '#4F5B60' },
+    { name: 'Corporate', colorPos: '#2BA59C', colorNeg: '#C9A96E' },
+    { name: 'OTA',       colorPos: '#47C5BC', colorNeg: '#F28585' },
+    { name: 'Group',     colorPos: '#8DE8E2', colorNeg: '#F5A4A4' }
+  ];
+
+  // Deterministic pseudo-random (Mulberry32)
+  function rand(seed) {
+    seed |= 0; seed = seed + 0x6D2B79F5 | 0;
+    var t = Math.imul(seed ^ seed >>> 15, 1 | seed);
+    t = t + Math.imul(t ^ t >>> 7, 61 | t) ^ t;
+    return ((t ^ t >>> 14) >>> 0) / 4294967296;
+  }
+
+  var VAR_DATA = []; // VAR_DATA[day][seg] = variance (-100..100)
+  for (var d = 0; d < DAYS; d++) {
+    var date = new Date(2026, 3, 13 + d);
+    var isWk = date.getDay() === 0 || date.getDay() === 6;
+    VAR_DATA[d] = [];
+    for (var s = 0; s < 4; s++) {
+      var seed = d * 31 + s * 97;
+      var v;
+      if (s === 0)      v = (isWk ? 58 : 22) + (rand(seed)     - 0.25) * 65;  // Leisure
+      else if (s === 1) v = 18               + (rand(seed + 1)  - 0.35) * 55;  // Corporate
+      else if (s === 2) v = 8                + (rand(seed + 2)  - 0.45) * 50;  // OTA
+      else              v = -22              + (rand(seed + 3)  - 0.15) * 70;  // Group (mostly below)
+      VAR_DATA[d][s] = Math.max(-100, Math.min(100, Math.round(v)));
+    }
+  }
+
+  /* ── Rendering ──────────────────────────────────────────────────── */
+  function renderChart(svg, area) {
+    var W = area.clientWidth;
+    var H = area.clientHeight;
+    if (W < 10 || H < 10) return;
+
+    var PL = 44;   // left  (y-axis labels)
+    var PR = 42;   // right ("Above"/"Below")
+    var PT = 10;   // top
+    var PB = 28;   // bottom (x-axis labels)
+    var cW = W - PL - PR;
+    var cH = H - PT - PB;
+
+    function toY(v)  { return PT + (1 - (v + 100) / 200) * cH; }
+    function toX(di) { return PL + (di + 0.5) / DAYS * cW; }
+
+    var colW = cW / DAYS;
+    var r    = Math.max(3, Math.min(6, colW * 0.38));
+
+    var buf = [];
+
+    buf.push('<svg xmlns="http://www.w3.org/2000/svg" width="' + W + '" height="' + H + '" style="font-family:\'Lato\',sans-serif;overflow:visible">');
+
+    // ── Alternating column shade (every 5 days, odd bands) ──────────
+    for (var band = 0; band < 6; band++) {
+      if (band % 2 === 1) {
+        var bx = PL + band * 5 / DAYS * cW;
+        var bw = 5 / DAYS * cW;
+        buf.push('<rect x="' + bx.toFixed(1) + '" y="' + PT + '" width="' + bw.toFixed(1) + '" height="' + cH + '" fill="#F2F4F7"/>');
+      }
+    }
+
+    // ── Y-axis grid + labels ─────────────────────────────────────────
+    [-100, -50, 0, 50, 100].forEach(function (v) {
+      var yy = toY(v).toFixed(1);
+      var isZero = v === 0;
+      buf.push('<line x1="' + PL + '" y1="' + yy + '" x2="' + (PL + cW) + '" y2="' + yy + '" stroke="' + (isZero ? '#1C1C1C' : '#DDE1E2') + '" stroke-width="' + (isZero ? 1.5 : 1) + '"/>');
+      buf.push('<text x="' + (PL - 5) + '" y="' + (parseFloat(yy) + 4).toFixed(1) + '" text-anchor="end" font-size="10" fill="#9CA3AF">' + (v > 0 ? '+' : '') + v + '%</text>');
+    });
+
+    // ── "STLY" label on zero line ────────────────────────────────────
+    var yZero = toY(0).toFixed(1);
+    buf.push('<text x="' + (PL + cW + 4) + '" y="' + (parseFloat(yZero) + 4).toFixed(1) + '" font-size="10" fill="#4F5B60">STLY</text>');
+
+    // ── "Above" / "Below" rotated labels ────────────────────────────
+    var xRight  = W - 10;
+    var yAbove  = (PT + toY(0)) / 2;
+    var yBelow  = (toY(0) + PT + cH) / 2;
+    buf.push('<text transform="rotate(90,' + xRight + ',' + yAbove.toFixed(1) + ')" x="' + xRight + '" y="' + yAbove.toFixed(1) + '" text-anchor="middle" font-size="10" fill="#006461">Above</text>');
+    buf.push('<text transform="rotate(90,' + xRight + ',' + yBelow.toFixed(1) + ')" x="' + xRight + '" y="' + yBelow.toFixed(1) + '" text-anchor="middle" font-size="10" fill="#D33030">Below</text>');
+
+    // ── Dots ─────────────────────────────────────────────────────────
+    for (var di = 0; di < DAYS; di++) {
+      for (var si = 0; si < 4; si++) {
+        var variance = VAR_DATA[di][si];
+        var cx = (toX(di) + (si - 1.5) * r * 1.4).toFixed(1);
+        var cy = toY(variance).toFixed(1);
+        var color = variance >= 0 ? SEG[si].colorPos : SEG[si].colorNeg;
+        buf.push('<circle cx="' + cx + '" cy="' + cy + '" r="' + r.toFixed(1) + '" fill="' + color + '" opacity="0.88"/>');
+      }
+    }
+
+    // ── X-axis date labels (every 5 days) ───────────────────────────
+    var MONTHS_S = ['Jan','Feb','Mar','Apr','May','Jun','Jul','Aug','Sep','Oct','Nov','Dec'];
+    var yLbl = (PT + cH + 16).toFixed(1);
+    for (var dl = 0; dl < DAYS; dl += 5) {
+      var ldate = new Date(2026, 3, 13 + dl);
+      var lbl = (dl === 0 || ldate.getDate() <= 5 ? MONTHS_S[ldate.getMonth()] + ' ' : '') + ldate.getDate();
+      buf.push('<text x="' + toX(dl).toFixed(1) + '" y="' + yLbl + '" text-anchor="middle" font-size="10" fill="#9CA3AF">' + lbl + '</text>');
+    }
+
+    buf.push('</svg>');
+    svg.outerHTML = buf.join('');
+    // After outerHTML replace, the old reference is dead — re-query handled by ResizeObserver re-call
+    area.querySelector('.hvw-svg').outerHTML = area.querySelector('.hvw-svg') ? '' : '';
+  }
+
+  /* ── Init all instances ─────────────────────────────────────────── */
+  function initHvw(wrap) {
+    var area = wrap.querySelector('.hvw-chart-wrap');
+    if (!area) return;
+
+    function draw() {
+      var svg = area.querySelector('.hvw-svg');
+      if (!svg) { area.innerHTML = '<svg class="hvw-svg"></svg>'; svg = area.querySelector('.hvw-svg'); }
+      var W = area.clientWidth, H = area.clientHeight;
+      if (W < 10 || H < 10) return;
+      var PL=44, PR=42, PT=10, PB=28, cW=W-PL-PR, cH=H-PT-PB, colW=cW/DAYS;
+      var r = Math.max(3, Math.min(6, colW*0.38));
+
+      var buf = ['<svg xmlns="http://www.w3.org/2000/svg" class="hvw-svg" width="'+W+'" height="'+H+'" style="font-family:\'Lato\',sans-serif">'];
+
+      function toY(v)  { return PT + (1-(v+100)/200)*cH; }
+      function toX(di) { return PL + (di+0.5)/DAYS*cW; }
+
+      // Alternating bands
+      for (var band=0;band<6;band++) {
+        if (band%2===1) { var bx=PL+band*5/DAYS*cW, bw=5/DAYS*cW; buf.push('<rect x="'+bx.toFixed(1)+'" y="'+PT+'" width="'+bw.toFixed(1)+'" height="'+cH+'" fill="#F2F4F7"/>'); }
+      }
+      // Grid lines + y labels
+      [-100,-50,0,50,100].forEach(function(v){
+        var yy=toY(v).toFixed(1), isZ=v===0;
+        buf.push('<line x1="'+PL+'" y1="'+yy+'" x2="'+(PL+cW)+'" y2="'+yy+'" stroke="'+(isZ?'#1C1C1C':'#DDE1E2')+'" stroke-width="'+(isZ?1.5:1)+'"/>');
+        buf.push('<text x="'+(PL-5)+'" y="'+(+yy+4).toFixed(1)+'" text-anchor="end" font-size="10" fill="#9CA3AF">'+(v>0?'+':'')+v+'%</text>');
+      });
+      // STLY label
+      buf.push('<text x="'+(PL+cW+4)+'" y="'+(toY(0)+4).toFixed(1)+'" font-size="10" fill="#4F5B60">STLY</text>');
+      // Above / Below
+      var xR=W-10, yA=(PT+toY(0))/2, yB=(toY(0)+PT+cH)/2;
+      buf.push('<text transform="rotate(90,'+xR+','+yA.toFixed(1)+')" x="'+xR+'" y="'+yA.toFixed(1)+'" text-anchor="middle" font-size="10" fill="#006461">Above</text>');
+      buf.push('<text transform="rotate(90,'+xR+','+yB.toFixed(1)+')" x="'+xR+'" y="'+yB.toFixed(1)+'" text-anchor="middle" font-size="10" fill="#D33030">Below</text>');
+      // Dots
+      for (var di=0;di<DAYS;di++) {
+        for (var si=0;si<4;si++) {
+          var vv=VAR_DATA[di][si], cx=(toX(di)+(si-1.5)*r*1.4).toFixed(1), cy=toY(vv).toFixed(1);
+          buf.push('<circle cx="'+cx+'" cy="'+cy+'" r="'+r.toFixed(1)+'" fill="'+(vv>=0?SEG[si].colorPos:SEG[si].colorNeg)+'" opacity="0.88"/>');
+        }
+      }
+      // X labels
+      var MONTHS_S=['Jan','Feb','Mar','Apr','May','Jun','Jul','Aug','Sep','Oct','Nov','Dec'];
+      var yLbl=(PT+cH+16).toFixed(1);
+      for (var dl=0;dl<DAYS;dl+=5) {
+        var ldate=new Date(2026,3,13+dl), lbl=(dl===0||ldate.getDate()<=5?MONTHS_S[ldate.getMonth()]+' ':'')+ldate.getDate();
+        buf.push('<text x="'+toX(dl).toFixed(1)+'" y="'+yLbl+'" text-anchor="middle" font-size="10" fill="#9CA3AF">'+lbl+'</text>');
+      }
+
+      buf.push('</svg>');
+      area.innerHTML = buf.join('');
+    }
+
+    var ro = new ResizeObserver(function() { draw(); });
+    ro.observe(area);
+    draw();
+
+    // Tab toggle (non-functional visual only)
+    wrap.querySelectorAll('.hvw-tab').forEach(function(btn) {
+      btn.addEventListener('click', function() {
+        wrap.querySelectorAll('.hvw-tab').forEach(function(b){b.classList.remove('hvw-active');});
+        btn.classList.add('hvw-active');
+      });
+    });
+  }
+
+  document.querySelectorAll('[data-hvw]').forEach(initHvw);
 }());
 </script>
 
