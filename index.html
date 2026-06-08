@@ -3823,6 +3823,61 @@
     .cbc-leg-dash { width:20px; height:0; border-top:2px dashed; flex-shrink:0; }
     .cbc-leg-dot  { width:20px; height:0; border-top:2px dotted; flex-shrink:0; }
     .cbc-leg-area { width:14px; height:10px; flex-shrink:0; border-radius:2px; }
+
+    /* ── Business Mix ── */
+    .bmw-wrap { display:flex; flex-direction:column; flex:1; min-height:0; overflow:hidden; gap:2px; }
+    .bmw-ctrl-row { display:flex; align-items:center; gap:4px; flex-wrap:wrap; flex-shrink:0; font-size:13px; color:#4F5B60; font-family:'Lato',sans-serif; }
+    .bmw-ctrl-item { display:inline-flex; align-items:center; gap:1px; color:#006461; font-weight:700; cursor:pointer; white-space:nowrap; }
+    .bmw-ctrl-item .mi { font-size:16px; }
+    .bmw-subtitle { font-size:11px; color:#9CA3AF; font-family:'Lato',sans-serif; flex-shrink:0; }
+    .bmw-chart-wrap { flex:1; min-height:0; position:relative; }
+    .bmw-svg { display:block; width:100%; height:100%; overflow:visible; }
+    .bmw-footer { display:flex; align-items:center; justify-content:space-between; flex-shrink:0; padding:4px 0 0; flex-wrap:wrap; gap:8px; }
+    .bmw-legend { display:flex; align-items:center; gap:16px; font-size:11px; font-family:'Lato',sans-serif; color:#4F5B60; }
+    .bmw-leg-item { display:flex; align-items:center; gap:6px; }
+    .bmw-leg-swatch { width:12px; height:12px; border-radius:2px; flex-shrink:0; }
+    .bmw-pager { display:flex; align-items:center; gap:8px; font-size:11px; font-family:'Lato',sans-serif; color:#4F5B60; }
+    .bmw-pager-btn { width:24px; height:24px; border:1px solid #DDE1E2; background:#fff; border-radius:3px; cursor:pointer; display:flex; align-items:center; justify-content:center; font-size:13px; color:#4F5B60; }
+    .bmw-pager-btn:disabled { opacity:0.4; cursor:default; }
+    .bmw-pager-num { width:24px; height:24px; border:1px solid #006461; background:#006461; color:#fff; border-radius:3px; display:flex; align-items:center; justify-content:center; font-size:11px; font-family:'Lato',sans-serif; }
+
+    /* ── Group Business by Stage ── */
+    .gbw-wrap { display:flex; flex-direction:column; flex:1; min-height:0; overflow:hidden; gap:2px; }
+    .gbw-ctrl-row { display:flex; align-items:center; gap:4px; flex-wrap:wrap; flex-shrink:0; font-size:13px; color:#4F5B60; font-family:'Lato',sans-serif; }
+    .gbw-ctrl-item { display:inline-flex; align-items:center; gap:1px; color:#006461; font-weight:700; cursor:pointer; white-space:nowrap; }
+    .gbw-ctrl-item .mi { font-size:16px; }
+    .gbw-subtitle { font-size:11px; color:#9CA3AF; font-family:'Lato',sans-serif; flex-shrink:0; }
+    .gbw-chart-wrap { flex:1; min-height:0; position:relative; }
+    .gbw-svg { display:block; width:100%; height:100%; overflow:visible; }
+    .gbw-legend { display:flex; align-items:center; gap:12px; flex-wrap:wrap; flex-shrink:0; padding:4px 0 0; font-size:11px; font-family:'Lato',sans-serif; color:#4F5B60; }
+    .gbw-leg-item { display:flex; align-items:center; gap:5px; white-space:nowrap; }
+    .gbw-leg-swatch { width:12px; height:12px; border-radius:2px; flex-shrink:0; }
+    .gbw-leg-line { width:20px; height:2px; flex-shrink:0; }
+    .gbw-leg-dash { width:20px; height:0; border-top:2px dashed; flex-shrink:0; }
+
+    /* ── Geo Source of Bookings ── */
+    .gsw-wrap { display:flex; flex-direction:column; flex:1; min-height:0; overflow:hidden; gap:2px; }
+    .gsw-ctrl-row { display:flex; align-items:center; gap:4px; flex-wrap:wrap; flex-shrink:0; font-size:13px; color:#4F5B60; font-family:'Lato',sans-serif; }
+    .gsw-ctrl-item { display:inline-flex; align-items:center; gap:1px; color:#006461; font-weight:700; cursor:pointer; white-space:nowrap; }
+    .gsw-ctrl-item .mi { font-size:16px; }
+    .gsw-subtitle { font-size:11px; color:#9CA3AF; font-family:'Lato',sans-serif; flex-shrink:0; }
+    .gsw-body { display:flex; flex:1; min-height:0; gap:0; }
+    .gsw-map-wrap { flex:1; min-height:0; position:relative; overflow:hidden; }
+    .gsw-map-hint { position:absolute; bottom:4px; left:8px; font-size:10px; color:#9CA3AF; font-family:'Lato',sans-serif; pointer-events:none; }
+    .gsw-map-legend { position:absolute; bottom:20px; left:8px; display:flex; align-items:center; gap:6px; font-size:10px; color:#4F5B60; font-family:'Lato',sans-serif; }
+    .gsw-map-grad { width:80px; height:8px; border-radius:4px; background:linear-gradient(to right, #E8E4F5, #5B4FBE); }
+    .gsw-table-wrap { width:220px; flex-shrink:0; overflow-y:auto; border-left:1px solid #DDE1E2; padding:0 0 4px; }
+    .gsw-table { width:100%; border-collapse:collapse; font-family:'Lato',sans-serif; font-size:12px; }
+    .gsw-table th { background:#F8F9FD; height:32px; padding:0 10px; border-bottom:1px solid #DDE1E2; text-align:left; color:#4F5B60; font-weight:400; white-space:nowrap; }
+    .gsw-table td { height:36px; padding:0 10px; border-bottom:1px solid #DDE1E2; color:#1C1C1C; white-space:nowrap; }
+    .gsw-table tr:last-child td { border-bottom:none; }
+    .gsw-rank { color:#4F5B60; font-weight:700; min-width:20px; }
+    .gsw-flag { width:20px; height:14px; border-radius:2px; display:inline-block; object-fit:cover; vertical-align:middle; }
+    .gsw-rooms-val { font-weight:700; }
+    .gsw-rooms-pct { color:#4F5B60; font-size:11px; }
+    .gsw-footer { display:flex; align-items:center; justify-content:flex-end; flex-shrink:0; padding:4px 0 0; gap:8px; font-size:11px; font-family:'Lato',sans-serif; color:#4F5B60; }
+    .gsw-pager-btn { width:24px; height:24px; border:1px solid #DDE1E2; background:#fff; border-radius:3px; cursor:pointer; display:flex; align-items:center; justify-content:center; font-size:13px; color:#4F5B60; }
+    .gsw-pager-num { width:24px; height:24px; border:1px solid #006461; background:#006461; color:#fff; border-radius:3px; display:flex; align-items:center; justify-content:center; font-size:11px; font-family:'Lato',sans-serif; }
   </style>
 </head>
 <body>
@@ -4321,7 +4376,19 @@
                     <div class="cbc-leg-item"><div class="cbc-leg-dash" style="border-color:#006461"></div>Locked Budget</div>
                   </div>
                 </div></div></div></div>
-        <div class="grid-stack-item" gs-w="12" gs-h="6"><div class="grid-stack-item-content"><div class="home-card"><div class="home-card-header"><span class="home-card-title">Business Mix</span><button class="home-more-btn"><span class="material-icons-round mi">more_vert</span></button></div><div class="home-placeholder-xl"></div></div></div></div>
+        <div class="grid-stack-item" gs-w="12" gs-h="6"><div class="grid-stack-item-content"><div class="home-card"><div class="home-card-header"><span class="home-card-title">Business Mix</span><button class="home-more-btn"><span class="material-icons-round mi">more_vert</span></button></div>
+                <div class="bmw-wrap">
+                  <div class="bmw-ctrl-row"><span class="bmw-ctrl-item">Room Nights<span class="material-icons-round mi">expand_more</span></span> vs <span class="bmw-ctrl-item">Locked Forecast<span class="material-icons-round mi">expand_more</span></span></div>
+                  <div class="bmw-subtitle">Updated Monday, Apr 13, 2026 12:13 PM</div>
+                  <div class="bmw-chart-wrap" data-bmw><svg class="bmw-svg"></svg></div>
+                  <div class="bmw-footer">
+                    <div class="bmw-legend">
+                      <div class="bmw-leg-item"><div class="bmw-leg-swatch" style="background:#006461"></div>Committed</div>
+                      <div class="bmw-leg-item"><div class="bmw-leg-swatch" style="background:#4DD0C4"></div>My Forecast</div>
+                    </div>
+                    <div class="bmw-pager">1 - 10 of 12 Market Segments <button class="bmw-pager-btn" disabled>&#8249;</button><div class="bmw-pager-num">1</div><button class="bmw-pager-btn">2</button><button class="bmw-pager-btn">&#8250;</button></div>
+                  </div>
+                </div></div></div></div>
       </div>
 
       <!-- ══ PERFORMANCE: Cluster 2–10 ══ -->
@@ -4559,7 +4626,19 @@
                     <div class="occ-legend-item"><div class="occ-legend-wk"></div>Weekends</div>
                   </div>
                 </div></div></div></div>
-        <div class="grid-stack-item" gs-w="6" gs-h="6"><div class="grid-stack-item-content"><div class="home-card"><div class="home-card-header"><span class="home-card-title">Business Mix</span><button class="home-more-btn"><span class="material-icons-round mi">more_vert</span></button></div><div class="home-placeholder-xl"></div></div></div></div>
+        <div class="grid-stack-item" gs-w="6" gs-h="6"><div class="grid-stack-item-content"><div class="home-card"><div class="home-card-header"><span class="home-card-title">Business Mix</span><button class="home-more-btn"><span class="material-icons-round mi">more_vert</span></button></div>
+                <div class="bmw-wrap">
+                  <div class="bmw-ctrl-row"><span class="bmw-ctrl-item">Room Nights<span class="material-icons-round mi">expand_more</span></span> vs <span class="bmw-ctrl-item">Locked Forecast<span class="material-icons-round mi">expand_more</span></span></div>
+                  <div class="bmw-subtitle">Updated Monday, Apr 13, 2026 12:13 PM</div>
+                  <div class="bmw-chart-wrap" data-bmw><svg class="bmw-svg"></svg></div>
+                  <div class="bmw-footer">
+                    <div class="bmw-legend">
+                      <div class="bmw-leg-item"><div class="bmw-leg-swatch" style="background:#006461"></div>Committed</div>
+                      <div class="bmw-leg-item"><div class="bmw-leg-swatch" style="background:#4DD0C4"></div>My Forecast</div>
+                    </div>
+                    <div class="bmw-pager">1 - 10 of 12 Market Segments <button class="bmw-pager-btn" disabled>&#8249;</button><div class="bmw-pager-num">1</div><button class="bmw-pager-btn">2</button><button class="bmw-pager-btn">&#8250;</button></div>
+                  </div>
+                </div></div></div></div>
         <div class="grid-stack-item" gs-w="12" gs-h="6"><div class="grid-stack-item-content"><div class="home-card"><div class="home-card-header"><span class="home-card-title">Cumulative Booking Curve</span><button class="home-more-btn"><span class="material-icons-round mi">more_vert</span></button></div>
                 <div class="cbc-wrap">
                   <div class="cbc-ctrl-row"><span class="cbc-ctrl-item">Rooms<span class="material-icons-round mi">expand_more</span></span> showing <span class="cbc-ctrl-item">Comparisons (4)<span class="material-icons-round mi">expand_more</span></span> for <span class="cbc-ctrl-item">Market Segments (4)<span class="material-icons-round mi">expand_more</span></span></div>
@@ -4582,16 +4661,102 @@
         <div class="grid-stack-item" gs-w="6" gs-h="6"><div class="grid-stack-item-content"><div class="home-card"><div class="home-card-header"><span class="home-card-title">My Rate vs. Competitors</span><button class="home-more-btn"><span class="material-icons-round mi">more_vert</span></button></div><div class="home-placeholder-xl"></div></div></div></div>
         <div class="grid-stack-item" gs-w="6" gs-h="6"><div class="grid-stack-item-content"><div class="home-card"><div class="home-card-header"><span class="home-card-title">Performance Benchmark vs. Competition</span><button class="home-more-btn"><span class="material-icons-round mi">more_vert</span></button></div><div class="home-placeholder-xl"></div></div></div></div>
         <div class="grid-stack-item" gs-w="12" gs-h="6"><div class="grid-stack-item-content"><div class="home-card"><div class="home-card-header"><span class="home-card-title">Booking Engine vs. Market Searches</span><button class="home-more-btn"><span class="material-icons-round mi">more_vert</span></button></div><div class="home-placeholder-xl"></div></div></div></div>
-        <div class="grid-stack-item" gs-w="12" gs-h="6"><div class="grid-stack-item-content"><div class="home-card"><div class="home-card-header"><span class="home-card-title">Geo Source of Bookings</span><button class="home-more-btn"><span class="material-icons-round mi">more_vert</span></button></div><div class="home-placeholder-xl"></div></div></div></div>
+        <div class="grid-stack-item" gs-w="12" gs-h="6"><div class="grid-stack-item-content"><div class="home-card"><div class="home-card-header"><span class="home-card-title">Geo Source of Bookings</span><button class="home-more-btn"><span class="material-icons-round mi">more_vert</span></button></div>
+                <div class="gsw-wrap">
+                  <div class="gsw-ctrl-row"><span class="gsw-ctrl-item">Rooms<span class="material-icons-round mi">expand_more</span></span> compared to <span class="gsw-ctrl-item">STLY (DOW)<span class="material-icons-round mi">expand_more</span></span> for <span class="gsw-ctrl-item">Market Segments (All)<span class="material-icons-round mi">expand_more</span></span></div>
+                  <div class="gsw-subtitle">Updated Monday, Apr 13, 2026 12:13 PM</div>
+                  <div class="gsw-body">
+                    <div class="gsw-map-wrap" data-gsw-map>
+                      <svg class="gsw-svg" style="width:100%;height:100%;display:block"></svg>
+                      <div class="gsw-map-hint">Use ⌘ + scroll to zoom the map</div>
+                      <div class="gsw-map-legend"><span>Lower</span><div class="gsw-map-grad"></div><span>Higher</span></div>
+                    </div>
+                    <div class="gsw-table-wrap">
+                      <table class="gsw-table">
+                        <thead><tr><th>Rank</th><th>Country</th><th>Rooms</th></tr></thead>
+                        <tbody>
+                          <tr><td class="gsw-rank">#1</td><td>🇧🇷 Brazil</td><td><span class="gsw-rooms-val">1,234</span> <span class="gsw-rooms-pct">(60%)</span></td></tr>
+                          <tr><td class="gsw-rank">#2</td><td>🇺🇸 United States</td><td><span class="gsw-rooms-val">988</span> <span class="gsw-rooms-pct">(35%)</span></td></tr>
+                          <tr><td class="gsw-rank">#3</td><td>🇨🇴 Colombia</td><td><span class="gsw-rooms-val">719</span> <span class="gsw-rooms-pct">(25%)</span></td></tr>
+                          <tr><td class="gsw-rank">#4</td><td>🇲🇽 Mexico</td><td><span class="gsw-rooms-val">650</span> <span class="gsw-rooms-pct">(15%)</span></td></tr>
+                          <tr><td class="gsw-rank">#5</td><td>🇫🇷 France</td><td><span class="gsw-rooms-val">600</span> <span class="gsw-rooms-pct">(55%)</span></td></tr>
+                          <tr><td class="gsw-rank">#6</td><td>— Unknown</td><td><span class="gsw-rooms-val">495</span> <span class="gsw-rooms-pct">(13%)</span></td></tr>
+                          <tr><td class="gsw-rank">#7</td><td>🇨🇻 Cape Verde</td><td><span class="gsw-rooms-val">431</span> <span class="gsw-rooms-pct">(12%)</span></td></tr>
+                          <tr><td class="gsw-rank">#8</td><td>🇨🇦 Canada</td><td><span class="gsw-rooms-val">109</span> <span class="gsw-rooms-pct">(4%)</span></td></tr>
+                          <tr><td class="gsw-rank">#9</td><td>🇮🇹 Italy</td><td><span class="gsw-rooms-val">54</span> <span class="gsw-rooms-pct">(2%)</span></td></tr>
+                          <tr><td class="gsw-rank">#10</td><td>🇯🇵 Japan</td><td><span class="gsw-rooms-val">28</span> <span class="gsw-rooms-pct">(1%)</span></td></tr>
+                        </tbody>
+                      </table>
+                    </div>
+                  </div>
+                  <div class="gsw-footer">1 - 10 of 12 <button class="gsw-pager-btn" disabled>&#8249;</button><div class="gsw-pager-num">1</div><button class="gsw-pager-btn">2</button><button class="gsw-pager-btn">&#8250;</button></div>
+                </div></div></div></div>
       </div>
 
       <!-- ══ INSIGHTS: Cluster 2–10 ══ -->
       <div class="home-content grid-stack" id="home-panel-cluster210-insights">
         <div class="grid-stack-item" gs-w="12" gs-h="7"><div class="grid-stack-item-content"><div class="home-card home-card-mi"><div class="home-card-header"><span class="home-card-title">Market Insights</span><div class="home-header-right"><button class="mi-settings-card-btn" data-mi-scope="c2"><span class="material-icons-round mi">tune</span></button><button class="home-more-btn"><span class="material-icons-round mi">more_vert</span></button></div></div><div class="mi-scope" id="mi-scope-c2"><div class="mi-toolbar"><div class="mi-tabs"><button class="mi-tab mi-active" data-tab="positioning">Positioning</button><button class="mi-tab" data-tab="demand">Demand</button><button class="mi-tab" data-tab="parity">Rate Parity</button></div><div class="mi-month-nav"><button class="mi-nav-btn" data-mi="prev-btn"><span class="material-icons-round mi">chevron_left</span></button><div class="mi-month-label" data-mi="month-label">April 2026</div><button class="mi-nav-btn" data-mi="next-btn"><span class="material-icons-round mi">chevron_right</span></button></div><button class="mi-today-btn" data-mi="today-btn"><span class="material-icons-round mi">today</span>Today</button><div class="mi-toolbar-spacer"></div><div class="mi-comp-wrap"><button class="mi-dropdown" data-mi="seg-btn"><span data-mi="seg-label">BAR</span><span class="material-icons-round mi">arrow_drop_down</span></button></div><div class="mi-comp-wrap"><button class="mi-dropdown" data-mi="comp-btn"><span data-mi="comp-label">Compset Median</span><span class="material-icons-round mi">arrow_drop_down</span></button></div><div class="mi-comp-wrap"><button class="mi-dropdown" data-mi="room-btn"><span data-mi="room-label">Standard King</span><span class="material-icons-round mi">arrow_drop_down</span></button></div><button class="mi-more-filters" data-mi="more-filters-btn"><span class="material-icons-round mi" data-mi="mf-icon">filter_list</span><span data-mi="mf-label">More Filters</span></button></div><div class="mi-extra-filters" data-mi="extra-filters"><span class="mi-xf-label">Filter:</span><div class="mi-comp-wrap"><button class="mi-dropdown" data-mi="los-btn"><span data-mi="los-label">2 nights</span><span class="material-icons-round mi">arrow_drop_down</span></button></div><div class="mi-comp-wrap"><button class="mi-dropdown" data-mi="occ-btn"><span data-mi="occ-label">2 guests</span><span class="material-icons-round mi">arrow_drop_down</span></button></div><div class="mi-comp-wrap"><button class="mi-dropdown" data-mi="ch-btn"><span data-mi="ch-label">All channels</span><span class="material-icons-round mi">arrow_drop_down</span></button></div></div><div class="mi-body"><div class="mi-cal"><div class="mi-cal-header"><div class="mi-cal-dow">Sun</div><div class="mi-cal-dow">Mon</div><div class="mi-cal-dow">Tue</div><div class="mi-cal-dow">Wed</div><div class="mi-cal-dow">Thu</div><div class="mi-cal-dow">Fri</div><div class="mi-cal-dow">Sat</div></div><div class="mi-cal-grid tab-positioning" data-mi="cal-grid"></div></div><div class="mi-detail" data-mi="detail"></div></div></div></div></div></div>
-        <div class="grid-stack-item" gs-w="12" gs-h="6"><div class="grid-stack-item-content"><div class="home-card"><div class="home-card-header"><span class="home-card-title">Demand Calendar</span><div class="home-header-right"><button class="home-today-btn"><span class="material-icons-round mi">today</span>Today</button><button class="home-more-btn"><span class="material-icons-round mi">more_vert</span></button></div></div><div class="home-placeholder-lg"></div></div></div></div>
-        <div class="grid-stack-item" gs-w="6" gs-h="6"><div class="grid-stack-item-content"><div class="home-card"><div class="home-card-header"><span class="home-card-title">Business Mix</span><button class="home-more-btn"><span class="material-icons-round mi">more_vert</span></button></div><div class="home-placeholder-xl"></div></div></div></div>
-        <div class="grid-stack-item" gs-w="6" gs-h="6"><div class="grid-stack-item-content"><div class="home-card"><div class="home-card-header"><span class="home-card-title">Group Business by Stage</span><button class="home-more-btn"><span class="material-icons-round mi">more_vert</span></button></div><div class="home-placeholder-xl"></div></div></div></div>
-        <div class="grid-stack-item" gs-w="12" gs-h="6"><div class="grid-stack-item-content"><div class="home-card"><div class="home-card-header"><span class="home-card-title">Geo Source of Bookings</span><button class="home-more-btn"><span class="material-icons-round mi">more_vert</span></button></div><div class="home-placeholder-xl"></div></div></div></div>
+        <div class="grid-stack-item" gs-w="12" gs-h="6" style="display:none"><div class="grid-stack-item-content"><div class="home-card"><div class="home-card-header"><span class="home-card-title">Demand Calendar</span><div class="home-header-right"><button class="home-today-btn"><span class="material-icons-round mi">today</span>Today</button><button class="home-more-btn"><span class="material-icons-round mi">more_vert</span></button></div></div><div class="home-placeholder-lg"></div></div></div></div>
+        <div class="grid-stack-item" gs-w="6" gs-h="6"><div class="grid-stack-item-content"><div class="home-card"><div class="home-card-header"><span class="home-card-title">Business Mix</span><button class="home-more-btn"><span class="material-icons-round mi">more_vert</span></button></div>
+                <div class="bmw-wrap">
+                  <div class="bmw-ctrl-row"><span class="bmw-ctrl-item">Room Nights<span class="material-icons-round mi">expand_more</span></span> vs <span class="bmw-ctrl-item">Locked Forecast<span class="material-icons-round mi">expand_more</span></span></div>
+                  <div class="bmw-subtitle">Updated Monday, Apr 13, 2026 12:13 PM</div>
+                  <div class="bmw-chart-wrap" data-bmw><svg class="bmw-svg"></svg></div>
+                  <div class="bmw-footer">
+                    <div class="bmw-legend">
+                      <div class="bmw-leg-item"><div class="bmw-leg-swatch" style="background:#006461"></div>Committed</div>
+                      <div class="bmw-leg-item"><div class="bmw-leg-swatch" style="background:#4DD0C4"></div>My Forecast</div>
+                    </div>
+                    <div class="bmw-pager">1 - 10 of 12 Market Segments <button class="bmw-pager-btn" disabled>&#8249;</button><div class="bmw-pager-num">1</div><button class="bmw-pager-btn">2</button><button class="bmw-pager-btn">&#8250;</button></div>
+                  </div>
+                </div></div></div></div>
+        <div class="grid-stack-item" gs-w="6" gs-h="6"><div class="grid-stack-item-content"><div class="home-card"><div class="home-card-header"><span class="home-card-title">Group Business by Stage</span><button class="home-more-btn"><span class="material-icons-round mi">more_vert</span></button></div>
+                <div class="gbw-wrap">
+                  <div class="gbw-ctrl-row"><span class="gbw-ctrl-item">Rooms<span class="material-icons-round mi">expand_more</span></span> showing <span class="gbw-ctrl-item">Comparisons (3)<span class="material-icons-round mi">expand_more</span></span></div>
+                  <div class="gbw-subtitle">Updated Monday, Apr 13, 2026 12:13 PM</div>
+                  <div class="gbw-chart-wrap" data-gbw><svg class="gbw-svg"></svg></div>
+                  <div class="gbw-legend">
+                    <div class="gbw-leg-item"><div class="gbw-leg-swatch" style="background:#3A7A3A"></div>Transient</div>
+                    <div class="gbw-leg-item"><div class="gbw-leg-swatch" style="background:#8B7355"></div>Definite (OTB)</div>
+                    <div class="gbw-leg-item"><div class="gbw-leg-swatch" style="background:#E8D44D"></div>Definite (Available)</div>
+                    <div class="gbw-leg-item"><div class="gbw-leg-swatch" style="background:#C8B4E8"></div>Tentative</div>
+                    <div class="gbw-leg-item"><div class="gbw-leg-swatch" style="background:#F0C040"></div>Prospect</div>
+                    <div class="gbw-leg-item"><div class="gbw-leg-swatch" style="background:#E8E8E8"></div>Weekends</div>
+                    <div class="gbw-leg-item"><div class="gbw-leg-line" style="background:#4A4A00"></div>Locked Forecast</div>
+                    <div class="gbw-leg-item"><div class="gbw-leg-dash" style="border-color:#4DD0C4"></div>Duetto Forecast</div>
+                    <div class="gbw-leg-item"><div class="gbw-leg-line" style="background:#1A1A1A"></div>ADR</div>
+                  </div>
+                </div></div></div></div>
+        <div class="grid-stack-item" gs-w="12" gs-h="6"><div class="grid-stack-item-content"><div class="home-card"><div class="home-card-header"><span class="home-card-title">Geo Source of Bookings</span><button class="home-more-btn"><span class="material-icons-round mi">more_vert</span></button></div>
+                <div class="gsw-wrap">
+                  <div class="gsw-ctrl-row"><span class="gsw-ctrl-item">Rooms<span class="material-icons-round mi">expand_more</span></span> compared to <span class="gsw-ctrl-item">STLY (DOW)<span class="material-icons-round mi">expand_more</span></span> for <span class="gsw-ctrl-item">Market Segments (All)<span class="material-icons-round mi">expand_more</span></span></div>
+                  <div class="gsw-subtitle">Updated Monday, Apr 13, 2026 12:13 PM</div>
+                  <div class="gsw-body">
+                    <div class="gsw-map-wrap" data-gsw-map>
+                      <svg class="gsw-svg" style="width:100%;height:100%;display:block"></svg>
+                      <div class="gsw-map-hint">Use ⌘ + scroll to zoom the map</div>
+                      <div class="gsw-map-legend"><span>Lower</span><div class="gsw-map-grad"></div><span>Higher</span></div>
+                    </div>
+                    <div class="gsw-table-wrap">
+                      <table class="gsw-table">
+                        <thead><tr><th>Rank</th><th>Country</th><th>Rooms</th></tr></thead>
+                        <tbody>
+                          <tr><td class="gsw-rank">#1</td><td>🇧🇷 Brazil</td><td><span class="gsw-rooms-val">1,234</span> <span class="gsw-rooms-pct">(60%)</span></td></tr>
+                          <tr><td class="gsw-rank">#2</td><td>🇺🇸 United States</td><td><span class="gsw-rooms-val">988</span> <span class="gsw-rooms-pct">(35%)</span></td></tr>
+                          <tr><td class="gsw-rank">#3</td><td>🇨🇴 Colombia</td><td><span class="gsw-rooms-val">719</span> <span class="gsw-rooms-pct">(25%)</span></td></tr>
+                          <tr><td class="gsw-rank">#4</td><td>🇲🇽 Mexico</td><td><span class="gsw-rooms-val">650</span> <span class="gsw-rooms-pct">(15%)</span></td></tr>
+                          <tr><td class="gsw-rank">#5</td><td>🇫🇷 France</td><td><span class="gsw-rooms-val">600</span> <span class="gsw-rooms-pct">(55%)</span></td></tr>
+                          <tr><td class="gsw-rank">#6</td><td>— Unknown</td><td><span class="gsw-rooms-val">495</span> <span class="gsw-rooms-pct">(13%)</span></td></tr>
+                          <tr><td class="gsw-rank">#7</td><td>🇨🇻 Cape Verde</td><td><span class="gsw-rooms-val">431</span> <span class="gsw-rooms-pct">(12%)</span></td></tr>
+                          <tr><td class="gsw-rank">#8</td><td>🇨🇦 Canada</td><td><span class="gsw-rooms-val">109</span> <span class="gsw-rooms-pct">(4%)</span></td></tr>
+                          <tr><td class="gsw-rank">#9</td><td>🇮🇹 Italy</td><td><span class="gsw-rooms-val">54</span> <span class="gsw-rooms-pct">(2%)</span></td></tr>
+                          <tr><td class="gsw-rank">#10</td><td>🇯🇵 Japan</td><td><span class="gsw-rooms-val">28</span> <span class="gsw-rooms-pct">(1%)</span></td></tr>
+                        </tbody>
+                      </table>
+                    </div>
+                  </div>
+                  <div class="gsw-footer">1 - 10 of 12 <button class="gsw-pager-btn" disabled>&#8249;</button><div class="gsw-pager-num">1</div><button class="gsw-pager-btn">2</button><button class="gsw-pager-btn">&#8250;</button></div>
+                </div></div></div></div>
       </div>
 
       <!-- ══ INSIGHTS: Cluster 11+ ══ -->
@@ -4659,8 +4824,53 @@
                   </div>
                 </div></div></div></div>
         <div class="grid-stack-item" gs-w="6" gs-h="6"><div class="grid-stack-item-content"><div class="home-card"><div class="home-card-header"><span class="home-card-title">Booking Engine Search Activity</span><button class="home-more-btn"><span class="material-icons-round mi">more_vert</span></button></div><div class="home-placeholder-xl"></div></div></div></div>
-        <div class="grid-stack-item" gs-w="6" gs-h="6"><div class="grid-stack-item-content"><div class="home-card"><div class="home-card-header"><span class="home-card-title">Group Business by Stage</span><button class="home-more-btn"><span class="material-icons-round mi">more_vert</span></button></div><div class="home-placeholder-xl"></div></div></div></div>
-        <div class="grid-stack-item" gs-w="12" gs-h="6"><div class="grid-stack-item-content"><div class="home-card"><div class="home-card-header"><span class="home-card-title">Geo Source of Bookings</span><button class="home-more-btn"><span class="material-icons-round mi">more_vert</span></button></div><div class="home-placeholder-xl"></div></div></div></div>
+        <div class="grid-stack-item" gs-w="6" gs-h="6"><div class="grid-stack-item-content"><div class="home-card"><div class="home-card-header"><span class="home-card-title">Group Business by Stage</span><button class="home-more-btn"><span class="material-icons-round mi">more_vert</span></button></div>
+                <div class="gbw-wrap">
+                  <div class="gbw-ctrl-row"><span class="gbw-ctrl-item">Rooms<span class="material-icons-round mi">expand_more</span></span> showing <span class="gbw-ctrl-item">Comparisons (3)<span class="material-icons-round mi">expand_more</span></span></div>
+                  <div class="gbw-subtitle">Updated Monday, Apr 13, 2026 12:13 PM</div>
+                  <div class="gbw-chart-wrap" data-gbw><svg class="gbw-svg"></svg></div>
+                  <div class="gbw-legend">
+                    <div class="gbw-leg-item"><div class="gbw-leg-swatch" style="background:#3A7A3A"></div>Transient</div>
+                    <div class="gbw-leg-item"><div class="gbw-leg-swatch" style="background:#8B7355"></div>Definite (OTB)</div>
+                    <div class="gbw-leg-item"><div class="gbw-leg-swatch" style="background:#E8D44D"></div>Definite (Available)</div>
+                    <div class="gbw-leg-item"><div class="gbw-leg-swatch" style="background:#C8B4E8"></div>Tentative</div>
+                    <div class="gbw-leg-item"><div class="gbw-leg-swatch" style="background:#F0C040"></div>Prospect</div>
+                    <div class="gbw-leg-item"><div class="gbw-leg-swatch" style="background:#E8E8E8"></div>Weekends</div>
+                    <div class="gbw-leg-item"><div class="gbw-leg-line" style="background:#4A4A00"></div>Locked Forecast</div>
+                    <div class="gbw-leg-item"><div class="gbw-leg-dash" style="border-color:#4DD0C4"></div>Duetto Forecast</div>
+                    <div class="gbw-leg-item"><div class="gbw-leg-line" style="background:#1A1A1A"></div>ADR</div>
+                  </div>
+                </div></div></div></div>
+        <div class="grid-stack-item" gs-w="12" gs-h="6"><div class="grid-stack-item-content"><div class="home-card"><div class="home-card-header"><span class="home-card-title">Geo Source of Bookings</span><button class="home-more-btn"><span class="material-icons-round mi">more_vert</span></button></div>
+                <div class="gsw-wrap">
+                  <div class="gsw-ctrl-row"><span class="gsw-ctrl-item">Rooms<span class="material-icons-round mi">expand_more</span></span> compared to <span class="gsw-ctrl-item">STLY (DOW)<span class="material-icons-round mi">expand_more</span></span> for <span class="gsw-ctrl-item">Market Segments (All)<span class="material-icons-round mi">expand_more</span></span></div>
+                  <div class="gsw-subtitle">Updated Monday, Apr 13, 2026 12:13 PM</div>
+                  <div class="gsw-body">
+                    <div class="gsw-map-wrap" data-gsw-map>
+                      <svg class="gsw-svg" style="width:100%;height:100%;display:block"></svg>
+                      <div class="gsw-map-hint">Use ⌘ + scroll to zoom the map</div>
+                      <div class="gsw-map-legend"><span>Lower</span><div class="gsw-map-grad"></div><span>Higher</span></div>
+                    </div>
+                    <div class="gsw-table-wrap">
+                      <table class="gsw-table">
+                        <thead><tr><th>Rank</th><th>Country</th><th>Rooms</th></tr></thead>
+                        <tbody>
+                          <tr><td class="gsw-rank">#1</td><td>🇧🇷 Brazil</td><td><span class="gsw-rooms-val">1,234</span> <span class="gsw-rooms-pct">(60%)</span></td></tr>
+                          <tr><td class="gsw-rank">#2</td><td>🇺🇸 United States</td><td><span class="gsw-rooms-val">988</span> <span class="gsw-rooms-pct">(35%)</span></td></tr>
+                          <tr><td class="gsw-rank">#3</td><td>🇨🇴 Colombia</td><td><span class="gsw-rooms-val">719</span> <span class="gsw-rooms-pct">(25%)</span></td></tr>
+                          <tr><td class="gsw-rank">#4</td><td>🇲🇽 Mexico</td><td><span class="gsw-rooms-val">650</span> <span class="gsw-rooms-pct">(15%)</span></td></tr>
+                          <tr><td class="gsw-rank">#5</td><td>🇫🇷 France</td><td><span class="gsw-rooms-val">600</span> <span class="gsw-rooms-pct">(55%)</span></td></tr>
+                          <tr><td class="gsw-rank">#6</td><td>— Unknown</td><td><span class="gsw-rooms-val">495</span> <span class="gsw-rooms-pct">(13%)</span></td></tr>
+                          <tr><td class="gsw-rank">#7</td><td>🇨🇻 Cape Verde</td><td><span class="gsw-rooms-val">431</span> <span class="gsw-rooms-pct">(12%)</span></td></tr>
+                          <tr><td class="gsw-rank">#8</td><td>🇨🇦 Canada</td><td><span class="gsw-rooms-val">109</span> <span class="gsw-rooms-pct">(4%)</span></td></tr>
+                          <tr><td class="gsw-rank">#9</td><td>🇮🇹 Italy</td><td><span class="gsw-rooms-val">54</span> <span class="gsw-rooms-pct">(2%)</span></td></tr>
+                          <tr><td class="gsw-rank">#10</td><td>🇯🇵 Japan</td><td><span class="gsw-rooms-val">28</span> <span class="gsw-rooms-pct">(1%)</span></td></tr>
+                        </tbody>
+                      </table>
+                    </div>
+                  </div>
+                  <div class="gsw-footer">1 - 10 of 12 <button class="gsw-pager-btn" disabled>&#8249;</button><div class="gsw-pager-num">1</div><button class="gsw-pager-btn">2</button><button class="gsw-pager-btn">&#8250;</button></div>
+                </div></div></div></div>
       </div>
     </div><!-- /content-area -->
 
@@ -12732,6 +12942,292 @@
   }
 
   document.querySelectorAll('[data-occ]').forEach(initOcc);
+}());
+
+/* ── Business Mix grouped bar chart ── */
+(function() {
+  var SEGS = ['Transient','OTA','Corp','Very long seg...','Group','Consortia','Discount','Bar','Segment A','Segment B'];
+  var COMMITTED  = [553,553,413,200,206,164,109,100,44,40];
+  var MYFORECAST = [576,576,398,304,198,153,136,132,49,8];
+  var C1 = '#006461', C2 = '#4DD0C4';
+
+  function initBmw(area) {
+    function draw() {
+      var W = area.clientWidth, H = area.clientHeight;
+      if (W < 30 || H < 30) return;
+      var PL=44, PR=12, PT=20, PB=46;
+      var cW = W - PL - PR, cH = H - PT - PB;
+      var n = SEGS.length;
+      var maxV = 650;
+      var yTicks = [0,100,200,300,400,500,600];
+      function xBar(i, b) { var gW = cW/n; return PL + i*gW + (b===0 ? gW*0.1 : gW*0.5); }
+      function barW() { return Math.max(6, (cW/n)*0.36); }
+      function yV(v) { return PT + cH * (1 - v/maxV); }
+      var h = '';
+      /* grid */
+      yTicks.forEach(function(v){ var y=yV(v); h+='<line x1="'+PL+'" y1="'+y+'" x2="'+(PL+cW)+'" y2="'+y+'" stroke="#F0F2F5" stroke-width="1"/>'; });
+      /* bars */
+      for (var i=0;i<n;i++) {
+        var gW = cW/n;
+        var bw = barW();
+        var x0 = PL + i*gW + gW*0.1;
+        var x1 = x0 + bw + 2;
+        /* committed */
+        var y0 = yV(COMMITTED[i]), y1 = yV(0);
+        h += '<rect x="'+x0+'" y="'+y0+'" width="'+bw+'" height="'+(y1-y0)+'" fill="'+C1+'"/>';
+        h += '<text x="'+(x0+bw/2)+'" y="'+(y0-3)+'" fill="#4F5B60" font-size="10" font-family="Lato,sans-serif" text-anchor="middle">'+COMMITTED[i]+'</text>';
+        /* myforecast */
+        var yf = yV(MYFORECAST[i]);
+        h += '<rect x="'+x1+'" y="'+yf+'" width="'+bw+'" height="'+(y1-yf)+'" fill="'+C2+'"/>';
+        h += '<text x="'+(x1+bw/2)+'" y="'+(yf-3)+'" fill="#4F5B60" font-size="10" font-family="Lato,sans-serif" text-anchor="middle">'+MYFORECAST[i]+'</text>';
+        /* x label */
+        var lx = PL + i*gW + gW*0.5;
+        var label = SEGS[i];
+        if (label.length > 10) {
+          h += '<text x="'+lx+'" y="'+(PT+cH+14)+'" fill="#4F5B60" font-size="10" font-family="Lato,sans-serif" text-anchor="middle">'+label.substring(0,10)+'</text>';
+          if (label.length > 10) h += '<text x="'+lx+'" y="'+(PT+cH+26)+'" fill="#4F5B60" font-size="10" font-family="Lato,sans-serif" text-anchor="middle">'+label.substring(10)+'</text>';
+        } else {
+          h += '<text x="'+lx+'" y="'+(PT+cH+16)+'" fill="#4F5B60" font-size="10" font-family="Lato,sans-serif" text-anchor="middle">'+label+'</text>';
+        }
+      }
+      /* y axis */
+      yTicks.forEach(function(v){ h+='<text x="'+(PL-5)+'" y="'+(yV(v)+4)+'" fill="#4F5B60" font-size="11" font-family="Lato,sans-serif" text-anchor="end">'+v+'</text>'; });
+      h += '<text transform="translate(11,'+(PT+cH/2)+') rotate(-90)" fill="#4F5B60" font-size="11" font-family="Lato,sans-serif" text-anchor="middle">Occupancy</text>';
+      /* x axis label */
+      h += '<text x="'+(PL+cW/2)+'" y="'+(PT+cH+40)+'" fill="#63696F" font-size="11" font-family="Lato,sans-serif" text-anchor="middle">Market Segments</text>';
+      /* chart border */
+      h += '<rect x="'+PL+'" y="'+PT+'" width="'+cW+'" height="'+cH+'" fill="none" stroke="#EAEEEF" stroke-width="1"/>';
+      area.querySelector('.bmw-svg').innerHTML = h;
+    }
+    var ro = new ResizeObserver(function(){ draw(); });
+    ro.observe(area);
+    draw();
+  }
+  document.querySelectorAll('[data-bmw]').forEach(initBmw);
+}());
+
+/* ── Group Business by Stage stacked bar chart ── */
+(function() {
+  /* 31 days Jul 1–31, 2026. Day 0=Jul 1 */
+  var DAYS = 31;
+  var LABELS = ['Jul 1','','','Jul 4','','','Jul 7','','','Jul 10','','','Jul 13','','','Jul 16','','','Jul 19','','','Jul 22','','','Jul 25','','','Jul 28','','','Jul 31'];
+  /* Jul 2026: 1=Wed,2=Thu,3=Fri,4=Sat,5=Sun,6=Mon... sat=4,5,11,12,18,19,25,26 (0-indexed) */
+  var WEEKENDS = [3,4,10,11,17,18,24,25];
+  /* Stacked segments per day */
+  var TRANSIENT  = [200,220,260,320,280,190,140,210,230,290,350,310,220,130,150,250,310,380,420,360,270,160,100,200,340,490,420,320,200,170,190];
+  var DEF_OTB    = [80,90,110,140,110,80,55,85,95,130,160,130,90,55,60,100,130,170,190,155,115,70,45,85,140,200,165,125,80,70,80];
+  var DEF_AVAIL  = [50,55,70,90,75,45,35,55,60,80,100,85,60,35,40,65,85,110,120,100,75,45,30,55,90,130,105,80,50,45,50];
+  var TENTATIVE  = [40,45,55,70,60,35,25,45,50,65,80,68,48,28,32,52,68,88,96,80,60,35,22,42,72,104,84,64,40,36,40];
+  var PROSPECT   = [30,35,40,55,45,28,20,35,38,50,60,52,36,22,24,40,52,68,72,60,45,28,18,32,54,78,63,48,30,28,30];
+  /* Overlay lines */
+  var LOCKED_FC  = [450,500,580,720,630,430,310,475,520,660,800,700,500,305,345,570,710,880,960,820,615,370,230,460,770,1100,900,700,450,400,450];
+  var DUETTO_FC  = [380,440,520,650,570,380,275,420,460,590,720,630,450,275,310,510,640,790,860,740,555,335,210,415,695,990,810,630,405,360,405];
+  var ADR_DATA   = [280,285,290,310,305,275,250,280,288,300,320,315,295,265,270,295,310,330,340,325,305,270,248,278,310,355,340,320,288,280,285];
+  var ADR_MIN = 220, ADR_MAX = 540;
+  var ROOMS_MAX  = 1100;
+  var ADR_SCALE_MAX = 500;
+  /* Events (same structure as OCC chart) */
+  var EVENTS = {
+    rec:      [0,2,4,7,9,12,15,18,21,23,26,28,30],
+    hotel:    [1,3,5,10,14,17,20,24,27,29],
+    notes:    [4,13,18,24],
+    restrict: [0,1,7,17,23]
+  };
+
+  function initGbw(area) {
+    function draw() {
+      var W = area.clientWidth, H = area.clientHeight;
+      if (W < 30 || H < 30) return;
+      var PL=40, PR=48, PT=16, PB=24;
+      var ES = Math.min(72, H*0.22);
+      var SG = 4;
+      var cH = H - PT - PB - SG - ES;
+      var cW = W - PL - PR;
+      var colW = cW / DAYS;
+      function xC(i) { return PL + (i+0.5)*colW; }
+      function yR(v) { return PT + cH*(1-v/ROOMS_MAX); }
+      function yA(v) { return PT + cH*(1 - (v-ADR_MIN)/(ADR_MAX-ADR_MIN)); }
+      var h = '';
+      /* weekend shading */
+      WEEKENDS.forEach(function(i){
+        h += '<rect x="'+(PL+i*colW)+'" y="'+PT+'" width="'+colW+'" height="'+cH+'" fill="#F2F4F7"/>';
+      });
+      /* gridlines */
+      [200,400,600,800,1000].forEach(function(v){ var y=yR(v); h+='<line x1="'+PL+'" y1="'+y+'" x2="'+(PL+cW)+'" y2="'+y+'" stroke="#F0F2F5" stroke-width="1"/>'; });
+      /* stacked bars */
+      for (var i=0;i<DAYS;i++){
+        var bw = colW*0.7, bx = PL+i*colW+colW*0.15;
+        var segs = [
+          {v:TRANSIENT[i],  c:'#3A7A3A'},
+          {v:DEF_OTB[i],    c:'#8B7355'},
+          {v:DEF_AVAIL[i],  c:'#E8D44D'},
+          {v:TENTATIVE[i],  c:'#C8B4E8'},
+          {v:PROSPECT[i],   c:'#F0C040'}
+        ];
+        var cumY = yR(0);
+        var cumV = 0;
+        for (var s=0;s<segs.length;s++){
+          cumV += segs[s].v;
+          var topY = yR(cumV);
+          h += '<rect x="'+bx+'" y="'+topY+'" width="'+bw+'" height="'+(cumY-topY)+'" fill="'+segs[s].c+'"/>';
+          cumY = topY;
+        }
+      }
+      /* locked forecast line */
+      h += '<polyline points="'+LOCKED_FC.map(function(v,i){return xC(i)+','+yR(v);}).join(' ')+'" fill="none" stroke="#4A4A00" stroke-width="1.5"/>';
+      /* duetto forecast dashed */
+      h += '<polyline points="'+DUETTO_FC.map(function(v,i){return xC(i)+','+yR(v);}).join(' ')+'" fill="none" stroke="#4DD0C4" stroke-width="1.5" stroke-dasharray="5,3"/>';
+      /* ADR line (secondary axis) */
+      h += '<polyline points="'+ADR_DATA.map(function(v,i){return xC(i)+','+yA(v);}).join(' ')+'" fill="none" stroke="#1A1A1A" stroke-width="1.5"/>';
+      /* chart border */
+      h += '<rect x="'+PL+'" y="'+PT+'" width="'+cW+'" height="'+cH+'" fill="none" stroke="#EAEEEF" stroke-width="1"/>';
+      /* y-axis left (Rooms) */
+      [0,200,400,600,800,1000].forEach(function(v){ h+='<text x="'+(PL-4)+'" y="'+(yR(v)+4)+'" fill="#4F5B60" font-size="10" font-family="Lato,sans-serif" text-anchor="end">'+v+'</text>'; });
+      h += '<text transform="translate(10,'+(PT+cH/2)+') rotate(-90)" fill="#4F5B60" font-size="11" font-family="Lato,sans-serif" text-anchor="middle">Rooms</text>';
+      /* y-axis right (ADR) */
+      [100,200,300,400,500].forEach(function(v){ h+='<text x="'+(PL+cW+4)+'" y="'+(yA(v)+4)+'" fill="#4F5B60" font-size="10" font-family="Lato,sans-serif" text-anchor="start">$'+v+'</text>'; });
+      h += '<text transform="translate('+(W-8)+','+(PT+cH/2)+') rotate(90)" fill="#4F5B60" font-size="11" font-family="Lato,sans-serif" text-anchor="middle">ADR</text>';
+      /* x-axis labels */
+      LABELS.forEach(function(l,i){ if(l){ h+='<text x="'+xC(i)+'" y="'+(PT+cH+13)+'" fill="#4F5B60" font-size="10" font-family="Lato,sans-serif" text-anchor="middle">'+l+'</text>'; }});
+      /* events strip */
+      var EY = PT+cH+SG;
+      var er = 4;
+      var eRows = {rec:'Recommended\nEvents',hotel:'Hotel Events',notes:'Notes',restrict:'Restrictions'};
+      var eColors = {rec:'#2EC4B6',hotel:'#006461',notes:'#5B4FBE',restrict:'#D33030'};
+      var rh = ES/4;
+      Object.keys(eRows).forEach(function(k,ri){
+        var ry = EY + ri*rh + rh/2;
+        /* label */
+        var label = k==='rec' ? 'Recommended\nEvents' : (k==='hotel'?'Hotel Events':(k==='notes'?'Notes':'Restrictions'));
+        h += '<text x="0" y="'+(ry+4)+'" fill="#63696F" font-size="9" font-family="Lato,sans-serif" text-anchor="start">'+label+'</text>';
+        /* event markers */
+        EVENTS[k].forEach(function(di){
+          var ex = xC(di);
+          if(k==='rec'){
+            h += '<rect x="'+(ex-er/2)+'" y="'+(ry-er/2)+'" width="'+er+'" height="'+er+'" fill="none" stroke="'+eColors[k]+'" stroke-width="1.2"/>';
+          } else if(k==='hotel'){
+            h += '<rect x="'+(ex-er/2)+'" y="'+(ry-er/2)+'" width="'+er+'" height="'+er+'" fill="'+eColors[k]+'"/>';
+          } else if(k==='notes'){
+            h += '<polygon points="'+ex+','+(ry-er)+' '+(ex+er)+','+ry+' '+ex+','+(ry+er)+' '+(ex-er)+','+ry+'" fill="'+eColors[k]+'"/>';
+          } else {
+            h += '<circle cx="'+ex+'" cy="'+ry+'" r="'+er/2+'" fill="'+eColors[k]+'"/>';
+          }
+        });
+      });
+      area.querySelector('.gbw-svg').innerHTML = h;
+    }
+    var ro = new ResizeObserver(function(){draw();});
+    ro.observe(area);
+    draw();
+  }
+  document.querySelectorAll('[data-gbw]').forEach(initGbw);
+}());
+
+/* ── Geo Source of Bookings world map ── */
+(function() {
+  /* Country data: ISO alpha-2 code → percentage (0-1) for color intensity */
+  var GEO_DATA = {BR:0.60, US:0.35, CO:0.25, MX:0.15, FR:0.55, CV:0.12, CA:0.04, IT:0.02, JP:0.01};
+  /* Simplified world map country polygons: [iso, points_string, label_x, label_y] */
+  /* Coordinates in 600×320 equirectangular space: x=(lon+180)*600/360, y=(90-lat)*320/180 */
+  var COUNTRIES = [
+    /* North America */
+    ['CA','61,40 208,40 208,76 167,82 142,76 108,74 92,72 65,54',null,null],
+    ['US','92,72 142,76 187,77 188,116 142,114 113,114 103,110 92,95',265,95],
+    ['MX','103,110 142,114 155,134 150,124 137,124',160,120],
+    /* Central America */
+    ['__','155,134 165,134 172,148 155,148',null,null],
+    /* Caribbean/Cuba */
+    ['__','192,122 206,120 206,126 192,126',null,null],
+    /* Greenland */
+    ['__','120,20 185,18 190,35 130,38',null,null],
+    /* South America */
+    ['CO','134,148 155,148 155,160 145,170 130,162 128,150',null,null],
+    ['__','155,148 172,148 178,152 155,160',null,null], /* Venezuela */
+    ['BR','145,170 155,160 178,152 244,170 244,178 218,209 207,222 188,222 177,197',300,190],
+    ['__','130,162 145,170 145,188 128,180',null,null], /* Peru */
+    ['__','145,188 177,197 175,222 155,222 140,210',null,null], /* Bolivia/Paraguay */
+    ['__','175,222 207,222 212,260 187,260 170,240',null,null], /* Argentina/Chile */
+    /* Europe */
+    ['__','237,74 248,72 248,84 237,84',null,null], /* UK */
+    ['FR','255,88 276,88 278,100 263,103 255,100',null,null],
+    ['__','233,96 256,100 256,112 233,112',null,null], /* Iberia */
+    ['__','278,80 294,78 296,92 278,92',null,null], /* Germany/Benelux */
+    ['IT','278,96 288,96 295,114 285,120 275,114',null,null],
+    ['__','296,76 316,72 318,84 296,84',null,null], /* Poland/Baltics */
+    ['__','296,88 322,85 324,102 296,102',null,null], /* Romania/Balkans */
+    ['__','268,64 296,58 308,72 280,72',null,null], /* Scandinavia */
+    ['__','280,72 316,68 320,76 296,76',null,null], /* Baltic/Russia West */
+    /* Russia */
+    ['__','296,52 530,35 530,68 296,68',null,null],
+    /* Middle East & Central Asia */
+    ['__','318,100 365,98 365,114 318,114',null,null], /* Turkey */
+    ['__','355,108 400,105 400,125 355,125',null,null], /* Middle East */
+    /* Africa */
+    ['__','245,90 315,90 315,108 245,108',null,null], /* N. Africa */
+    ['__','315,90 360,90 370,110 350,130 315,110',null,null], /* Egypt/Libya */
+    ['__','245,108 315,108 315,130 245,130',null,null], /* W. Sahara/Mauritania */
+    ['__','245,130 315,130 320,165 245,165',null,null], /* W. Africa */
+    ['__','315,108 365,108 380,145 350,165 315,165',null,null], /* E. Africa */
+    ['__','315,165 380,165 380,195 315,195',null,null], /* C. Africa */
+    ['__','315,195 375,195 358,265 315,265',null,null], /* Southern Africa */
+    ['__','378,210 386,210 382,245 374,245',null,null], /* Madagascar */
+    /* Asia */
+    ['__','365,98 490,98 490,130 365,130',null,null], /* China */
+    ['__','325,115 365,115 365,155 325,155',null,null], /* India */
+    ['__','490,105 512,108 512,120 490,118',null,null], /* Japan Honshu */
+    ['JP','484,118 494,120 490,128 480,126',null,null],
+    ['__','395,130 460,130 460,162 395,162',null,null], /* SE Asia */
+    ['__','375,85 460,85 460,100 375,100',null,null], /* Mongolia */
+    /* Australia */
+    ['__','400,218 498,218 498,258 400,258',null,null],
+    ['__','502,250 514,250 510,272 498,272',null,null], /* New Zealand */
+    /* Cape Verde (dots) */
+    ['CV_DOT','',null,null]
+  ];
+
+  function colorForCountry(iso, pct) {
+    if (!pct) return '#E8EAF0';
+    /* interpolate from #E8E4F5 (light) to #5B4FBE (dark) */
+    var r1=232,g1=228,b1=245, r2=91,g2=79,b2=190;
+    var t = Math.min(1, pct/0.65);
+    return 'rgb('+(Math.round(r1+(r2-r1)*t))+','+(Math.round(g1+(g2-g1)*t))+','+(Math.round(b1+(b2-b1)*t))+')';
+  }
+
+  function initGsw(area) {
+    function draw() {
+      var W = area.clientWidth, H = area.clientHeight;
+      if (W < 20 || H < 20) return;
+      var sx = W/600, sy = H/320;
+      var sc = Math.min(sx, sy);
+      var offX = (W - 600*sc)/2, offY = (H - 320*sc)/2;
+      var h = '';
+      h += '<rect x="0" y="0" width="'+W+'" height="'+H+'" fill="#EEF2F8"/>';
+      COUNTRIES.forEach(function(c){
+        var iso = c[0], pts = c[1];
+        if (iso === 'CV_DOT') {
+          /* Cape Verde islands near lon=-24, lat=16 → x=243, y=132 (scaled) */
+          var cx = 243*sc+offX, cy = 132*sc+offY;
+          h += '<circle cx="'+cx+'" cy="'+cy+'" r="'+(4*sc)+'" fill="'+colorForCountry('CV', GEO_DATA['CV'])+'"/>';
+          return;
+        }
+        if (!pts) return;
+        var color = (iso !== '__') ? colorForCountry(iso, GEO_DATA[iso]) : '#E2E6EC';
+        /* scale points */
+        var scaledPts = pts.split(' ').map(function(p){
+          var xy = p.split(',');
+          return (parseFloat(xy[0])*sc+offX)+','+(parseFloat(xy[1])*sc+offY);
+        }).join(' ');
+        h += '<polygon points="'+scaledPts+'" fill="'+color+'" stroke="#fff" stroke-width="'+(0.5*sc)+'"/>';
+      });
+      /* Country labels for highlighted countries */
+      /* Not adding text labels on map — table on right handles that */
+      area.querySelector('.gsw-svg').innerHTML = h;
+    }
+    var ro = new ResizeObserver(function(){draw();});
+    ro.observe(area);
+    draw();
+  }
+  document.querySelectorAll('[data-gsw-map]').forEach(initGsw);
 }());
 
 /* ── Cumulative Booking Curve ── */
