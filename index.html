@@ -3808,6 +3808,21 @@
     .hpw-seg-row:hover .hpw-td-stay { background:#F8F9FD; }
     .hpw-hidden { display:none; }
     .hpw-chevron { font-size:18px; vertical-align:middle; color:#4F5B60; display:inline-block; transition:transform .15s; line-height:1; margin-right:3px; }
+
+    /* ── Cumulative Booking Curve ─────────────────────── */
+    .cbc-wrap { display:flex; flex-direction:column; flex:1; min-height:0; overflow:hidden; gap:2px; }
+    .cbc-ctrl-row { display:flex; align-items:center; gap:4px; flex-wrap:wrap; flex-shrink:0; font-size:13px; color:#4F5B60; font-family:'Lato',sans-serif; }
+    .cbc-ctrl-item { display:inline-flex; align-items:center; gap:1px; color:#006461; font-weight:700; cursor:pointer; white-space:nowrap; }
+    .cbc-ctrl-item .mi { font-size:16px; }
+    .cbc-subtitle { font-size:11px; color:#9CA3AF; font-family:'Lato',sans-serif; flex-shrink:0; }
+    .cbc-chart-wrap { flex:1; min-height:0; position:relative; }
+    .cbc-svg { display:block; width:100%; height:100%; overflow:visible; }
+    .cbc-legend { display:flex; align-items:center; gap:18px; flex-wrap:wrap; flex-shrink:0; padding:4px 0 0; font-size:11px; font-family:'Lato',sans-serif; color:#4F5B60; }
+    .cbc-leg-item { display:flex; align-items:center; gap:6px; white-space:nowrap; }
+    .cbc-leg-line { width:20px; height:2px; flex-shrink:0; }
+    .cbc-leg-dash { width:20px; height:0; border-top:2px dashed; flex-shrink:0; }
+    .cbc-leg-dot  { width:20px; height:0; border-top:2px dotted; flex-shrink:0; }
+    .cbc-leg-area { width:14px; height:10px; flex-shrink:0; border-radius:2px; }
   </style>
 </head>
 <body>
@@ -4292,7 +4307,20 @@
                     </table>
                   </div>
                 </div></div></div></div>
-        <div class="grid-stack-item" gs-w="12" gs-h="6"><div class="grid-stack-item-content"><div class="home-card"><div class="home-card-header"><span class="home-card-title">Cumulative Booking Curve</span><button class="home-more-btn"><span class="material-icons-round mi">more_vert</span></button></div><div class="home-placeholder-xl"></div></div></div></div>
+        <div class="grid-stack-item" gs-w="12" gs-h="6"><div class="grid-stack-item-content"><div class="home-card"><div class="home-card-header"><span class="home-card-title">Cumulative Booking Curve</span><button class="home-more-btn"><span class="material-icons-round mi">more_vert</span></button></div>
+                <div class="cbc-wrap">
+                  <div class="cbc-ctrl-row"><span class="cbc-ctrl-item">Rooms<span class="material-icons-round mi">expand_more</span></span> showing <span class="cbc-ctrl-item">Comparisons (4)<span class="material-icons-round mi">expand_more</span></span> for <span class="cbc-ctrl-item">Market Segments (4)<span class="material-icons-round mi">expand_more</span></span></div>
+                  <div class="cbc-subtitle">Updated Monday, Apr 13, 2026 12:13 PM</div>
+                  <div class="cbc-chart-wrap" data-cbc><svg class="cbc-svg"></svg></div>
+                  <div class="cbc-legend">
+                    <div class="cbc-leg-item"><div class="cbc-leg-dot" style="border-color:#053C3C"></div>Demand Forecast</div>
+                    <div class="cbc-leg-item"><div class="cbc-leg-area" style="background:rgba(154,163,0,0.35);border:1px solid #9AA300"></div>Committed</div>
+                    <div class="cbc-leg-item"><div class="cbc-leg-line" style="background:#C0392B"></div>Final LY</div>
+                    <div class="cbc-leg-item"><div class="cbc-leg-line" style="background:#FFB90F"></div>ADR</div>
+                    <div class="cbc-leg-item"><div class="cbc-leg-dash" style="border-color:#4DD0C4"></div>Yielding Capacity</div>
+                    <div class="cbc-leg-item"><div class="cbc-leg-dash" style="border-color:#006461"></div>Locked Budget</div>
+                  </div>
+                </div></div></div></div>
         <div class="grid-stack-item" gs-w="12" gs-h="6"><div class="grid-stack-item-content"><div class="home-card"><div class="home-card-header"><span class="home-card-title">Business Mix</span><button class="home-more-btn"><span class="material-icons-round mi">more_vert</span></button></div><div class="home-placeholder-xl"></div></div></div></div>
       </div>
 
@@ -4436,7 +4464,20 @@
                     </table>
                   </div>
                 </div></div></div></div>
-        <div class="grid-stack-item" gs-w="12" gs-h="6"><div class="grid-stack-item-content"><div class="home-card"><div class="home-card-header"><span class="home-card-title">Cumulative Booking Curve</span><button class="home-more-btn"><span class="material-icons-round mi">more_vert</span></button></div><div class="home-placeholder-xl"></div></div></div></div>
+        <div class="grid-stack-item" gs-w="12" gs-h="6"><div class="grid-stack-item-content"><div class="home-card"><div class="home-card-header"><span class="home-card-title">Cumulative Booking Curve</span><button class="home-more-btn"><span class="material-icons-round mi">more_vert</span></button></div>
+                <div class="cbc-wrap">
+                  <div class="cbc-ctrl-row"><span class="cbc-ctrl-item">Rooms<span class="material-icons-round mi">expand_more</span></span> showing <span class="cbc-ctrl-item">Comparisons (4)<span class="material-icons-round mi">expand_more</span></span> for <span class="cbc-ctrl-item">Market Segments (4)<span class="material-icons-round mi">expand_more</span></span></div>
+                  <div class="cbc-subtitle">Updated Monday, Apr 13, 2026 12:13 PM</div>
+                  <div class="cbc-chart-wrap" data-cbc><svg class="cbc-svg"></svg></div>
+                  <div class="cbc-legend">
+                    <div class="cbc-leg-item"><div class="cbc-leg-dot" style="border-color:#053C3C"></div>Demand Forecast</div>
+                    <div class="cbc-leg-item"><div class="cbc-leg-area" style="background:rgba(154,163,0,0.35);border:1px solid #9AA300"></div>Committed</div>
+                    <div class="cbc-leg-item"><div class="cbc-leg-line" style="background:#C0392B"></div>Final LY</div>
+                    <div class="cbc-leg-item"><div class="cbc-leg-line" style="background:#FFB90F"></div>ADR</div>
+                    <div class="cbc-leg-item"><div class="cbc-leg-dash" style="border-color:#4DD0C4"></div>Yielding Capacity</div>
+                    <div class="cbc-leg-item"><div class="cbc-leg-dash" style="border-color:#006461"></div>Locked Budget</div>
+                  </div>
+                </div></div></div></div>
       </div>
 
       <!-- ══ PERFORMANCE: Cluster 11+ ══ -->
@@ -4519,7 +4560,20 @@
                   </div>
                 </div></div></div></div>
         <div class="grid-stack-item" gs-w="6" gs-h="6"><div class="grid-stack-item-content"><div class="home-card"><div class="home-card-header"><span class="home-card-title">Business Mix</span><button class="home-more-btn"><span class="material-icons-round mi">more_vert</span></button></div><div class="home-placeholder-xl"></div></div></div></div>
-        <div class="grid-stack-item" gs-w="12" gs-h="6"><div class="grid-stack-item-content"><div class="home-card"><div class="home-card-header"><span class="home-card-title">Cumulative Booking Curve</span><button class="home-more-btn"><span class="material-icons-round mi">more_vert</span></button></div><div class="home-placeholder-xl"></div></div></div></div>
+        <div class="grid-stack-item" gs-w="12" gs-h="6"><div class="grid-stack-item-content"><div class="home-card"><div class="home-card-header"><span class="home-card-title">Cumulative Booking Curve</span><button class="home-more-btn"><span class="material-icons-round mi">more_vert</span></button></div>
+                <div class="cbc-wrap">
+                  <div class="cbc-ctrl-row"><span class="cbc-ctrl-item">Rooms<span class="material-icons-round mi">expand_more</span></span> showing <span class="cbc-ctrl-item">Comparisons (4)<span class="material-icons-round mi">expand_more</span></span> for <span class="cbc-ctrl-item">Market Segments (4)<span class="material-icons-round mi">expand_more</span></span></div>
+                  <div class="cbc-subtitle">Updated Monday, Apr 13, 2026 12:13 PM</div>
+                  <div class="cbc-chart-wrap" data-cbc><svg class="cbc-svg"></svg></div>
+                  <div class="cbc-legend">
+                    <div class="cbc-leg-item"><div class="cbc-leg-dot" style="border-color:#053C3C"></div>Demand Forecast</div>
+                    <div class="cbc-leg-item"><div class="cbc-leg-area" style="background:rgba(154,163,0,0.35);border:1px solid #9AA300"></div>Committed</div>
+                    <div class="cbc-leg-item"><div class="cbc-leg-line" style="background:#C0392B"></div>Final LY</div>
+                    <div class="cbc-leg-item"><div class="cbc-leg-line" style="background:#FFB90F"></div>ADR</div>
+                    <div class="cbc-leg-item"><div class="cbc-leg-dash" style="border-color:#4DD0C4"></div>Yielding Capacity</div>
+                    <div class="cbc-leg-item"><div class="cbc-leg-dash" style="border-color:#006461"></div>Locked Budget</div>
+                  </div>
+                </div></div></div></div>
       </div>
 
       <!-- ══ INSIGHTS: Single property ══ -->
@@ -12678,6 +12732,79 @@
   }
 
   document.querySelectorAll('[data-occ]').forEach(initOcc);
+}());
+
+/* ── Cumulative Booking Curve ── */
+(function() {
+  var COMMITTED = [85,84,82,79,76,73,70,67,64,61,58,55,52,49,47,44,42,40,38,36,34,32,30,28,27,25,23,22,20,19,18,17,16,14,13,12,11,10,9,8,8,7,7,6,6,5,5,5,4,4,4,3,3,3,3,2,2,2,2,2,1];
+  var DEMAND    = [98,97,97,96,95,94,93,92,91,90,89,87,86,85,84,83,82,81,80,79,78,77,76,75,74,73,72,71,70,69,68,67,66,65,64,63,62,61,60,59,58,57,56,55,54,53,52,51,50,49,48,47,46,45,44,43,42,41,40,39,38];
+  var FINALY    = [80,79,77,74,71,68,65,63,60,57,55,53,50,48,46,44,42,40,39,37,35,33,32,30,29,27,26,24,23,22,21,19,18,17,16,15,14,13,12,11,10,9,9,8,7,7,6,5,5,4,4,4,3,3,3,2,2,2,2,1,1];
+  var ADR_DATA  = [286,285,284,283,282,281,280,279,278,278,278,278,278,278,278,279,280,281,282,283,284,285,286,287,288,288,289,289,289,289,290,290,290,290,291,291,291,292,292,292,292,293,293,293,293,294,294,294,295,295,295,295,296,296,296,296,297,297,297,298,298];
+  var YIELD_CAP = 140, LOCK_BUD = 136, TODAY_DAY = 2;
+  var ROOMS_MAX = 160;
+  var ADR_MIN = 272, ADR_MAX = 302;
+  var DAY_MAX  = 60;
+  var DAY_TICKS   = [0,5,10,15,20,25,30,35,40,45,50,55,60];
+  var ROOM_TICKS  = [20,40,60,80,100,120,140];
+  var ADR_TICKS   = [278,282,286,290,294,298];
+
+  function initCbc(area) {
+    function draw() {
+      var W = area.clientWidth, H = area.clientHeight;
+      if (W < 30 || H < 30) return;
+      var PL=48, PR=52, PT=20, PB=46;
+      var cW = W - PL - PR, cH = H - PT - PB;
+      function xS(d)  { return PL + (d / DAY_MAX) * cW; }
+      function yR(v)  { return PT + cH * (1 - v / ROOMS_MAX); }
+      function yA(v)  { return PT + cH * (1 - (v - ADR_MIN) / (ADR_MAX - ADR_MIN)); }
+      var h = '';
+      /* grid */
+      ROOM_TICKS.forEach(function(v){ var y=yR(v); h+='<line x1="'+PL+'" y1="'+y+'" x2="'+(PL+cW)+'" y2="'+y+'" stroke="#F0F2F5" stroke-width="1"/>'; });
+      /* committed area */
+      var cp = COMMITTED.map(function(v,i){ return xS(i)+','+yR(v); }).join(' ');
+      var bY = yR(0);
+      h += '<polygon points="'+xS(0)+','+bY+' '+cp+' '+xS(60)+','+bY+'" fill="rgba(154,163,0,0.28)"/>';
+      h += '<polyline points="'+cp+'" fill="none" stroke="#9AA300" stroke-width="1.5"/>';
+      /* yielding capacity */
+      var yYC = yR(YIELD_CAP);
+      h += '<line x1="'+PL+'" y1="'+yYC+'" x2="'+(PL+cW)+'" y2="'+yYC+'" stroke="#4DD0C4" stroke-width="1.5" stroke-dasharray="8,4"/>';
+      h += '<text x="'+(PL+cW-6)+'" y="'+(yYC-4)+'" fill="#63696F" font-size="10" font-family="Lato,sans-serif" text-anchor="end">Yielding Capacity</text>';
+      /* locked budget */
+      var yLB = yR(LOCK_BUD);
+      h += '<line x1="'+PL+'" y1="'+yLB+'" x2="'+(PL+cW)+'" y2="'+yLB+'" stroke="#006461" stroke-width="1.5" stroke-dasharray="8,4"/>';
+      h += '<text x="'+(PL+cW-6)+'" y="'+(yLB-4)+'" fill="#63696F" font-size="10" font-family="Lato,sans-serif" text-anchor="end">Locked Budget</text>';
+      /* final LY */
+      h += '<polyline points="'+FINALY.map(function(v,i){ return xS(i)+','+yR(v); }).join(' ')+'" fill="none" stroke="#C0392B" stroke-width="1.5"/>';
+      /* demand forecast dotted */
+      h += '<polyline points="'+DEMAND.map(function(v,i){ return xS(i)+','+yR(v); }).join(' ')+'" fill="none" stroke="#053C3C" stroke-width="1.5" stroke-dasharray="3,5"/>';
+      /* ADR */
+      h += '<polyline points="'+ADR_DATA.map(function(v,i){ return xS(i)+','+yA(v); }).join(' ')+'" fill="none" stroke="#FFB90F" stroke-width="1.5"/>';
+      /* chart border */
+      h += '<rect x="'+PL+'" y="'+PT+'" width="'+cW+'" height="'+cH+'" fill="none" stroke="#EAEEEF" stroke-width="1"/>';
+      /* period ends line + label */
+      var xPE = xS(0);
+      h += '<line x1="'+xPE+'" y1="'+PT+'" x2="'+xPE+'" y2="'+(PT+cH)+'" stroke="#AEB4BA" stroke-width="1.5"/>';
+      h += '<text transform="translate('+(xPE+3)+','+(PT+cH-6)+') rotate(-90)" fill="#63696F" font-size="10" font-family="Lato,sans-serif" text-anchor="start">Period ends</text>';
+      /* today line + label */
+      var xTD = xS(TODAY_DAY);
+      h += '<line x1="'+xTD+'" y1="'+PT+'" x2="'+xTD+'" y2="'+(PT+cH)+'" stroke="#AEB4BA" stroke-width="1.5"/>';
+      h += '<text transform="translate('+(xTD+3)+','+(PT+cH-6)+') rotate(-90)" fill="#63696F" font-size="10" font-family="Lato,sans-serif" text-anchor="start">Today</text>';
+      /* left y-axis (Rooms) */
+      ROOM_TICKS.forEach(function(v){ h+='<text x="'+(PL-5)+'" y="'+(yR(v)+4)+'" fill="#4F5B60" font-size="11" font-family="Lato,sans-serif" text-anchor="end">'+v+'</text>'; });
+      h += '<text transform="translate(11,'+(PT+cH/2)+') rotate(-90)" fill="#4F5B60" font-size="11" font-family="Lato,sans-serif" text-anchor="middle">Rooms</text>';
+      /* right y-axis (ADR) */
+      ADR_TICKS.forEach(function(v){ h+='<text x="'+(PL+cW+6)+'" y="'+(yA(v)+4)+'" fill="#4F5B60" font-size="11" font-family="Lato,sans-serif" text-anchor="start">$'+v+'</text>'; });
+      h += '<text transform="translate('+(W-10)+','+(PT+cH/2)+') rotate(90)" fill="#4F5B60" font-size="11" font-family="Lato,sans-serif" text-anchor="middle">ADR</text>';
+      /* x-axis */
+      DAY_TICKS.forEach(function(d){ var x=xS(d); h+='<line x1="'+x+'" y1="'+(PT+cH)+'" x2="'+x+'" y2="'+(PT+cH+4)+'" stroke="#AEB4BA" stroke-width="1"/>'; h+='<text x="'+x+'" y="'+(PT+cH+15)+'" fill="#4F5B60" font-size="11" font-family="Lato,sans-serif" text-anchor="middle">'+d+'</text>'; });
+      h += '<text x="'+(PL+cW/2)+'" y="'+(PT+cH+32)+'" fill="#63696F" font-size="11" font-family="Lato,sans-serif" text-anchor="middle">Days before period ends</text>';
+      area.querySelector('.cbc-svg').innerHTML = h;
+    }
+    var ro = new ResizeObserver(function(){ draw(); });
+    ro.observe(area);
+    draw();
+  }
+  document.querySelectorAll('[data-cbc]').forEach(initCbc);
 }());
 
 /* ── Hotel Pickup: expand / collapse date rows ── */
