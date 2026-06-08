@@ -3781,6 +3781,33 @@
     .hvw-tab:first-child { border-radius:4px 0 0 4px; }
     .hvw-tab:last-child  { border-radius:0 4px 4px 0; border-left:none; }
     .hvw-tab.hvw-active  { background:#EBF5F5; color:#006461; font-weight:700; border-color:#006461; }
+
+    /* ── Hotel Pickup Widget ───────────────────────────────────── */
+    .hpw-wrap { display:flex; flex-direction:column; flex:1; min-height:0; overflow:hidden; gap:2px; }
+    .hpw-ctrl-row { display:flex; align-items:center; gap:4px; flex-wrap:wrap; flex-shrink:0; font-size:13px; color:#4F5B60; font-family:'Lato',sans-serif; }
+    .hpw-ctrl-item { display:inline-flex; align-items:center; gap:1px; color:#006461; font-weight:700; cursor:pointer; white-space:nowrap; }
+    .hpw-ctrl-item .mi { font-size:16px; }
+    .hpw-subtitle { font-size:11px; color:#9CA3AF; font-family:'Lato',sans-serif; flex-shrink:0; }
+    .hpw-scroll { flex:1; min-height:0; overflow:auto; border:1px solid #DDE1E2; border-radius:4px; }
+    .hpw-table { border-collapse:collapse; font-family:'Lato',sans-serif; font-size:13px; min-width:900px; width:100%; }
+    .hpw-table th, .hpw-table td { height:40px; padding:0 10px; border-bottom:1px solid #DDE1E2; border-right:1px solid #DDE1E2; white-space:nowrap; }
+    .hpw-table th:last-child, .hpw-table td:last-child { border-right:none; }
+    .hpw-th-stay { background:#F8F9FD; position:sticky; left:0; z-index:3; min-width:190px; max-width:230px; text-align:left; color:#1C1C1C; font-weight:400; }
+    .hpw-td-stay { position:sticky; left:0; background:#fff; z-index:2; min-width:190px; max-width:230px; text-align:left; }
+    .hpw-group-th { background:#F8F9FD; text-align:center; font-weight:700; color:#1C1C1C; border-left:2px solid #AEB4BA; }
+    .hpw-sub-th { background:#F8F9FD; text-align:right; color:#4F5B60; font-weight:400; font-size:12px; min-width:80px; }
+    .hpw-sub-th-first { border-left:2px solid #AEB4BA; }
+    .hpw-col-num { text-align:right; color:#1C1C1C; }
+    .hpw-col-num-first { border-left:2px solid #AEB4BA; }
+    .hpw-date-row td { background:#F8F9FD; }
+    .hpw-date-row .hpw-td-stay { background:#F8F9FD; font-weight:600; color:#1C1C1C; cursor:pointer; user-select:none; }
+    .hpw-date-row:hover td { background:#F0F3F7; }
+    .hpw-date-row:hover .hpw-td-stay { background:#F0F3F7; }
+    .hpw-seg-row .hpw-td-stay { padding-left:30px; color:#4F5B60; }
+    .hpw-seg-row:hover td { background:#F8F9FD; }
+    .hpw-seg-row:hover .hpw-td-stay { background:#F8F9FD; }
+    .hpw-hidden { display:none; }
+    .hpw-chevron { font-size:18px; vertical-align:middle; color:#4F5B60; display:inline-block; transition:transform .15s; line-height:1; margin-right:3px; }
   </style>
 </head>
 <body>
@@ -4204,7 +4231,67 @@
                     <div class="occ-legend-item"><div class="occ-legend-wk"></div>Weekends</div>
                   </div>
                 </div></div></div></div>
-        <div class="grid-stack-item" gs-w="6" gs-h="6"><div class="grid-stack-item-content"><div class="home-card"><div class="home-card-header"><span class="home-card-title">Hotel Pickup</span><button class="home-more-btn"><span class="material-icons-round mi">more_vert</span></button></div><div class="home-placeholder-xl"></div></div></div></div>
+        <div class="grid-stack-item" gs-w="6" gs-h="6"><div class="grid-stack-item-content"><div class="home-card"><div class="home-card-header"><span class="home-card-title">Hotel Pickup</span><button class="home-more-btn"><span class="material-icons-round mi">more_vert</span></button></div>
+                <div class="hpw-wrap">
+                  <div class="hpw-ctrl-row">Grouped by <span class="hpw-ctrl-item">Yield segment<span class="material-icons-round mi">expand_more</span></span> for <span class="hpw-ctrl-item">Market Segments (All)<span class="material-icons-round mi">expand_more</span></span></div>
+                  <div class="hpw-subtitle">Updated Monday, Apr 13, 2026 12:13 PM</div>
+                  <div class="hpw-scroll">
+                    <table class="hpw-table">
+                      <thead>
+                        <tr>
+                          <th class="hpw-th-stay"></th>
+                          <th colspan="3" class="hpw-group-th">1-Day Pickup</th>
+                          <th colspan="3" class="hpw-group-th">3-Day Pickup</th>
+                          <th colspan="3" class="hpw-group-th">7-Day Pickup</th>
+                        </tr>
+                        <tr>
+                          <th class="hpw-th-stay">Stay Date</th>
+                          <th class="hpw-sub-th hpw-sub-th-first">Rooms</th><th class="hpw-sub-th">Revenue</th><th class="hpw-sub-th">ADR</th>
+                          <th class="hpw-sub-th hpw-sub-th-first">Rooms</th><th class="hpw-sub-th">Revenue</th><th class="hpw-sub-th">ADR</th>
+                          <th class="hpw-sub-th hpw-sub-th-first">Rooms</th><th class="hpw-sub-th">Revenue</th><th class="hpw-sub-th">ADR</th>
+                        </tr>
+                      </thead>
+                      <tbody>
+                        <tr class="hpw-date-row" data-hpw-toggle="d14">
+                          <td class="hpw-td-stay"><span class="hpw-chevron material-icons-round mi hpw-open">expand_more</span>Monday, Apr 14, 2026</td>
+                          <td class="hpw-col-num hpw-col-num-first">5</td><td class="hpw-col-num">$1,850</td><td class="hpw-col-num">$370</td>
+                          <td class="hpw-col-num hpw-col-num-first">12</td><td class="hpw-col-num">$4,200</td><td class="hpw-col-num">$350</td>
+                          <td class="hpw-col-num hpw-col-num-first">21</td><td class="hpw-col-num">$7,140</td><td class="hpw-col-num">$340</td>
+                        </tr>
+                        <tr class="hpw-seg-row" data-hpw-group="d14"><td class="hpw-td-stay">Best Available Rate</td><td class="hpw-col-num hpw-col-num-first">2</td><td class="hpw-col-num">$840</td><td class="hpw-col-num">$420</td><td class="hpw-col-num hpw-col-num-first">5</td><td class="hpw-col-num">$2,100</td><td class="hpw-col-num">$420</td><td class="hpw-col-num hpw-col-num-first">8</td><td class="hpw-col-num">$3,360</td><td class="hpw-col-num">$420</td></tr>
+                        <tr class="hpw-seg-row" data-hpw-group="d14"><td class="hpw-td-stay">Qualified Discount</td><td class="hpw-col-num hpw-col-num-first">1</td><td class="hpw-col-num">$280</td><td class="hpw-col-num">$280</td><td class="hpw-col-num hpw-col-num-first">2</td><td class="hpw-col-num">$560</td><td class="hpw-col-num">$280</td><td class="hpw-col-num hpw-col-num-first">4</td><td class="hpw-col-num">$1,120</td><td class="hpw-col-num">$280</td></tr>
+                        <tr class="hpw-seg-row" data-hpw-group="d14"><td class="hpw-td-stay">Online Travel Agency</td><td class="hpw-col-num hpw-col-num-first">0</td><td class="hpw-col-num">—</td><td class="hpw-col-num">—</td><td class="hpw-col-num hpw-col-num-first">2</td><td class="hpw-col-num">$580</td><td class="hpw-col-num">$290</td><td class="hpw-col-num hpw-col-num-first">3</td><td class="hpw-col-num">$870</td><td class="hpw-col-num">$290</td></tr>
+                        <tr class="hpw-seg-row" data-hpw-group="d14"><td class="hpw-td-stay">Advanced Purchase</td><td class="hpw-col-num hpw-col-num-first">0</td><td class="hpw-col-num">—</td><td class="hpw-col-num">—</td><td class="hpw-col-num hpw-col-num-first">1</td><td class="hpw-col-num">$310</td><td class="hpw-col-num">$310</td><td class="hpw-col-num hpw-col-num-first">2</td><td class="hpw-col-num">$620</td><td class="hpw-col-num">$310</td></tr>
+                        <tr class="hpw-seg-row" data-hpw-group="d14"><td class="hpw-td-stay">Promotion</td><td class="hpw-col-num hpw-col-num-first">1</td><td class="hpw-col-num">$390</td><td class="hpw-col-num">$390</td><td class="hpw-col-num hpw-col-num-first">1</td><td class="hpw-col-num">$390</td><td class="hpw-col-num">$390</td><td class="hpw-col-num hpw-col-num-first">2</td><td class="hpw-col-num">$780</td><td class="hpw-col-num">$390</td></tr>
+                        <tr class="hpw-seg-row" data-hpw-group="d14"><td class="hpw-td-stay">Packages</td><td class="hpw-col-num hpw-col-num-first">1</td><td class="hpw-col-num">$340</td><td class="hpw-col-num">$340</td><td class="hpw-col-num hpw-col-num-first">1</td><td class="hpw-col-num">$260</td><td class="hpw-col-num">$260</td><td class="hpw-col-num hpw-col-num-first">2</td><td class="hpw-col-num">$390</td><td class="hpw-col-num">$195</td></tr>
+                        <tr class="hpw-date-row" data-hpw-toggle="d15">
+                          <td class="hpw-td-stay"><span class="hpw-chevron material-icons-round mi">chevron_right</span>Tuesday, Apr 15, 2026</td>
+                          <td class="hpw-col-num hpw-col-num-first">3</td><td class="hpw-col-num">$990</td><td class="hpw-col-num">$330</td>
+                          <td class="hpw-col-num hpw-col-num-first">9</td><td class="hpw-col-num">$2,880</td><td class="hpw-col-num">$320</td>
+                          <td class="hpw-col-num hpw-col-num-first">18</td><td class="hpw-col-num">$5,580</td><td class="hpw-col-num">$310</td>
+                        </tr>
+                        <tr class="hpw-seg-row hpw-hidden" data-hpw-group="d15"><td class="hpw-td-stay">Best Available Rate</td><td class="hpw-col-num hpw-col-num-first">1</td><td class="hpw-col-num">$410</td><td class="hpw-col-num">$410</td><td class="hpw-col-num hpw-col-num-first">4</td><td class="hpw-col-num">$1,640</td><td class="hpw-col-num">$410</td><td class="hpw-col-num hpw-col-num-first">7</td><td class="hpw-col-num">$2,870</td><td class="hpw-col-num">$410</td></tr>
+                        <tr class="hpw-seg-row hpw-hidden" data-hpw-group="d15"><td class="hpw-td-stay">Qualified Discount</td><td class="hpw-col-num hpw-col-num-first">1</td><td class="hpw-col-num">$260</td><td class="hpw-col-num">$260</td><td class="hpw-col-num hpw-col-num-first">2</td><td class="hpw-col-num">$520</td><td class="hpw-col-num">$260</td><td class="hpw-col-num hpw-col-num-first">4</td><td class="hpw-col-num">$1,040</td><td class="hpw-col-num">$260</td></tr>
+                        <tr class="hpw-seg-row hpw-hidden" data-hpw-group="d15"><td class="hpw-td-stay">Online Travel Agency</td><td class="hpw-col-num hpw-col-num-first">0</td><td class="hpw-col-num">—</td><td class="hpw-col-num">—</td><td class="hpw-col-num hpw-col-num-first">1</td><td class="hpw-col-num">$295</td><td class="hpw-col-num">$295</td><td class="hpw-col-num hpw-col-num-first">3</td><td class="hpw-col-num">$885</td><td class="hpw-col-num">$295</td></tr>
+                        <tr class="hpw-seg-row hpw-hidden" data-hpw-group="d15"><td class="hpw-td-stay">Advanced Purchase</td><td class="hpw-col-num hpw-col-num-first">1</td><td class="hpw-col-num">$320</td><td class="hpw-col-num">$320</td><td class="hpw-col-num hpw-col-num-first">1</td><td class="hpw-col-num">$320</td><td class="hpw-col-num">$320</td><td class="hpw-col-num hpw-col-num-first">2</td><td class="hpw-col-num">$640</td><td class="hpw-col-num">$320</td></tr>
+                        <tr class="hpw-seg-row hpw-hidden" data-hpw-group="d15"><td class="hpw-td-stay">Promotion</td><td class="hpw-col-num hpw-col-num-first">0</td><td class="hpw-col-num">—</td><td class="hpw-col-num">—</td><td class="hpw-col-num hpw-col-num-first">1</td><td class="hpw-col-num">$305</td><td class="hpw-col-num">$305</td><td class="hpw-col-num hpw-col-num-first">1</td><td class="hpw-col-num">$305</td><td class="hpw-col-num">$305</td></tr>
+                        <tr class="hpw-seg-row hpw-hidden" data-hpw-group="d15"><td class="hpw-td-stay">Packages</td><td class="hpw-col-num hpw-col-num-first">0</td><td class="hpw-col-num">—</td><td class="hpw-col-num">—</td><td class="hpw-col-num hpw-col-num-first">0</td><td class="hpw-col-num">—</td><td class="hpw-col-num">—</td><td class="hpw-col-num hpw-col-num-first">1</td><td class="hpw-col-num">$840</td><td class="hpw-col-num">$840</td></tr>
+                        <tr class="hpw-date-row" data-hpw-toggle="d16">
+                          <td class="hpw-td-stay"><span class="hpw-chevron material-icons-round mi">chevron_right</span>Wednesday, Apr 16, 2026</td>
+                          <td class="hpw-col-num hpw-col-num-first">7</td><td class="hpw-col-num">$2,730</td><td class="hpw-col-num">$390</td>
+                          <td class="hpw-col-num hpw-col-num-first">15</td><td class="hpw-col-num">$5,850</td><td class="hpw-col-num">$390</td>
+                          <td class="hpw-col-num hpw-col-num-first">28</td><td class="hpw-col-num">$10,920</td><td class="hpw-col-num">$390</td>
+                        </tr>
+                        <tr class="hpw-seg-row hpw-hidden" data-hpw-group="d16"><td class="hpw-td-stay">Best Available Rate</td><td class="hpw-col-num hpw-col-num-first">3</td><td class="hpw-col-num">$1,260</td><td class="hpw-col-num">$420</td><td class="hpw-col-num hpw-col-num-first">7</td><td class="hpw-col-num">$2,940</td><td class="hpw-col-num">$420</td><td class="hpw-col-num hpw-col-num-first">12</td><td class="hpw-col-num">$5,040</td><td class="hpw-col-num">$420</td></tr>
+                        <tr class="hpw-seg-row hpw-hidden" data-hpw-group="d16"><td class="hpw-td-stay">Qualified Discount</td><td class="hpw-col-num hpw-col-num-first">2</td><td class="hpw-col-num">$560</td><td class="hpw-col-num">$280</td><td class="hpw-col-num hpw-col-num-first">3</td><td class="hpw-col-num">$840</td><td class="hpw-col-num">$280</td><td class="hpw-col-num hpw-col-num-first">6</td><td class="hpw-col-num">$1,680</td><td class="hpw-col-num">$280</td></tr>
+                        <tr class="hpw-seg-row hpw-hidden" data-hpw-group="d16"><td class="hpw-td-stay">Online Travel Agency</td><td class="hpw-col-num hpw-col-num-first">1</td><td class="hpw-col-num">$310</td><td class="hpw-col-num">$310</td><td class="hpw-col-num hpw-col-num-first">2</td><td class="hpw-col-num">$620</td><td class="hpw-col-num">$310</td><td class="hpw-col-num hpw-col-num-first">4</td><td class="hpw-col-num">$1,240</td><td class="hpw-col-num">$310</td></tr>
+                        <tr class="hpw-seg-row hpw-hidden" data-hpw-group="d16"><td class="hpw-td-stay">Advanced Purchase</td><td class="hpw-col-num hpw-col-num-first">0</td><td class="hpw-col-num">—</td><td class="hpw-col-num">—</td><td class="hpw-col-num hpw-col-num-first">1</td><td class="hpw-col-num">$360</td><td class="hpw-col-num">$360</td><td class="hpw-col-num hpw-col-num-first">3</td><td class="hpw-col-num">$1,080</td><td class="hpw-col-num">$360</td></tr>
+                        <tr class="hpw-seg-row hpw-hidden" data-hpw-group="d16"><td class="hpw-td-stay">Promotion</td><td class="hpw-col-num hpw-col-num-first">1</td><td class="hpw-col-num">$400</td><td class="hpw-col-num">$400</td><td class="hpw-col-num hpw-col-num-first">2</td><td class="hpw-col-num">$800</td><td class="hpw-col-num">$400</td><td class="hpw-col-num hpw-col-num-first">2</td><td class="hpw-col-num">$800</td><td class="hpw-col-num">$400</td></tr>
+                        <tr class="hpw-seg-row hpw-hidden" data-hpw-group="d16"><td class="hpw-td-stay">Packages</td><td class="hpw-col-num hpw-col-num-first">0</td><td class="hpw-col-num">—</td><td class="hpw-col-num">—</td><td class="hpw-col-num hpw-col-num-first">0</td><td class="hpw-col-num">—</td><td class="hpw-col-num">—</td><td class="hpw-col-num hpw-col-num-first">1</td><td class="hpw-col-num">$1,080</td><td class="hpw-col-num">$1,080</td></tr>
+                      </tbody>
+                    </table>
+                  </div>
+                </div></div></div></div>
         <div class="grid-stack-item" gs-w="12" gs-h="6"><div class="grid-stack-item-content"><div class="home-card"><div class="home-card-header"><span class="home-card-title">Cumulative Booking Curve</span><button class="home-more-btn"><span class="material-icons-round mi">more_vert</span></button></div><div class="home-placeholder-xl"></div></div></div></div>
         <div class="grid-stack-item" gs-w="12" gs-h="6"><div class="grid-stack-item-content"><div class="home-card"><div class="home-card-header"><span class="home-card-title">Business Mix</span><button class="home-more-btn"><span class="material-icons-round mi">more_vert</span></button></div><div class="home-placeholder-xl"></div></div></div></div>
       </div>
@@ -4288,7 +4375,67 @@
                     <div class="occ-legend-item"><div class="occ-legend-wk"></div>Weekends</div>
                   </div>
                 </div></div></div></div>
-        <div class="grid-stack-item" gs-w="6" gs-h="6"><div class="grid-stack-item-content"><div class="home-card"><div class="home-card-header"><span class="home-card-title">Hotel Pickup</span><button class="home-more-btn"><span class="material-icons-round mi">more_vert</span></button></div><div class="home-placeholder-xl"></div></div></div></div>
+        <div class="grid-stack-item" gs-w="6" gs-h="6"><div class="grid-stack-item-content"><div class="home-card"><div class="home-card-header"><span class="home-card-title">Hotel Pickup</span><button class="home-more-btn"><span class="material-icons-round mi">more_vert</span></button></div>
+                <div class="hpw-wrap">
+                  <div class="hpw-ctrl-row">Grouped by <span class="hpw-ctrl-item">Yield segment<span class="material-icons-round mi">expand_more</span></span> for <span class="hpw-ctrl-item">Market Segments (All)<span class="material-icons-round mi">expand_more</span></span></div>
+                  <div class="hpw-subtitle">Updated Monday, Apr 13, 2026 12:13 PM</div>
+                  <div class="hpw-scroll">
+                    <table class="hpw-table">
+                      <thead>
+                        <tr>
+                          <th class="hpw-th-stay"></th>
+                          <th colspan="3" class="hpw-group-th">1-Day Pickup</th>
+                          <th colspan="3" class="hpw-group-th">3-Day Pickup</th>
+                          <th colspan="3" class="hpw-group-th">7-Day Pickup</th>
+                        </tr>
+                        <tr>
+                          <th class="hpw-th-stay">Stay Date</th>
+                          <th class="hpw-sub-th hpw-sub-th-first">Rooms</th><th class="hpw-sub-th">Revenue</th><th class="hpw-sub-th">ADR</th>
+                          <th class="hpw-sub-th hpw-sub-th-first">Rooms</th><th class="hpw-sub-th">Revenue</th><th class="hpw-sub-th">ADR</th>
+                          <th class="hpw-sub-th hpw-sub-th-first">Rooms</th><th class="hpw-sub-th">Revenue</th><th class="hpw-sub-th">ADR</th>
+                        </tr>
+                      </thead>
+                      <tbody>
+                        <tr class="hpw-date-row" data-hpw-toggle="d14">
+                          <td class="hpw-td-stay"><span class="hpw-chevron material-icons-round mi hpw-open">expand_more</span>Monday, Apr 14, 2026</td>
+                          <td class="hpw-col-num hpw-col-num-first">5</td><td class="hpw-col-num">$1,850</td><td class="hpw-col-num">$370</td>
+                          <td class="hpw-col-num hpw-col-num-first">12</td><td class="hpw-col-num">$4,200</td><td class="hpw-col-num">$350</td>
+                          <td class="hpw-col-num hpw-col-num-first">21</td><td class="hpw-col-num">$7,140</td><td class="hpw-col-num">$340</td>
+                        </tr>
+                        <tr class="hpw-seg-row" data-hpw-group="d14"><td class="hpw-td-stay">Best Available Rate</td><td class="hpw-col-num hpw-col-num-first">2</td><td class="hpw-col-num">$840</td><td class="hpw-col-num">$420</td><td class="hpw-col-num hpw-col-num-first">5</td><td class="hpw-col-num">$2,100</td><td class="hpw-col-num">$420</td><td class="hpw-col-num hpw-col-num-first">8</td><td class="hpw-col-num">$3,360</td><td class="hpw-col-num">$420</td></tr>
+                        <tr class="hpw-seg-row" data-hpw-group="d14"><td class="hpw-td-stay">Qualified Discount</td><td class="hpw-col-num hpw-col-num-first">1</td><td class="hpw-col-num">$280</td><td class="hpw-col-num">$280</td><td class="hpw-col-num hpw-col-num-first">2</td><td class="hpw-col-num">$560</td><td class="hpw-col-num">$280</td><td class="hpw-col-num hpw-col-num-first">4</td><td class="hpw-col-num">$1,120</td><td class="hpw-col-num">$280</td></tr>
+                        <tr class="hpw-seg-row" data-hpw-group="d14"><td class="hpw-td-stay">Online Travel Agency</td><td class="hpw-col-num hpw-col-num-first">0</td><td class="hpw-col-num">—</td><td class="hpw-col-num">—</td><td class="hpw-col-num hpw-col-num-first">2</td><td class="hpw-col-num">$580</td><td class="hpw-col-num">$290</td><td class="hpw-col-num hpw-col-num-first">3</td><td class="hpw-col-num">$870</td><td class="hpw-col-num">$290</td></tr>
+                        <tr class="hpw-seg-row" data-hpw-group="d14"><td class="hpw-td-stay">Advanced Purchase</td><td class="hpw-col-num hpw-col-num-first">0</td><td class="hpw-col-num">—</td><td class="hpw-col-num">—</td><td class="hpw-col-num hpw-col-num-first">1</td><td class="hpw-col-num">$310</td><td class="hpw-col-num">$310</td><td class="hpw-col-num hpw-col-num-first">2</td><td class="hpw-col-num">$620</td><td class="hpw-col-num">$310</td></tr>
+                        <tr class="hpw-seg-row" data-hpw-group="d14"><td class="hpw-td-stay">Promotion</td><td class="hpw-col-num hpw-col-num-first">1</td><td class="hpw-col-num">$390</td><td class="hpw-col-num">$390</td><td class="hpw-col-num hpw-col-num-first">1</td><td class="hpw-col-num">$390</td><td class="hpw-col-num">$390</td><td class="hpw-col-num hpw-col-num-first">2</td><td class="hpw-col-num">$780</td><td class="hpw-col-num">$390</td></tr>
+                        <tr class="hpw-seg-row" data-hpw-group="d14"><td class="hpw-td-stay">Packages</td><td class="hpw-col-num hpw-col-num-first">1</td><td class="hpw-col-num">$340</td><td class="hpw-col-num">$340</td><td class="hpw-col-num hpw-col-num-first">1</td><td class="hpw-col-num">$260</td><td class="hpw-col-num">$260</td><td class="hpw-col-num hpw-col-num-first">2</td><td class="hpw-col-num">$390</td><td class="hpw-col-num">$195</td></tr>
+                        <tr class="hpw-date-row" data-hpw-toggle="d15">
+                          <td class="hpw-td-stay"><span class="hpw-chevron material-icons-round mi">chevron_right</span>Tuesday, Apr 15, 2026</td>
+                          <td class="hpw-col-num hpw-col-num-first">3</td><td class="hpw-col-num">$990</td><td class="hpw-col-num">$330</td>
+                          <td class="hpw-col-num hpw-col-num-first">9</td><td class="hpw-col-num">$2,880</td><td class="hpw-col-num">$320</td>
+                          <td class="hpw-col-num hpw-col-num-first">18</td><td class="hpw-col-num">$5,580</td><td class="hpw-col-num">$310</td>
+                        </tr>
+                        <tr class="hpw-seg-row hpw-hidden" data-hpw-group="d15"><td class="hpw-td-stay">Best Available Rate</td><td class="hpw-col-num hpw-col-num-first">1</td><td class="hpw-col-num">$410</td><td class="hpw-col-num">$410</td><td class="hpw-col-num hpw-col-num-first">4</td><td class="hpw-col-num">$1,640</td><td class="hpw-col-num">$410</td><td class="hpw-col-num hpw-col-num-first">7</td><td class="hpw-col-num">$2,870</td><td class="hpw-col-num">$410</td></tr>
+                        <tr class="hpw-seg-row hpw-hidden" data-hpw-group="d15"><td class="hpw-td-stay">Qualified Discount</td><td class="hpw-col-num hpw-col-num-first">1</td><td class="hpw-col-num">$260</td><td class="hpw-col-num">$260</td><td class="hpw-col-num hpw-col-num-first">2</td><td class="hpw-col-num">$520</td><td class="hpw-col-num">$260</td><td class="hpw-col-num hpw-col-num-first">4</td><td class="hpw-col-num">$1,040</td><td class="hpw-col-num">$260</td></tr>
+                        <tr class="hpw-seg-row hpw-hidden" data-hpw-group="d15"><td class="hpw-td-stay">Online Travel Agency</td><td class="hpw-col-num hpw-col-num-first">0</td><td class="hpw-col-num">—</td><td class="hpw-col-num">—</td><td class="hpw-col-num hpw-col-num-first">1</td><td class="hpw-col-num">$295</td><td class="hpw-col-num">$295</td><td class="hpw-col-num hpw-col-num-first">3</td><td class="hpw-col-num">$885</td><td class="hpw-col-num">$295</td></tr>
+                        <tr class="hpw-seg-row hpw-hidden" data-hpw-group="d15"><td class="hpw-td-stay">Advanced Purchase</td><td class="hpw-col-num hpw-col-num-first">1</td><td class="hpw-col-num">$320</td><td class="hpw-col-num">$320</td><td class="hpw-col-num hpw-col-num-first">1</td><td class="hpw-col-num">$320</td><td class="hpw-col-num">$320</td><td class="hpw-col-num hpw-col-num-first">2</td><td class="hpw-col-num">$640</td><td class="hpw-col-num">$320</td></tr>
+                        <tr class="hpw-seg-row hpw-hidden" data-hpw-group="d15"><td class="hpw-td-stay">Promotion</td><td class="hpw-col-num hpw-col-num-first">0</td><td class="hpw-col-num">—</td><td class="hpw-col-num">—</td><td class="hpw-col-num hpw-col-num-first">1</td><td class="hpw-col-num">$305</td><td class="hpw-col-num">$305</td><td class="hpw-col-num hpw-col-num-first">1</td><td class="hpw-col-num">$305</td><td class="hpw-col-num">$305</td></tr>
+                        <tr class="hpw-seg-row hpw-hidden" data-hpw-group="d15"><td class="hpw-td-stay">Packages</td><td class="hpw-col-num hpw-col-num-first">0</td><td class="hpw-col-num">—</td><td class="hpw-col-num">—</td><td class="hpw-col-num hpw-col-num-first">0</td><td class="hpw-col-num">—</td><td class="hpw-col-num">—</td><td class="hpw-col-num hpw-col-num-first">1</td><td class="hpw-col-num">$840</td><td class="hpw-col-num">$840</td></tr>
+                        <tr class="hpw-date-row" data-hpw-toggle="d16">
+                          <td class="hpw-td-stay"><span class="hpw-chevron material-icons-round mi">chevron_right</span>Wednesday, Apr 16, 2026</td>
+                          <td class="hpw-col-num hpw-col-num-first">7</td><td class="hpw-col-num">$2,730</td><td class="hpw-col-num">$390</td>
+                          <td class="hpw-col-num hpw-col-num-first">15</td><td class="hpw-col-num">$5,850</td><td class="hpw-col-num">$390</td>
+                          <td class="hpw-col-num hpw-col-num-first">28</td><td class="hpw-col-num">$10,920</td><td class="hpw-col-num">$390</td>
+                        </tr>
+                        <tr class="hpw-seg-row hpw-hidden" data-hpw-group="d16"><td class="hpw-td-stay">Best Available Rate</td><td class="hpw-col-num hpw-col-num-first">3</td><td class="hpw-col-num">$1,260</td><td class="hpw-col-num">$420</td><td class="hpw-col-num hpw-col-num-first">7</td><td class="hpw-col-num">$2,940</td><td class="hpw-col-num">$420</td><td class="hpw-col-num hpw-col-num-first">12</td><td class="hpw-col-num">$5,040</td><td class="hpw-col-num">$420</td></tr>
+                        <tr class="hpw-seg-row hpw-hidden" data-hpw-group="d16"><td class="hpw-td-stay">Qualified Discount</td><td class="hpw-col-num hpw-col-num-first">2</td><td class="hpw-col-num">$560</td><td class="hpw-col-num">$280</td><td class="hpw-col-num hpw-col-num-first">3</td><td class="hpw-col-num">$840</td><td class="hpw-col-num">$280</td><td class="hpw-col-num hpw-col-num-first">6</td><td class="hpw-col-num">$1,680</td><td class="hpw-col-num">$280</td></tr>
+                        <tr class="hpw-seg-row hpw-hidden" data-hpw-group="d16"><td class="hpw-td-stay">Online Travel Agency</td><td class="hpw-col-num hpw-col-num-first">1</td><td class="hpw-col-num">$310</td><td class="hpw-col-num">$310</td><td class="hpw-col-num hpw-col-num-first">2</td><td class="hpw-col-num">$620</td><td class="hpw-col-num">$310</td><td class="hpw-col-num hpw-col-num-first">4</td><td class="hpw-col-num">$1,240</td><td class="hpw-col-num">$310</td></tr>
+                        <tr class="hpw-seg-row hpw-hidden" data-hpw-group="d16"><td class="hpw-td-stay">Advanced Purchase</td><td class="hpw-col-num hpw-col-num-first">0</td><td class="hpw-col-num">—</td><td class="hpw-col-num">—</td><td class="hpw-col-num hpw-col-num-first">1</td><td class="hpw-col-num">$360</td><td class="hpw-col-num">$360</td><td class="hpw-col-num hpw-col-num-first">3</td><td class="hpw-col-num">$1,080</td><td class="hpw-col-num">$360</td></tr>
+                        <tr class="hpw-seg-row hpw-hidden" data-hpw-group="d16"><td class="hpw-td-stay">Promotion</td><td class="hpw-col-num hpw-col-num-first">1</td><td class="hpw-col-num">$400</td><td class="hpw-col-num">$400</td><td class="hpw-col-num hpw-col-num-first">2</td><td class="hpw-col-num">$800</td><td class="hpw-col-num">$400</td><td class="hpw-col-num hpw-col-num-first">2</td><td class="hpw-col-num">$800</td><td class="hpw-col-num">$400</td></tr>
+                        <tr class="hpw-seg-row hpw-hidden" data-hpw-group="d16"><td class="hpw-td-stay">Packages</td><td class="hpw-col-num hpw-col-num-first">0</td><td class="hpw-col-num">—</td><td class="hpw-col-num">—</td><td class="hpw-col-num hpw-col-num-first">0</td><td class="hpw-col-num">—</td><td class="hpw-col-num">—</td><td class="hpw-col-num hpw-col-num-first">1</td><td class="hpw-col-num">$1,080</td><td class="hpw-col-num">$1,080</td></tr>
+                      </tbody>
+                    </table>
+                  </div>
+                </div></div></div></div>
         <div class="grid-stack-item" gs-w="12" gs-h="6"><div class="grid-stack-item-content"><div class="home-card"><div class="home-card-header"><span class="home-card-title">Cumulative Booking Curve</span><button class="home-more-btn"><span class="material-icons-round mi">more_vert</span></button></div><div class="home-placeholder-xl"></div></div></div></div>
       </div>
 
@@ -4396,7 +4543,67 @@
       <!-- ══ INSIGHTS: Cluster 11+ ══ -->
       <div class="home-content grid-stack" id="home-panel-cluster11plus-insights">
         <div class="grid-stack-item" gs-w="12" gs-h="7"><div class="grid-stack-item-content"><div class="home-card home-card-mi"><div class="home-card-header"><span class="home-card-title">Market Insights</span><div class="home-header-right"><button class="mi-settings-card-btn" data-mi-scope="c11"><span class="material-icons-round mi">tune</span></button><button class="home-more-btn"><span class="material-icons-round mi">more_vert</span></button></div></div><div class="mi-scope" id="mi-scope-c11"><div class="mi-toolbar"><div class="mi-tabs"><button class="mi-tab mi-active" data-tab="positioning">Positioning</button><button class="mi-tab" data-tab="demand">Demand</button><button class="mi-tab" data-tab="parity">Rate Parity</button></div><div class="mi-month-nav"><button class="mi-nav-btn" data-mi="prev-btn"><span class="material-icons-round mi">chevron_left</span></button><div class="mi-month-label" data-mi="month-label">April 2026</div><button class="mi-nav-btn" data-mi="next-btn"><span class="material-icons-round mi">chevron_right</span></button></div><button class="mi-today-btn" data-mi="today-btn"><span class="material-icons-round mi">today</span>Today</button><div class="mi-toolbar-spacer"></div><div class="mi-comp-wrap"><button class="mi-dropdown" data-mi="seg-btn"><span data-mi="seg-label">BAR</span><span class="material-icons-round mi">arrow_drop_down</span></button></div><div class="mi-comp-wrap"><button class="mi-dropdown" data-mi="comp-btn"><span data-mi="comp-label">Compset Median</span><span class="material-icons-round mi">arrow_drop_down</span></button></div><div class="mi-comp-wrap"><button class="mi-dropdown" data-mi="room-btn"><span data-mi="room-label">Standard King</span><span class="material-icons-round mi">arrow_drop_down</span></button></div><button class="mi-more-filters" data-mi="more-filters-btn"><span class="material-icons-round mi" data-mi="mf-icon">filter_list</span><span data-mi="mf-label">More Filters</span></button></div><div class="mi-extra-filters" data-mi="extra-filters"><span class="mi-xf-label">Filter:</span><div class="mi-comp-wrap"><button class="mi-dropdown" data-mi="los-btn"><span data-mi="los-label">2 nights</span><span class="material-icons-round mi">arrow_drop_down</span></button></div><div class="mi-comp-wrap"><button class="mi-dropdown" data-mi="occ-btn"><span data-mi="occ-label">2 guests</span><span class="material-icons-round mi">arrow_drop_down</span></button></div><div class="mi-comp-wrap"><button class="mi-dropdown" data-mi="ch-btn"><span data-mi="ch-label">All channels</span><span class="material-icons-round mi">arrow_drop_down</span></button></div></div><div class="mi-body"><div class="mi-cal"><div class="mi-cal-header"><div class="mi-cal-dow">Sun</div><div class="mi-cal-dow">Mon</div><div class="mi-cal-dow">Tue</div><div class="mi-cal-dow">Wed</div><div class="mi-cal-dow">Thu</div><div class="mi-cal-dow">Fri</div><div class="mi-cal-dow">Sat</div></div><div class="mi-cal-grid tab-positioning" data-mi="cal-grid"></div></div><div class="mi-detail" data-mi="detail"></div></div></div></div></div></div>
-        <div class="grid-stack-item" gs-w="12" gs-h="6"><div class="grid-stack-item-content"><div class="home-card"><div class="home-card-header"><span class="home-card-title">Hotel Pickup</span><button class="home-more-btn"><span class="material-icons-round mi">more_vert</span></button></div><div class="home-placeholder-xl"></div></div></div></div>
+        <div class="grid-stack-item" gs-w="12" gs-h="6"><div class="grid-stack-item-content"><div class="home-card"><div class="home-card-header"><span class="home-card-title">Hotel Pickup</span><button class="home-more-btn"><span class="material-icons-round mi">more_vert</span></button></div>
+                <div class="hpw-wrap">
+                  <div class="hpw-ctrl-row">Grouped by <span class="hpw-ctrl-item">Yield segment<span class="material-icons-round mi">expand_more</span></span> for <span class="hpw-ctrl-item">Market Segments (All)<span class="material-icons-round mi">expand_more</span></span></div>
+                  <div class="hpw-subtitle">Updated Monday, Apr 13, 2026 12:13 PM</div>
+                  <div class="hpw-scroll">
+                    <table class="hpw-table">
+                      <thead>
+                        <tr>
+                          <th class="hpw-th-stay"></th>
+                          <th colspan="3" class="hpw-group-th">1-Day Pickup</th>
+                          <th colspan="3" class="hpw-group-th">3-Day Pickup</th>
+                          <th colspan="3" class="hpw-group-th">7-Day Pickup</th>
+                        </tr>
+                        <tr>
+                          <th class="hpw-th-stay">Stay Date</th>
+                          <th class="hpw-sub-th hpw-sub-th-first">Rooms</th><th class="hpw-sub-th">Revenue</th><th class="hpw-sub-th">ADR</th>
+                          <th class="hpw-sub-th hpw-sub-th-first">Rooms</th><th class="hpw-sub-th">Revenue</th><th class="hpw-sub-th">ADR</th>
+                          <th class="hpw-sub-th hpw-sub-th-first">Rooms</th><th class="hpw-sub-th">Revenue</th><th class="hpw-sub-th">ADR</th>
+                        </tr>
+                      </thead>
+                      <tbody>
+                        <tr class="hpw-date-row" data-hpw-toggle="d14">
+                          <td class="hpw-td-stay"><span class="hpw-chevron material-icons-round mi hpw-open">expand_more</span>Monday, Apr 14, 2026</td>
+                          <td class="hpw-col-num hpw-col-num-first">5</td><td class="hpw-col-num">$1,850</td><td class="hpw-col-num">$370</td>
+                          <td class="hpw-col-num hpw-col-num-first">12</td><td class="hpw-col-num">$4,200</td><td class="hpw-col-num">$350</td>
+                          <td class="hpw-col-num hpw-col-num-first">21</td><td class="hpw-col-num">$7,140</td><td class="hpw-col-num">$340</td>
+                        </tr>
+                        <tr class="hpw-seg-row" data-hpw-group="d14"><td class="hpw-td-stay">Best Available Rate</td><td class="hpw-col-num hpw-col-num-first">2</td><td class="hpw-col-num">$840</td><td class="hpw-col-num">$420</td><td class="hpw-col-num hpw-col-num-first">5</td><td class="hpw-col-num">$2,100</td><td class="hpw-col-num">$420</td><td class="hpw-col-num hpw-col-num-first">8</td><td class="hpw-col-num">$3,360</td><td class="hpw-col-num">$420</td></tr>
+                        <tr class="hpw-seg-row" data-hpw-group="d14"><td class="hpw-td-stay">Qualified Discount</td><td class="hpw-col-num hpw-col-num-first">1</td><td class="hpw-col-num">$280</td><td class="hpw-col-num">$280</td><td class="hpw-col-num hpw-col-num-first">2</td><td class="hpw-col-num">$560</td><td class="hpw-col-num">$280</td><td class="hpw-col-num hpw-col-num-first">4</td><td class="hpw-col-num">$1,120</td><td class="hpw-col-num">$280</td></tr>
+                        <tr class="hpw-seg-row" data-hpw-group="d14"><td class="hpw-td-stay">Online Travel Agency</td><td class="hpw-col-num hpw-col-num-first">0</td><td class="hpw-col-num">—</td><td class="hpw-col-num">—</td><td class="hpw-col-num hpw-col-num-first">2</td><td class="hpw-col-num">$580</td><td class="hpw-col-num">$290</td><td class="hpw-col-num hpw-col-num-first">3</td><td class="hpw-col-num">$870</td><td class="hpw-col-num">$290</td></tr>
+                        <tr class="hpw-seg-row" data-hpw-group="d14"><td class="hpw-td-stay">Advanced Purchase</td><td class="hpw-col-num hpw-col-num-first">0</td><td class="hpw-col-num">—</td><td class="hpw-col-num">—</td><td class="hpw-col-num hpw-col-num-first">1</td><td class="hpw-col-num">$310</td><td class="hpw-col-num">$310</td><td class="hpw-col-num hpw-col-num-first">2</td><td class="hpw-col-num">$620</td><td class="hpw-col-num">$310</td></tr>
+                        <tr class="hpw-seg-row" data-hpw-group="d14"><td class="hpw-td-stay">Promotion</td><td class="hpw-col-num hpw-col-num-first">1</td><td class="hpw-col-num">$390</td><td class="hpw-col-num">$390</td><td class="hpw-col-num hpw-col-num-first">1</td><td class="hpw-col-num">$390</td><td class="hpw-col-num">$390</td><td class="hpw-col-num hpw-col-num-first">2</td><td class="hpw-col-num">$780</td><td class="hpw-col-num">$390</td></tr>
+                        <tr class="hpw-seg-row" data-hpw-group="d14"><td class="hpw-td-stay">Packages</td><td class="hpw-col-num hpw-col-num-first">1</td><td class="hpw-col-num">$340</td><td class="hpw-col-num">$340</td><td class="hpw-col-num hpw-col-num-first">1</td><td class="hpw-col-num">$260</td><td class="hpw-col-num">$260</td><td class="hpw-col-num hpw-col-num-first">2</td><td class="hpw-col-num">$390</td><td class="hpw-col-num">$195</td></tr>
+                        <tr class="hpw-date-row" data-hpw-toggle="d15">
+                          <td class="hpw-td-stay"><span class="hpw-chevron material-icons-round mi">chevron_right</span>Tuesday, Apr 15, 2026</td>
+                          <td class="hpw-col-num hpw-col-num-first">3</td><td class="hpw-col-num">$990</td><td class="hpw-col-num">$330</td>
+                          <td class="hpw-col-num hpw-col-num-first">9</td><td class="hpw-col-num">$2,880</td><td class="hpw-col-num">$320</td>
+                          <td class="hpw-col-num hpw-col-num-first">18</td><td class="hpw-col-num">$5,580</td><td class="hpw-col-num">$310</td>
+                        </tr>
+                        <tr class="hpw-seg-row hpw-hidden" data-hpw-group="d15"><td class="hpw-td-stay">Best Available Rate</td><td class="hpw-col-num hpw-col-num-first">1</td><td class="hpw-col-num">$410</td><td class="hpw-col-num">$410</td><td class="hpw-col-num hpw-col-num-first">4</td><td class="hpw-col-num">$1,640</td><td class="hpw-col-num">$410</td><td class="hpw-col-num hpw-col-num-first">7</td><td class="hpw-col-num">$2,870</td><td class="hpw-col-num">$410</td></tr>
+                        <tr class="hpw-seg-row hpw-hidden" data-hpw-group="d15"><td class="hpw-td-stay">Qualified Discount</td><td class="hpw-col-num hpw-col-num-first">1</td><td class="hpw-col-num">$260</td><td class="hpw-col-num">$260</td><td class="hpw-col-num hpw-col-num-first">2</td><td class="hpw-col-num">$520</td><td class="hpw-col-num">$260</td><td class="hpw-col-num hpw-col-num-first">4</td><td class="hpw-col-num">$1,040</td><td class="hpw-col-num">$260</td></tr>
+                        <tr class="hpw-seg-row hpw-hidden" data-hpw-group="d15"><td class="hpw-td-stay">Online Travel Agency</td><td class="hpw-col-num hpw-col-num-first">0</td><td class="hpw-col-num">—</td><td class="hpw-col-num">—</td><td class="hpw-col-num hpw-col-num-first">1</td><td class="hpw-col-num">$295</td><td class="hpw-col-num">$295</td><td class="hpw-col-num hpw-col-num-first">3</td><td class="hpw-col-num">$885</td><td class="hpw-col-num">$295</td></tr>
+                        <tr class="hpw-seg-row hpw-hidden" data-hpw-group="d15"><td class="hpw-td-stay">Advanced Purchase</td><td class="hpw-col-num hpw-col-num-first">1</td><td class="hpw-col-num">$320</td><td class="hpw-col-num">$320</td><td class="hpw-col-num hpw-col-num-first">1</td><td class="hpw-col-num">$320</td><td class="hpw-col-num">$320</td><td class="hpw-col-num hpw-col-num-first">2</td><td class="hpw-col-num">$640</td><td class="hpw-col-num">$320</td></tr>
+                        <tr class="hpw-seg-row hpw-hidden" data-hpw-group="d15"><td class="hpw-td-stay">Promotion</td><td class="hpw-col-num hpw-col-num-first">0</td><td class="hpw-col-num">—</td><td class="hpw-col-num">—</td><td class="hpw-col-num hpw-col-num-first">1</td><td class="hpw-col-num">$305</td><td class="hpw-col-num">$305</td><td class="hpw-col-num hpw-col-num-first">1</td><td class="hpw-col-num">$305</td><td class="hpw-col-num">$305</td></tr>
+                        <tr class="hpw-seg-row hpw-hidden" data-hpw-group="d15"><td class="hpw-td-stay">Packages</td><td class="hpw-col-num hpw-col-num-first">0</td><td class="hpw-col-num">—</td><td class="hpw-col-num">—</td><td class="hpw-col-num hpw-col-num-first">0</td><td class="hpw-col-num">—</td><td class="hpw-col-num">—</td><td class="hpw-col-num hpw-col-num-first">1</td><td class="hpw-col-num">$840</td><td class="hpw-col-num">$840</td></tr>
+                        <tr class="hpw-date-row" data-hpw-toggle="d16">
+                          <td class="hpw-td-stay"><span class="hpw-chevron material-icons-round mi">chevron_right</span>Wednesday, Apr 16, 2026</td>
+                          <td class="hpw-col-num hpw-col-num-first">7</td><td class="hpw-col-num">$2,730</td><td class="hpw-col-num">$390</td>
+                          <td class="hpw-col-num hpw-col-num-first">15</td><td class="hpw-col-num">$5,850</td><td class="hpw-col-num">$390</td>
+                          <td class="hpw-col-num hpw-col-num-first">28</td><td class="hpw-col-num">$10,920</td><td class="hpw-col-num">$390</td>
+                        </tr>
+                        <tr class="hpw-seg-row hpw-hidden" data-hpw-group="d16"><td class="hpw-td-stay">Best Available Rate</td><td class="hpw-col-num hpw-col-num-first">3</td><td class="hpw-col-num">$1,260</td><td class="hpw-col-num">$420</td><td class="hpw-col-num hpw-col-num-first">7</td><td class="hpw-col-num">$2,940</td><td class="hpw-col-num">$420</td><td class="hpw-col-num hpw-col-num-first">12</td><td class="hpw-col-num">$5,040</td><td class="hpw-col-num">$420</td></tr>
+                        <tr class="hpw-seg-row hpw-hidden" data-hpw-group="d16"><td class="hpw-td-stay">Qualified Discount</td><td class="hpw-col-num hpw-col-num-first">2</td><td class="hpw-col-num">$560</td><td class="hpw-col-num">$280</td><td class="hpw-col-num hpw-col-num-first">3</td><td class="hpw-col-num">$840</td><td class="hpw-col-num">$280</td><td class="hpw-col-num hpw-col-num-first">6</td><td class="hpw-col-num">$1,680</td><td class="hpw-col-num">$280</td></tr>
+                        <tr class="hpw-seg-row hpw-hidden" data-hpw-group="d16"><td class="hpw-td-stay">Online Travel Agency</td><td class="hpw-col-num hpw-col-num-first">1</td><td class="hpw-col-num">$310</td><td class="hpw-col-num">$310</td><td class="hpw-col-num hpw-col-num-first">2</td><td class="hpw-col-num">$620</td><td class="hpw-col-num">$310</td><td class="hpw-col-num hpw-col-num-first">4</td><td class="hpw-col-num">$1,240</td><td class="hpw-col-num">$310</td></tr>
+                        <tr class="hpw-seg-row hpw-hidden" data-hpw-group="d16"><td class="hpw-td-stay">Advanced Purchase</td><td class="hpw-col-num hpw-col-num-first">0</td><td class="hpw-col-num">—</td><td class="hpw-col-num">—</td><td class="hpw-col-num hpw-col-num-first">1</td><td class="hpw-col-num">$360</td><td class="hpw-col-num">$360</td><td class="hpw-col-num hpw-col-num-first">3</td><td class="hpw-col-num">$1,080</td><td class="hpw-col-num">$360</td></tr>
+                        <tr class="hpw-seg-row hpw-hidden" data-hpw-group="d16"><td class="hpw-td-stay">Promotion</td><td class="hpw-col-num hpw-col-num-first">1</td><td class="hpw-col-num">$400</td><td class="hpw-col-num">$400</td><td class="hpw-col-num hpw-col-num-first">2</td><td class="hpw-col-num">$800</td><td class="hpw-col-num">$400</td><td class="hpw-col-num hpw-col-num-first">2</td><td class="hpw-col-num">$800</td><td class="hpw-col-num">$400</td></tr>
+                        <tr class="hpw-seg-row hpw-hidden" data-hpw-group="d16"><td class="hpw-td-stay">Packages</td><td class="hpw-col-num hpw-col-num-first">0</td><td class="hpw-col-num">—</td><td class="hpw-col-num">—</td><td class="hpw-col-num hpw-col-num-first">0</td><td class="hpw-col-num">—</td><td class="hpw-col-num">—</td><td class="hpw-col-num hpw-col-num-first">1</td><td class="hpw-col-num">$1,080</td><td class="hpw-col-num">$1,080</td></tr>
+                      </tbody>
+                    </table>
+                  </div>
+                </div></div></div></div>
         <div class="grid-stack-item" gs-w="6" gs-h="6"><div class="grid-stack-item-content"><div class="home-card"><div class="home-card-header"><span class="home-card-title">Booking Engine Search Activity</span><button class="home-more-btn"><span class="material-icons-round mi">more_vert</span></button></div><div class="home-placeholder-xl"></div></div></div></div>
         <div class="grid-stack-item" gs-w="6" gs-h="6"><div class="grid-stack-item-content"><div class="home-card"><div class="home-card-header"><span class="home-card-title">Group Business by Stage</span><button class="home-more-btn"><span class="material-icons-round mi">more_vert</span></button></div><div class="home-placeholder-xl"></div></div></div></div>
         <div class="grid-stack-item" gs-w="12" gs-h="6"><div class="grid-stack-item-content"><div class="home-card"><div class="home-card-header"><span class="home-card-title">Geo Source of Bookings</span><button class="home-more-btn"><span class="material-icons-round mi">more_vert</span></button></div><div class="home-placeholder-xl"></div></div></div></div>
@@ -12471,6 +12678,23 @@
   }
 
   document.querySelectorAll('[data-occ]').forEach(initOcc);
+}());
+
+/* ── Hotel Pickup: expand / collapse date rows ── */
+(function() {
+  document.querySelectorAll('.hpw-wrap').forEach(function(wrap) {
+    wrap.querySelectorAll('[data-hpw-toggle]').forEach(function(row) {
+      row.addEventListener('click', function() {
+        var group   = row.getAttribute('data-hpw-toggle');
+        var segs    = wrap.querySelectorAll('[data-hpw-group="' + group + '"]');
+        var chevron = row.querySelector('.hpw-chevron');
+        var isOpen  = chevron.classList.contains('hpw-open');
+        segs.forEach(function(seg) { seg.classList.toggle('hpw-hidden', isOpen); });
+        chevron.classList.toggle('hpw-open', !isOpen);
+        chevron.textContent = isOpen ? 'chevron_right' : 'expand_more';
+      });
+    });
+  });
 }());
 </script>
 
