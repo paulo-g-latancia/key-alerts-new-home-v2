@@ -8243,12 +8243,17 @@
 
   /* ── Hotel clusters (deterministic pre-selection) ──── */
   // Cluster 2-10: Hotel Barcelona + 4 others (5 total)
+  // Coastal Collection (2–10): Western European flagship properties
   var CLUSTER_2_10_HOTELS = [
     'Hotel Barcelona','Grand Palais Paris','The Mayfair London','Hotel Artemis Rome','Metropol Hotel Berlin'
   ];
-  // Cluster 11-50: Hotel Barcelona + 19 others (20 total)
+  // EMEA Portfolio (11–50): broader EMEA properties, disjoint from Coastal Collection
   var CLUSTER_11_50_HOTELS = [
-    'Hotel Barcelona','Grand Palais Paris','The Mayfair London','Hotel Artemis Rome','Metropol Hotel Berlin','Amsterdam Canal Hotel','Skyline Hotel Frankfurt','Riva Palace Milan','The Nordic Helsinki','Estancia Buenos Aires','Hotel Copacabana Rio','Palermo Boutique Buenos Aires','Lakeview Chicago','Hudson Street New York','The Presidio San Francisco','Pacific Rim Vancouver','Hacienda Mexico City','Andean Lodge Bogotá','Sakura Hotel Tokyo','Marina Bay Singapore'
+    'Amsterdam Canal Hotel','Skyline Hotel Frankfurt','Riva Palace Milan','The Nordic Helsinki',
+    'Acropolis Suites Athens','Harbour Inn Dublin','Bosphorus View Istanbul','Algarve Clifftop Resort',
+    'Hotel Reykjavik Northern Lights','Alpen Resort Zermatt',
+    'Viceroy Dubai','Kempinski Doha','Nile View Cairo','Marrakech Medina Hotel',
+    'Savanna Cape Town','Serengeti Lodge Nairobi','Zanzibar Beach Resort'
   ];
   // Cluster 51+: all hotels (show all alerts)
   var currentProperty = 'cluster-2-10';
@@ -10260,11 +10265,14 @@
       ap.CLUSTER_2_10_HOTELS.forEach(function(h){ c210set[h] = true; });
       var c1150set = {};
       ap.CLUSTER_11_50_HOTELS.forEach(function(h){ c1150set[h] = true; });
+      var allClusterSet = {};
+      ap.CLUSTER_2_10_HOTELS.forEach(function(h){ allClusterSet[h] = true; });
+      ap.CLUSTER_11_50_HOTELS.forEach(function(h){ allClusterSet[h] = true; });
 
       var CLUSTERS = [
-        { key: 'coastal',  label: 'Coastal Collection',  hotels: ap.CLUSTER_2_10_HOTELS.slice() },
-        { key: 'emea',     label: 'EMEA Portfolio',      hotels: ap.CLUSTER_11_50_HOTELS.filter(function(h){ return !c210set[h]; }) },
-        { key: 'extended', label: 'Extended Portfolio',  hotels: sorted.filter(function(h){ return !c1150set[h]; }) }
+        { key: 'coastal',  label: 'Coastal Collection', hotels: ap.CLUSTER_2_10_HOTELS.slice() },
+        { key: 'emea',     label: 'EMEA Portfolio',     hotels: ap.CLUSTER_11_50_HOTELS.slice() },
+        { key: 'extended', label: 'Extended Portfolio', hotels: sorted.filter(function(h){ return !allClusterSet[h]; }) }
       ];
 
       CLUSTERS.forEach(function(cl) {
