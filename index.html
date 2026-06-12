@@ -5019,8 +5019,8 @@
               <span class="ap-filter-section-title">Read status</span>
             </div>
             <div class="ap-relevance-seg" id="ap-read-seg" style="margin-bottom:6px">
-              <button class="ap-relevance-seg-btn ap-seg-active" data-read="both">Both</button>
-              <button class="ap-relevance-seg-btn" data-read="unread">Unread</button>
+              <button class="ap-relevance-seg-btn" data-read="both">Both</button>
+              <button class="ap-relevance-seg-btn ap-seg-active" data-read="unread">Unread</button>
               <button class="ap-relevance-seg-btn" data-read="read">Read</button>
             </div>
           </div>
@@ -5431,7 +5431,7 @@
   var appliedActions   = {}; // alertId -> array of applied action strings
   var activeSort       = 'relevance';
   var activeFilters       = ['Anomaly', 'Demand Signal', 'Inventory Mismatch', 'Market Demand', 'Price Drop'];
-  var activeReadFilter    = 'both';
+  var activeReadFilter    = 'unread';
   var activeRelevanceFilter = null; // null = no filter; 3, 4, or 5 = minimum tier
   var ALL_CATEGORIES      = ['Anomaly', 'Demand Signal', 'Inventory Mismatch', 'Market Demand', 'Price Drop'];
   var activeHotelFilter   = null; // null = all hotels; array of hotel names = filtered set
@@ -5444,7 +5444,7 @@
   function updateFilterDot() {
     var allCatsActive = ALL_CATEGORIES.length === activeFilters.length &&
       ALL_CATEGORIES.every(function (c) { return activeFilters.indexOf(c) !== -1; });
-    var isDefault = allCatsActive && activeReadFilter === 'both' && activeRelevanceFilter === null;
+    var isDefault = allCatsActive && activeReadFilter === 'unread' && activeRelevanceFilter === null;
     filterBtn.classList.toggle('ap-filter-dirty', !isDefault);
     updateResetBtn();
   }
@@ -9922,7 +9922,7 @@
       // date range (used when no stayDate)
       activePanelDateFilter = (opts.dateFrom && opts.dateTo) ? { from: opts.dateFrom, to: opts.dateTo } : null;
       // read filter
-      var rf = opts.readFilter || 'both';
+      var rf = opts.readFilter || 'unread';
       activeReadFilter  = rf;
       pendingReadFilter = rf;
       document.querySelectorAll('[data-read]').forEach(function (btn) {
