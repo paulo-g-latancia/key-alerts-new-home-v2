@@ -2282,9 +2282,9 @@
     .aws-td-cell { text-align: center; font-size: 13px; color: #1C1C1C; font-family: 'Lato', sans-serif; border-right: 1px solid #DDE1E2; padding: 0 4px; cursor: default; position: relative; }
     .aws-td-cell:last-child { border-right: none; }
     .aws-td-cell.aws-clickable { cursor: pointer; }
-    .aws-table tbody tr:hover .aws-td-cell,
+    .aws-table tbody tr:hover .aws-td-cell { box-shadow: inset 0 0 0 9999px rgba(0,0,0,0.05); }
     .aws-table tbody tr:hover .aws-td-label { filter: brightness(0.96); }
-    .aws-table tbody tr .aws-td-cell.aws-clickable:hover { filter: brightness(0.88); }
+    .aws-table tbody tr .aws-td-cell.aws-clickable:hover { box-shadow: inset 0 0 0 9999px rgba(0,0,0,0.14); }
     .aws-h1 { background: #F9E2E2; color: #1C1C1C; }
     .aws-h2 { background: #F0B7B7; color: #1C1C1C; }
     .aws-h3 { background: #E68989; color: #1C1C1C; }
@@ -2300,6 +2300,19 @@
     .aws-region-row .aws-h3 { background: #E68989 !important; color: #1C1C1C; }
     .aws-region-row .aws-h4 { background: #DD5F5F !important; color: #fff; }
     .aws-region-row .aws-h5 { background: #D33030 !important; color: #fff; }
+    .aws-cluster-row { background: #EAF0EF; }
+    .aws-cluster-row .aws-td-label { font-weight: 700; background: #EAF0EF; cursor: pointer; user-select: none; }
+    .aws-cluster-row .aws-td-cell { background: #EAF0EF !important; }
+    .aws-cluster-row .aws-td-total { background: #D8E8E6 !important; }
+    .aws-cluster-row .aws-h1 { background: #F9E2E2 !important; }
+    .aws-cluster-row .aws-h2 { background: #F0B7B7 !important; }
+    .aws-cluster-row .aws-h3 { background: #E68989 !important; color: #1C1C1C; }
+    .aws-cluster-row .aws-h4 { background: #DD5F5F !important; color: #fff; }
+    .aws-cluster-row .aws-h5 { background: #D33030 !important; color: #fff; }
+    .aws-cluster-row:hover .aws-td-label { filter: brightness(0.97); }
+    .aws-cluster-child { display: table-row; }
+    .aws-cluster-child.aws-cluster-hidden { display: none; }
+    .aws-cluster-chevron { font-size: 16px; vertical-align: middle; transition: transform .15s; display: inline-block; margin-right: 4px; color: #4F5B60; }
     .aws-region-td-label .aws-region-label-inner { display: flex; align-items: center; gap: 2px; }
     .aws-expand-icon { font-size: 16px; color: #5C6370; flex-shrink: 0; line-height: 1; vertical-align: middle; }
     .aws-widget--compact .aws-table tbody tr { height: 34px; }
@@ -9992,9 +10005,10 @@
     tier: _initDefaults.tier,
     days: _initDefaults.days,
     sort: 'urgency',
-    showTotals: true,
+    showTotals: false,
     groupByRegion: true,
-    allRegionsExpanded: false
+    allRegionsExpanded: false,
+    expandedClusters: {}
   };
 
   var HOTEL_REGION = {};
@@ -10191,9 +10205,12 @@
     summaryHTML += '</tr>';
 
     // ── Data rows ───────────────────────────────────────────────────────────
-    var tbodyHTML = '<tbody>' + ((!single && !state.showTotals) ? '' : summaryHTML);
-    sorted.forEach(function (r) {
-      if (!single && matrix.rowTotals[r] === 0) return;
+    var prop = window._ap.getCurrentProperty();
+    var isAllProps = (prop === 'cluster-51plus');
+
+    // Build a hotel row (shared helper)
+    function hotelRow(r, extraRowCls) {
+      if (!single && matrix.rowTotals[r] === 0) return '';
       var labelCell;
       if (single) {
         var dot = CAT_COLORS[r] || '#888';
@@ -10228,8 +10245,99 @@
         totalCell = '<td class="aws-td-cell aws-td-total' + (rt > 0 ? ' aws-clickable' : '') + '" data-row-key="' + esc(r) + '" data-cat="__total__">' +
           (rt > 0 ? '<strong>' + rt + '</strong>' : '<span class="aws-cell-dash">–</span>') + '</td>';
       }
-      tbodyHTML += '<tr>' + labelCell + dateCells + totalCell + '</tr>';
-    });
+      return '<tr class="' + (extraRowCls || '') + '">' + labelCell + dateCells + totalCell + '</tr>';
+    }
+
+    var tbodyHTML = '<tbody>' + ((!single && !state.showTotals) ? '' : summaryHTML);
+
+    if (isAllProps) {
+      // Define the clusters
+      var ap = window._ap;
+      var c210set = {};
+      ap.CLUSTER_2_10_HOTELS.forEach(function(h){ c210set[h] = true; });
+      var c1150set = {};
+      ap.CLUSTER_11_50_HOTELS.forEach(function(h){ c1150set[h] = true; });
+
+      var CLUSTERS = [
+        { key: 'coastal',  label: 'Coastal Collection',  hotels: ap.CLUSTER_2_10_HOTELS.slice() },
+        { key: 'emea',     label: 'EMEA Portfolio',      hotels: ap.CLUSTER_11_50_HOTELS.filter(function(h){ return !c210set[h]; }) },
+        { key: 'extended', label: 'Extended Portfolio',  hotels: sorted.filter(function(h){ return !c1150set[h]; }) }
+      ];
+
+      CLUSTERS.forEach(function(cl) {
+        // Only render cluster if it has at least one hotel with alerts
+        var clHotels = cl.hotels.filter(function(h){ return matrix.rowTotals[h] > 0; });
+        if (clHotels.length === 0) return;
+
+        var isExpanded = state.expandedClusters[cl.key] !== false; // default expanded
+
+        // Compute cluster-level date totals (for showTotals display on header row)
+        var clDateTotals = {};
+        var clTotal = 0;
+        dates.forEach(function(d) {
+          var dk = d.toDateString();
+          var sum = 0;
+          clHotels.forEach(function(h) { sum += (matrix.counts[h] && matrix.counts[h][dk]) || 0; });
+          clDateTotals[dk] = sum;
+          clTotal += sum;
+        });
+
+        // Cluster level for color (max level across dates)
+        var clLevelMap = {};
+        dates.forEach(function(d) {
+          var dk = d.toDateString();
+          var maxLv = 0;
+          clHotels.forEach(function(h) {
+            var lv = (heatmap.levelMap[h] && heatmap.levelMap[h][dk]) || 0;
+            if (lv > maxLv) maxLv = lv;
+          });
+          clLevelMap[dk] = maxLv;
+        });
+
+        var chevron = '<span class="aws-cluster-chevron material-icons-round mi" style="transform:' +
+          (isExpanded ? 'rotate(90deg)' : 'rotate(0deg)') + '">' +
+          'chevron_right</span>';
+
+        // Cluster header row
+        var clLabelCell = '<td class="aws-td-label" data-cluster-key="' + esc(cl.key) + '">' +
+          '<div class="aws-label-name">' + chevron + esc(cl.label) +
+          ' <span style="font-size:11px;font-weight:400;color:#4F5B60;margin-left:4px">(' + clHotels.length + ')</span>' +
+          '</div></td>';
+
+        var clDateCells = '';
+        dates.forEach(function(d) {
+          var dk = d.toDateString();
+          var cnt = clDateTotals[dk];
+          var lv  = clLevelMap[dk];
+          var wkCls = (d.getDay() === 0 || d.getDay() === 6) ? ' aws-td-weekend' : '';
+          var clsStr = 'aws-td-cell' + wkCls + (state.showTotals && cnt > 0 ? cls(lv) : '');
+          clDateCells += '<td class="' + clsStr + '">' +
+            (state.showTotals && cnt > 0 ? cnt : '<span class="aws-cell-dash">–</span>') + '</td>';
+        });
+
+        var clTotalCell = '';
+        if (state.showTotals) {
+          clTotalCell = '<td class="aws-td-cell aws-td-total">' +
+            (clTotal > 0 ? '<strong>' + clTotal + '</strong>' : '') + '</td>';
+        }
+
+        tbodyHTML += '<tr class="aws-cluster-row" data-cluster-key="' + esc(cl.key) + '">' +
+          clLabelCell + clDateCells + clTotalCell + '</tr>';
+
+        // Hotel rows (children)
+        clHotels.forEach(function(r) {
+          var rowHTML = hotelRow(r, 'aws-cluster-child' + (isExpanded ? '' : ' aws-cluster-hidden') +
+            ' aws-cluster-of-' + esc(cl.key));
+          if (rowHTML) tbodyHTML += rowHTML;
+        });
+      });
+    } else {
+      sorted.forEach(function (r) {
+        var rowHTML = hotelRow(r, '');
+        if (rowHTML) tbodyHTML += rowHTML;
+      });
+    }
+
     tbodyHTML += '</tbody>';
     return '<div class="aws-table-wrap"><div class="aws-table-scroll">' +
       '<table class="aws-table" style="width:100%;min-width:' + totalW + 'px">' + theadHTML + tbodyHTML + '</table>' +
@@ -10350,6 +10458,14 @@
 
     if (tbl) tbl.addEventListener('click', function (e) {
       e.stopPropagation();
+      // Cluster header row toggle
+      var clusterRow = e.target.closest('[data-cluster-key]');
+      if (clusterRow && clusterRow.classList.contains('aws-cluster-row')) {
+        var ck = clusterRow.getAttribute('data-cluster-key');
+        state.expandedClusters[ck] = state.expandedClusters[ck] === false ? true : false;
+        render();
+        return;
+      }
       // Date header click → all alerts on that date
       var th = e.target.closest('.aws-th-date.aws-clickable');
       if (th) { openForDate(new Date(th.getAttribute('data-date-key'))); return; }
@@ -10403,6 +10519,7 @@
     state.sort = 'urgency';
     state.groupByRegion = true;
     state.allRegionsExpanded = false;
+    state.expandedClusters = {};
     render();
   };
 
