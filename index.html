@@ -10262,7 +10262,6 @@
 
     // Build a hotel row (shared helper)
     function hotelRow(r, extraRowCls) {
-      if (!single && matrix.rowTotals[r] === 0) return '';
       var labelCell;
       if (single) {
         var dot = CAT_COLORS[r] || '#888';
