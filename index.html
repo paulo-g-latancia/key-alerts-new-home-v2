@@ -3945,18 +3945,22 @@
         </div>
         <div class="pp-menu" id="pp-menu">
           <div class="pp-option" data-value="hotel-barcelona" data-icon="apartment" data-label="Hotel California" data-title="Hotel California">
+            <span class="material-icons-round mi pp-option-icon">apartment</span>
             <span class="pp-option-name">Hotel California</span>
             <span class="material-icons-round mi pp-option-check">check</span>
           </div>
           <div class="pp-option pp-selected" data-value="cluster-2-10" data-icon="domain" data-label="Coastal Collection" data-title="Coastal Collection">
+            <span class="material-icons-round mi pp-option-icon">domain</span>
             <span class="pp-option-name">Coastal Collection</span>
             <span class="material-icons-round mi pp-option-check">check</span>
           </div>
           <div class="pp-option" data-value="cluster-11-50" data-icon="domain" data-label="EMEA Portfolio" data-title="EMEA Portfolio">
+            <span class="material-icons-round mi pp-option-icon">domain</span>
             <span class="pp-option-name">EMEA Portfolio</span>
             <span class="material-icons-round mi pp-option-check">check</span>
           </div>
           <div class="pp-option" data-value="cluster-51plus" data-icon="all_inclusive" data-label="All Properties" data-title="All Properties">
+            <span class="material-icons-round mi pp-option-icon">all_inclusive</span>
             <span class="pp-option-name">All Properties</span>
             <span class="material-icons-round mi pp-option-check">check</span>
           </div>
@@ -10268,7 +10272,7 @@
       '<input type="checkbox" id="aws-show-totals-cb"' + (state.showTotals ? ' checked' : '') + '>Show totals</label>';
 
     var groupCbHTML = (prop === 'cluster-51plus')
-      ? '<label class="aws-group-cb-wrap"><input type="checkbox" id="aws-group-cb"' + (state.groupByRegion ? ' checked' : '') + '>Group by Region</label>'
+      ? ''
       : '';
 
     var headerHTML =
