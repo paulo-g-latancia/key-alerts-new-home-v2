@@ -2303,6 +2303,7 @@
     .aws-cluster-row { background: #EAF0EF; }
     .aws-cluster-row .aws-td-label { font-weight: 700; background: #EAF0EF; cursor: pointer; user-select: none; }
     .aws-cluster-row .aws-td-cell { background: #EAF0EF !important; }
+    .aws-cluster-row .aws-td-weekend { background: #EAF0EF !important; }
     .aws-cluster-row .aws-td-total { background: #D8E8E6 !important; }
     .aws-cluster-row .aws-h1 { background: #F9E2E2 !important; }
     .aws-cluster-row .aws-h2 { background: #F0B7B7 !important; }
@@ -10458,10 +10459,10 @@
 
     if (tbl) tbl.addEventListener('click', function (e) {
       e.stopPropagation();
-      // Cluster header row toggle
-      var clusterRow = e.target.closest('[data-cluster-key]');
-      if (clusterRow && clusterRow.classList.contains('aws-cluster-row')) {
-        var ck = clusterRow.getAttribute('data-cluster-key');
+      // Cluster header row toggle — only the label cell, not date cells
+      var clusterLbl = e.target.closest('td[data-cluster-key]');
+      if (clusterLbl) {
+        var ck = clusterLbl.getAttribute('data-cluster-key');
         state.expandedClusters[ck] = state.expandedClusters[ck] === false ? true : false;
         render();
         return;
