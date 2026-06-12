@@ -3960,9 +3960,9 @@
           <span class="material-icons-round mi" id="pp-chevron">keyboard_arrow_down</span>
         </div>
         <div class="pp-menu" id="pp-menu">
-          <div class="pp-option" data-value="hotel-barcelona" data-icon="apartment" data-label="Hotel California" data-title="Hotel California">
+          <div class="pp-option" data-value="hotel-barcelona" data-icon="apartment" data-label="Hotel Barcelona" data-title="Hotel Barcelona">
             <span class="material-icons-round mi pp-option-icon">apartment</span>
-            <span class="pp-option-name">Hotel California</span>
+            <span class="pp-option-name">Hotel Barcelona</span>
             <span class="material-icons-round mi pp-option-check">check</span>
           </div>
           <div class="pp-option pp-selected" data-value="cluster-2-10" data-icon="domain" data-label="Coastal Collection" data-title="Coastal Collection">
@@ -10269,7 +10269,7 @@
 
       CLUSTERS.forEach(function(cl) {
         // Only render cluster if it has at least one hotel with alerts
-        var clHotels = cl.hotels.filter(function(h){ return matrix.rowTotals[h] > 0; });
+        var clHotels = sorted.filter(function(h){ return cl.hotels.indexOf(h) !== -1 && matrix.rowTotals[h] > 0; });
         if (clHotels.length === 0) return;
 
         var isExpanded = state.expandedClusters[cl.key] !== false; // default expanded
