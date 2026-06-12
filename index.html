@@ -10313,8 +10313,7 @@
       ];
 
       CLUSTERS.forEach(function(cl) {
-        // Only render cluster if it has at least one hotel with alerts
-        var clHotels = sorted.filter(function(h){ return cl.hotels.indexOf(h) !== -1 && matrix.rowTotals[h] > 0; });
+        var clHotels = sorted.filter(function(h){ return cl.hotels.indexOf(h) !== -1; });
         if (clHotels.length === 0) return;
 
         var isExpanded = state.expandedClusters[cl.key] !== false; // default expanded
