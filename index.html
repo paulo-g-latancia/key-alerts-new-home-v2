@@ -3956,7 +3956,7 @@
       <div class="pp-wrapper">
         <div class="property-picker" id="pp-trigger">
           <span class="material-icons-round mi" id="pp-icon">domain</span>
-          <span class="pp-name" id="pp-label">Coastal Collection</span>
+          <span class="pp-name" id="pp-label">Western Europe</span>
           <span class="material-icons-round mi" id="pp-chevron">keyboard_arrow_down</span>
         </div>
         <div class="pp-menu" id="pp-menu">
@@ -3965,14 +3965,29 @@
             <span class="pp-option-name">Hotel Barcelona</span>
             <span class="material-icons-round mi pp-option-check">check</span>
           </div>
-          <div class="pp-option pp-selected" data-value="cluster-2-10" data-icon="domain" data-label="Coastal Collection" data-title="Coastal Collection">
+          <div class="pp-option pp-selected" data-value="cluster-w-europe" data-icon="domain" data-label="Western Europe" data-title="Western Europe">
             <span class="material-icons-round mi pp-option-icon">domain</span>
-            <span class="pp-option-name">Coastal Collection</span>
+            <span class="pp-option-name">Western Europe</span>
             <span class="material-icons-round mi pp-option-check">check</span>
           </div>
-          <div class="pp-option" data-value="cluster-11-50" data-icon="domain" data-label="EMEA Portfolio" data-title="EMEA Portfolio">
+          <div class="pp-option" data-value="cluster-n-europe" data-icon="domain" data-label="Northern &amp; Eastern Europe" data-title="Northern &amp; Eastern Europe">
             <span class="material-icons-round mi pp-option-icon">domain</span>
-            <span class="pp-option-name">EMEA Portfolio</span>
+            <span class="pp-option-name">Northern &amp; Eastern Europe</span>
+            <span class="material-icons-round mi pp-option-check">check</span>
+          </div>
+          <div class="pp-option" data-value="cluster-mea" data-icon="domain" data-label="Middle East &amp; Africa" data-title="Middle East &amp; Africa">
+            <span class="material-icons-round mi pp-option-icon">domain</span>
+            <span class="pp-option-name">Middle East &amp; Africa</span>
+            <span class="material-icons-round mi pp-option-check">check</span>
+          </div>
+          <div class="pp-option" data-value="cluster-americas" data-icon="domain" data-label="Americas" data-title="Americas">
+            <span class="material-icons-round mi pp-option-icon">domain</span>
+            <span class="pp-option-name">Americas</span>
+            <span class="material-icons-round mi pp-option-check">check</span>
+          </div>
+          <div class="pp-option" data-value="cluster-apac" data-icon="domain" data-label="Asia-Pacific" data-title="Asia-Pacific">
+            <span class="material-icons-round mi pp-option-icon">domain</span>
+            <span class="pp-option-name">Asia-Pacific</span>
             <span class="material-icons-round mi pp-option-check">check</span>
           </div>
           <div class="pp-option" data-value="cluster-51plus" data-icon="all_inclusive" data-label="All Properties" data-title="All Properties">
@@ -3986,7 +4001,7 @@
 
     <!-- Page Title -->
     <div class="page-title-bar">
-      <h1 class="page-title">Coastal Collection</h1>
+      <h1 class="page-title">Western Europe</h1>
     </div>
 
   </header>
@@ -5982,7 +5997,7 @@
       closeHotelFilterMenu();
     } else {
       // Show mode toggle only for large clusters
-      var showModes = (currentProperty === 'cluster-11-50' || currentProperty === 'cluster-51plus');
+      var showModes = (currentProperty !== 'hotel-barcelona');
       hfModeWrap.style.display = showModes ? '' : 'none';
       // Reset mode to hotels each time the panel opens (or keep current if already in region mode)
       setHfMode(hfMode);
@@ -8241,30 +8256,50 @@
     return _hcount[a.hotel] <= cap;
   });
 
-  /* ── Hotel clusters (deterministic pre-selection) ──── */
-  // Cluster 2-10: Hotel Barcelona + 4 others (5 total)
-  // Coastal Collection (2–10): Western European flagship properties
-  var CLUSTER_2_10_HOTELS = [
-    'Hotel Barcelona','Grand Palais Paris','The Mayfair London','Hotel Artemis Rome','Metropol Hotel Berlin'
+  /* ── Hotel clusters (geographic) ──── */
+  var CLUSTER_W_EUROPE = [
+    'Hotel Barcelona','Grand Palais Paris','The Mayfair London','Hotel Artemis Rome',
+    'Metropol Hotel Berlin','Amsterdam Canal Hotel','Skyline Hotel Frankfurt',
+    "Riva Palace Milan","Algarve Clifftop Resort","Côte d'Azur",'Alpen Resort Zermatt'
   ];
-  // EMEA Portfolio (11–50): broader EMEA properties, disjoint from Coastal Collection
-  var CLUSTER_11_50_HOTELS = [
-    'Amsterdam Canal Hotel','Skyline Hotel Frankfurt','Riva Palace Milan','The Nordic Helsinki',
-    'Acropolis Suites Athens','Harbour Inn Dublin','Bosphorus View Istanbul','Algarve Clifftop Resort',
-    'Hotel Reykjavik Northern Lights','Alpen Resort Zermatt',
+  var CLUSTER_N_EUROPE = [
+    'The Nordic Helsinki','Acropolis Suites Athens','Harbour Inn Dublin',
+    'Bosphorus View Istanbul','Hotel Reykjavik Northern Lights'
+  ];
+  var CLUSTER_MEA = [
     'Viceroy Dubai','Kempinski Doha','Nile View Cairo','Marrakech Medina Hotel',
     'Savanna Cape Town','Serengeti Lodge Nairobi','Zanzibar Beach Resort'
   ];
+  var CLUSTER_AMERICAS = [
+    'Hudson Street New York','Lakeview Chicago','The Presidio San Francisco',
+    'Pacific Rim Vancouver','Hacienda Mexico City','Andean Lodge Bogotá',
+    'Bogotá Business Inn','Lima Coastal Hotel','Estancia Buenos Aires',
+    'Hotel Copacabana Rio','Palermo Boutique Buenos Aires','Buenos Aires Budget Stay',
+    'Patagonia Eco Lodge'
+  ];
+  var CLUSTER_APAC = [
+    'Sakura Hotel Tokyo','Ryokan Arashiyama Kyoto','Kyoto Bamboo Inn',
+    'Bund View Shanghai','Lotus Hotel Shanghai','The Peak Hong Kong',
+    'Marina Bay Singapore','Coconut Bay Phuket','Radiance Hotel Mumbai',
+    'Rajput Palace Jaipur','The Spice Garden Maldives','Reef Lodge Cairns',
+    'Emerald Hotel Sydney'
+  ];
   // Cluster 51+: all hotels (show all alerts)
-  var currentProperty = 'cluster-2-10';
+  var currentProperty = 'cluster-w-europe';
 
   function getActiveAlerts() {
     if (currentProperty === 'hotel-barcelona') {
       return ALL_ALERTS.filter(function(a) { return a.hotel === 'Hotel Barcelona'; });
-    } else if (currentProperty === 'cluster-2-10') {
-      return ALL_ALERTS.filter(function(a) { return CLUSTER_2_10_HOTELS.indexOf(a.hotel) !== -1; });
-    } else if (currentProperty === 'cluster-11-50') {
-      return ALL_ALERTS.filter(function(a) { return CLUSTER_11_50_HOTELS.indexOf(a.hotel) !== -1; });
+    } else if (currentProperty === 'cluster-w-europe') {
+      return ALL_ALERTS.filter(function(a) { return CLUSTER_W_EUROPE.indexOf(a.hotel) !== -1; });
+    } else if (currentProperty === 'cluster-n-europe') {
+      return ALL_ALERTS.filter(function(a) { return CLUSTER_N_EUROPE.indexOf(a.hotel) !== -1; });
+    } else if (currentProperty === 'cluster-mea') {
+      return ALL_ALERTS.filter(function(a) { return CLUSTER_MEA.indexOf(a.hotel) !== -1; });
+    } else if (currentProperty === 'cluster-americas') {
+      return ALL_ALERTS.filter(function(a) { return CLUSTER_AMERICAS.indexOf(a.hotel) !== -1; });
+    } else if (currentProperty === 'cluster-apac') {
+      return ALL_ALERTS.filter(function(a) { return CLUSTER_APAC.indexOf(a.hotel) !== -1; });
     } else {
       return ALL_ALERTS; // cluster-51plus: all
     }
@@ -8340,7 +8375,7 @@
   }
 
   function renderAlerts(page) {
-    var showRegion = (currentProperty === 'cluster-11-50' || currentProperty === 'cluster-51plus');
+    var showRegion = (currentProperty !== 'hotel-barcelona');
     var data       = getDisplayData();
     var total      = data.length;
     var totalPages = Math.max(1, Math.ceil(total / PAGE_SIZE));
@@ -8482,7 +8517,7 @@
   function renderDetail(id) {
     var a = ALL_ALERTS.filter(function (x) { return x.id === id; })[0];
     if (!a) return;
-    var showRegion = (currentProperty === 'cluster-11-50' || currentProperty === 'cluster-51plus');
+    var showRegion = (currentProperty !== 'hotel-barcelona');
 
     // ── Mini alert card in the panel header ──────────────────────────
     var dow = DAYS[a.date.getDay()];
@@ -9109,7 +9144,7 @@
   // ── Helpers shared by detail→chat and history re-open ───────────────
 
   function buildAlertCardHtml(a) {
-    var showRegion = (currentProperty === 'cluster-11-50' || currentProperty === 'cluster-51plus');
+    var showRegion = (currentProperty !== 'hotel-barcelona');
     var dow = DAYS[a.date.getDay()];
     var day = MONTHS_SHORT[a.date.getMonth()] + ' ' + a.date.getDate();
     return '<div class="ap-alert-row ap-dv-header-card ap-unread ap-tier-' + a.tier + '">' +
@@ -9610,8 +9645,8 @@
         // Update active property and re-render alerts
         currentProperty = opt.dataset.value;
         // Auto-apply relevance filter based on cluster size
-        var isLargeCluster = (currentProperty === 'cluster-11-50' || currentProperty === 'cluster-51plus');
-        var isSmallCluster = (currentProperty === 'cluster-2-10');
+        var isLargeCluster = (currentProperty === 'cluster-51plus');
+        var isSmallCluster = false;
         if (isLargeCluster) {
           activeRelevanceFilter = 4;
         } else if (isSmallCluster) {
@@ -9844,8 +9879,11 @@
 
   window._ap = {
     ALL_ALERTS: ALL_ALERTS,
-    CLUSTER_2_10_HOTELS: CLUSTER_2_10_HOTELS,
-    CLUSTER_11_50_HOTELS: CLUSTER_11_50_HOTELS,
+    CLUSTER_W_EUROPE: CLUSTER_W_EUROPE,
+    CLUSTER_N_EUROPE: CLUSTER_N_EUROPE,
+    CLUSTER_MEA: CLUSTER_MEA,
+    CLUSTER_AMERICAS: CLUSTER_AMERICAS,
+    CLUSTER_APAC: CLUSTER_APAC,
     ALL_CATEGORIES: ALL_CATEGORIES,
     getCurrentProperty: function () { return currentProperty; },
     getActiveAlerts: getActiveAlerts,
@@ -10030,8 +10068,11 @@
     var ap = window._ap;
     var prop = ap.getCurrentProperty();
     if (prop === 'hotel-barcelona') return ['Hotel Barcelona'];
-    if (prop === 'cluster-2-10')  return ap.CLUSTER_2_10_HOTELS.slice();
-    if (prop === 'cluster-11-50') return ap.CLUSTER_11_50_HOTELS.slice();
+    if (prop === 'cluster-w-europe')  return ap.CLUSTER_W_EUROPE.slice();
+    if (prop === 'cluster-n-europe')  return ap.CLUSTER_N_EUROPE.slice();
+    if (prop === 'cluster-mea')       return ap.CLUSTER_MEA.slice();
+    if (prop === 'cluster-americas')  return ap.CLUSTER_AMERICAS.slice();
+    if (prop === 'cluster-apac')      return ap.CLUSTER_APAC.slice();
     var seen = {}, list = [];
     ap.ALL_ALERTS.forEach(function (a) { if (!seen[a.hotel]) { seen[a.hotel] = true; list.push(a.hotel); } });
     return list.sort();
@@ -10054,8 +10095,11 @@
     return ap.ALL_ALERTS.filter(function (a) {
       if (a.status === 'read') return false;
       if (prop === 'hotel-barcelona' && a.hotel !== 'Hotel Barcelona') return false;
-      if (prop === 'cluster-2-10'   && ap.CLUSTER_2_10_HOTELS.indexOf(a.hotel) === -1) return false;
-      if (prop === 'cluster-11-50'  && ap.CLUSTER_11_50_HOTELS.indexOf(a.hotel) === -1) return false;
+      if (prop === 'cluster-w-europe'  && ap.CLUSTER_W_EUROPE.indexOf(a.hotel)  === -1) return false;
+      if (prop === 'cluster-n-europe'  && ap.CLUSTER_N_EUROPE.indexOf(a.hotel)  === -1) return false;
+      if (prop === 'cluster-mea'       && ap.CLUSTER_MEA.indexOf(a.hotel)       === -1) return false;
+      if (prop === 'cluster-americas'  && ap.CLUSTER_AMERICAS.indexOf(a.hotel)  === -1) return false;
+      if (prop === 'cluster-apac'      && ap.CLUSTER_APAC.indexOf(a.hotel)      === -1) return false;
       if (a.date < TODAY || a.date >= rangeEnd) return false;
       if (state.tier !== null && a.tier < state.tier) return false;
       return true;
@@ -10261,18 +10305,12 @@
     if (isAllProps) {
       // Define the clusters
       var ap = window._ap;
-      var c210set = {};
-      ap.CLUSTER_2_10_HOTELS.forEach(function(h){ c210set[h] = true; });
-      var c1150set = {};
-      ap.CLUSTER_11_50_HOTELS.forEach(function(h){ c1150set[h] = true; });
-      var allClusterSet = {};
-      ap.CLUSTER_2_10_HOTELS.forEach(function(h){ allClusterSet[h] = true; });
-      ap.CLUSTER_11_50_HOTELS.forEach(function(h){ allClusterSet[h] = true; });
-
       var CLUSTERS = [
-        { key: 'coastal',  label: 'Coastal Collection', hotels: ap.CLUSTER_2_10_HOTELS.slice() },
-        { key: 'emea',     label: 'EMEA Portfolio',     hotels: ap.CLUSTER_11_50_HOTELS.slice() },
-        { key: 'extended', label: 'Extended Portfolio', hotels: sorted.filter(function(h){ return !allClusterSet[h]; }) }
+        { key: 'w-europe',  label: 'Western Europe',            hotels: ap.CLUSTER_W_EUROPE.slice() },
+        { key: 'n-europe',  label: 'Northern & Eastern Europe', hotels: ap.CLUSTER_N_EUROPE.slice() },
+        { key: 'mea',       label: 'Middle East & Africa',      hotels: ap.CLUSTER_MEA.slice() },
+        { key: 'americas',  label: 'Americas',                  hotels: ap.CLUSTER_AMERICAS.slice() },
+        { key: 'apac',      label: 'Asia-Pacific',              hotels: ap.CLUSTER_APAC.slice() }
       ];
 
       CLUSTERS.forEach(function(cl) {
@@ -10546,17 +10584,19 @@
 <script>
 /* ── Home tabs + property-aware panel switching ─────── */
 (function () {
-  var PROP_KEYS = ['single', 'cluster210', 'cluster11plus'];
+  var PROP_KEYS = ['single', 'cluster11plus'];
 
   var propMap = {
-    'hotel-barcelona': 'single',
-    'cluster-2-10':    'cluster210',
-    'cluster-11-50':   'cluster11plus',
-    'cluster-51plus':  'cluster11plus'
+    'hotel-barcelona':   'single',
+    'cluster-w-europe':  'cluster11plus',
+    'cluster-n-europe':  'cluster11plus',
+    'cluster-mea':       'cluster11plus',
+    'cluster-americas':  'cluster11plus',
+    'cluster-apac':      'cluster11plus',
+    'cluster-51plus':    'cluster11plus'
   };
 
-  // Matches the default selected option in the property picker HTML
-  var currentPropKey = 'cluster210';
+  var currentPropKey = 'cluster11plus';
   var currentTab     = 'priorities';
 
   function showHomePanel(propKey, tab) {
