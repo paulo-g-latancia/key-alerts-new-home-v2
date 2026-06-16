@@ -4856,7 +4856,7 @@
                     </table>
                   </div>
                 </div></div></div></div>
-        <div class="grid-stack-item" gs-w="6" gs-h="6"><div class="grid-stack-item-content"><div class="home-card"><div class="home-card-header"><span class="home-card-title">Booking Engine Search Activity</span><button class="home-more-btn"><span class="material-icons-round mi">more_vert</span></button></div><div class="home-placeholder-xl"></div></div></div></div>
+        <div class="grid-stack-item" gs-w="6" gs-h="6"><div class="grid-stack-item-content"><div class="home-card" style="display:flex;flex-direction:column;overflow:hidden"><div class="home-card-header"><span class="home-card-title">Booking Engine Search Activity</span><button class="home-more-btn"><span class="material-icons-round mi">more_vert</span></button></div><div class="besa-wrap" data-besa style="flex:1;display:flex;flex-direction:column;min-height:0;padding:0 12px 8px"><div class="besa-subtitle" style="font-size:11px;color:#7A8590;margin-bottom:6px">Updated Monday, Jun 16, 2026 12:13 PM</div><div style="flex:1;min-height:0;position:relative"><svg class="besa-svg" style="display:block;width:100%;height:100%;overflow:visible"></svg></div><div class="besa-events" style="margin-top:4px"></div><div class="besa-legend" style="display:flex;flex-wrap:wrap;gap:8px 14px;margin-top:6px;font-size:10px;color:#4F5B60"></div></div></div></div></div>
         <div class="grid-stack-item" gs-w="6" gs-h="6"><div class="grid-stack-item-content"><div class="home-card"><div class="home-card-header"><span class="home-card-title">Group Business by Stage</span><button class="home-more-btn"><span class="material-icons-round mi">more_vert</span></button></div>
                 <div class="gbw-wrap">
                   <div class="gbw-ctrl-row"><span class="gbw-ctrl-item">Rooms<span class="material-icons-round mi">expand_more</span></span> showing <span class="gbw-ctrl-item">Comparisons (3)<span class="material-icons-round mi">expand_more</span></span></div>
@@ -13468,6 +13468,200 @@
     draw();
   }
   document.querySelectorAll('[data-cbc]').forEach(initCbc);
+}());
+
+/* ── Booking Engine Search Activity ── */
+(function() {
+  // 31 days of fake data (Jul 1–31 2026 equivalent, shown as Jun dates)
+  var DAYS = [];
+  var mktSearches = [], beSearches = [], mktStly = [], beStly = [];
+  var labels = [];
+  // seed deterministic data
+  var mktBase = 6800, beBase = 380;
+  for (var i = 0; i < 31; i++) {
+    var day = i + 1;
+    var dow = (3 + i) % 7; // 0=Sun, weekends are 0,6
+    var isWknd = (dow === 0 || dow === 6);
+    var wkndBump = isWknd ? 1.22 : 1;
+    var mkt = Math.round((mktBase + Math.sin(i * 0.45) * 1200 + Math.cos(i * 0.3) * 600 + (Math.random ? 0 : 0)) * wkndBump);
+    var be  = Math.round((beBase  + Math.sin(i * 0.5 + 1) * 100 + Math.cos(i * 0.2) * 60) * wkndBump);
+    var mstly = Math.round(mkt * (0.88 + Math.sin(i * 0.2) * 0.06));
+    var bstly = Math.round(be  * (0.85 + Math.cos(i * 0.25) * 0.08));
+    mktSearches.push(mkt);
+    beSearches.push(be);
+    mktStly.push(mstly);
+    beStly.push(bstly);
+    DAYS.push(i);
+    labels.push('Jul ' + day);
+  }
+
+  // Weekend indices (dow 0 or 6 starting Wed=day0)
+  var weekendDays = DAYS.filter(function(i){ var d=(3+i)%7; return d===0||d===6; });
+  // Group consecutive weekend days into spans
+  var wkndSpans = [];
+  for (var wi = 0; wi < weekendDays.length; ) {
+    var start = weekendDays[wi];
+    var end = start;
+    while (wi + 1 < weekendDays.length && weekendDays[wi+1] === weekendDays[wi]+1) { wi++; end = weekendDays[wi]; }
+    wkndSpans.push([start, end]);
+    wi++;
+  }
+
+  // Event data (sparse)
+  var EVENTS = {
+    recommended: [0,2,5,14,18,24,28,30],
+    hotel:       [0,1,4,8,13,18,22,27],
+    notes:       [3,17,23,29],
+    restrictions:[2,7,15,19,25]
+  };
+
+  // X-axis tick labels (every 3 days)
+  var xTicks = DAYS.filter(function(i){ return i===0||i===3||i===6||i===9||i===12||i===15||i===18||i===21||i===24||i===27||i===30; });
+
+  function initBesa(area) {
+    var svg = area.querySelector('.besa-svg');
+    var eventsEl = area.querySelector('.besa-events');
+    var legendEl = area.querySelector('.besa-legend');
+
+    // Legend
+    legendEl.innerHTML = [
+      '<span style="display:flex;align-items:center;gap:3px"><span style="width:10px;height:10px;border-radius:2px;background:#B2EBE8;display:inline-block"></span>Market Searches</span>',
+      '<span style="display:flex;align-items:center;gap:3px"><span style="width:10px;height:10px;border-radius:2px;background:#7B9CDB;display:inline-block"></span>Booking Engine Searches</span>',
+      '<span style="display:flex;align-items:center;gap:4px"><svg width="18" height="8"><line x1="0" y1="4" x2="18" y2="4" stroke="#2E5E4E" stroke-width="1.5" stroke-dasharray="4,2"/></svg>Market STLY</span>',
+      '<span style="display:flex;align-items:center;gap:4px"><svg width="18" height="8"><line x1="0" y1="4" x2="18" y2="4" stroke="#3B5FA8" stroke-width="1.5" stroke-dasharray="4,2"/></svg>Booking Engine STLY</span>',
+      '<span style="display:flex;align-items:center;gap:3px"><span style="width:10px;height:10px;border-radius:2px;background:#EDEDED;display:inline-block"></span>Weekends</span>'
+    ].join('');
+
+    function draw() {
+      var W = svg.parentElement.clientWidth;
+      var H = svg.parentElement.clientHeight;
+      if (W < 10 || H < 10) return;
+
+      var PL = 46, PR = 48, PT = 12, PB = 28;
+      var cW = W - PL - PR, cH = H - PT - PB;
+      var n = DAYS.length;
+      var barW = Math.max(2, cW / n * 0.55);
+
+      var mktMin = 3800, mktMax = 10500;
+      var beMin  = 200,  beMax  = 680;
+
+      function xPos(i) { return PL + (i + 0.5) / n * cW; }
+      function yMkt(v) { return PT + cH - (v - mktMin) / (mktMax - mktMin) * cH; }
+      function yBe(v)  { return PT + cH - (v - beMin)  / (beMax  - beMin)  * cH; }
+
+      var h = '';
+
+      // Weekend shading
+      wkndSpans.forEach(function(span) {
+        var x1 = PL + span[0] / n * cW;
+        var x2 = PL + (span[1] + 1) / n * cW;
+        h += '<rect x="' + x1 + '" y="' + PT + '" width="' + (x2-x1) + '" height="' + cH + '" fill="#F0F0F0" opacity="0.7"/>';
+      });
+
+      // Market searches area fill
+      var areaPath = 'M ' + xPos(0) + ' ' + yMkt(mktSearches[0]);
+      for (var i = 1; i < n; i++) areaPath += ' L ' + xPos(i) + ' ' + yMkt(mktSearches[i]);
+      areaPath += ' L ' + xPos(n-1) + ' ' + (PT+cH) + ' L ' + xPos(0) + ' ' + (PT+cH) + ' Z';
+      h += '<path d="' + areaPath + '" fill="#B2EBE8" opacity="0.55"/>';
+
+      // Market searches top line
+      var linePath = 'M ' + xPos(0) + ' ' + yMkt(mktSearches[0]);
+      for (var i = 1; i < n; i++) linePath += ' L ' + xPos(i) + ' ' + yMkt(mktSearches[i]);
+      h += '<path d="' + linePath + '" fill="none" stroke="#5CC8C2" stroke-width="1.5"/>';
+
+      // Booking engine bars
+      beSearches.forEach(function(v, i) {
+        var x = xPos(i) - barW/2;
+        var barH = (v - beMin) / (beMax - beMin) * cH;
+        var y = PT + cH - barH;
+        var dow = (3 + i) % 7;
+        var isWk = (dow === 0 || dow === 6);
+        h += '<rect x="' + x + '" y="' + y + '" width="' + barW + '" height="' + barH + '" fill="' + (isWk ? '#9BB3E0' : '#6A8DCC') + '" rx="1"/>';
+      });
+
+      // Market STLY dashed line
+      var ms = 'M ' + xPos(0) + ' ' + yMkt(mktStly[0]);
+      for (var i = 1; i < n; i++) ms += ' L ' + xPos(i) + ' ' + yMkt(mktStly[i]);
+      h += '<path d="' + ms + '" fill="none" stroke="#2E5E4E" stroke-width="1.5" stroke-dasharray="5,3"/>';
+
+      // Booking Engine STLY dashed line
+      var bs = 'M ' + xPos(0) + ' ' + yBe(beStly[0]);
+      for (var i = 1; i < n; i++) bs += ' L ' + xPos(i) + ' ' + yBe(beStly[i]);
+      h += '<path d="' + bs + '" fill="none" stroke="#3B5FA8" stroke-width="1.5" stroke-dasharray="5,3"/>';
+
+      // Left Y axis gridlines + labels (Market Searches)
+      var mktTicks = [4000,5000,6000,7000,8000,9000,10000];
+      mktTicks.forEach(function(v) {
+        var y = yMkt(v);
+        if (y < PT - 2 || y > PT + cH + 2) return;
+        h += '<line x1="' + PL + '" y1="' + y + '" x2="' + (PL+cW) + '" y2="' + y + '" stroke="#E0E4E8" stroke-width="0.8"/>';
+        h += '<text x="' + (PL-5) + '" y="' + (y+4) + '" fill="#7A8590" font-size="10" font-family="Lato,sans-serif" text-anchor="end">' + (v>=1000?(v/1000)+'k':v) + '</text>';
+      });
+
+      // Right Y axis labels (Booking Engine Searches)
+      var beTicks = [250,325,400,475,550,625];
+      beTicks.forEach(function(v) {
+        var y = yBe(v);
+        if (y < PT - 2 || y > PT + cH + 2) return;
+        h += '<text x="' + (PL+cW+5) + '" y="' + (y+4) + '" fill="#7A8590" font-size="10" font-family="Lato,sans-serif" text-anchor="start">' + v + '</text>';
+      });
+
+      // Left axis label
+      h += '<text transform="translate(10,' + (PT+cH/2) + ') rotate(-90)" fill="#7A8590" font-size="10" font-family="Lato,sans-serif" text-anchor="middle">Market Searches</text>';
+      // Right axis label
+      h += '<text transform="translate(' + (W-6) + ',' + (PT+cH/2) + ') rotate(90)" fill="#7A8590" font-size="10" font-family="Lato,sans-serif" text-anchor="middle">Booking Engine Searches</text>';
+
+      // X axis ticks + labels
+      xTicks.forEach(function(i) {
+        var x = xPos(i);
+        h += '<line x1="'+x+'" y1="'+(PT+cH)+'" x2="'+x+'" y2="'+(PT+cH+4)+'" stroke="#AEB4BA" stroke-width="1"/>';
+        h += '<text x="'+x+'" y="'+(PT+cH+14)+'" fill="#7A8590" font-size="10" font-family="Lato,sans-serif" text-anchor="middle">'+labels[i]+'</text>';
+      });
+
+      // Axis border
+      h += '<line x1="'+PL+'" y1="'+PT+'" x2="'+PL+'" y2="'+(PT+cH)+'" stroke="#CDD1D5" stroke-width="1"/>';
+      h += '<line x1="'+PL+'" y1="'+(PT+cH)+'" x2="'+(PL+cW)+'" y2="'+(PT+cH)+'" stroke="#CDD1D5" stroke-width="1"/>';
+
+      svg.setAttribute('viewBox', '0 0 ' + W + ' ' + H);
+      svg.innerHTML = h;
+
+      // Events row
+      var evH = '';
+      var evTypes = [
+        { key: 'recommended', label: 'Recommended Events', color: 'transparent', border: '#5A7BBF', shape: 'square' },
+        { key: 'hotel',       label: 'Hotel Events',       color: '#5A7BBF',     border: '#5A7BBF', shape: 'square' },
+        { key: 'notes',       label: 'Notes',              color: '#9B6EC8',     border: '#9B6EC8', shape: 'diamond' },
+        { key: 'restrictions',label: 'Restrictions',       color: '#E07B54',     border: '#E07B54', shape: 'circle' }
+      ];
+      var dotSize = 7;
+      evH += '<div style="font-size:10px;color:#7A8590;margin-bottom:2px"><svg width="12" height="12" style="vertical-align:middle;cursor:pointer"><polyline points="2,4 6,8 10,4" fill="none" stroke="#7A8590" stroke-width="1.5" stroke-linejoin="round"/></svg></div>';
+      evTypes.forEach(function(et) {
+        evH += '<div style="display:flex;align-items:center;gap:0;height:14px;position:relative">';
+        evH += '<span style="font-size:9px;color:#7A8590;width:' + PL + 'px;flex-shrink:0;overflow:hidden;white-space:nowrap;text-overflow:ellipsis">' + et.label + '</span>';
+        evH += '<div style="flex:1;position:relative;height:14px">';
+        EVENTS[et.key].forEach(function(i) {
+          var pct = (i + 0.5) / n * 100;
+          var shapeHtml = '';
+          if (et.shape === 'square') {
+            shapeHtml = '<div style="width:' + dotSize + 'px;height:' + dotSize + 'px;background:' + et.color + ';border:1.5px solid ' + et.border + ';border-radius:1px"></div>';
+          } else if (et.shape === 'diamond') {
+            shapeHtml = '<div style="width:' + dotSize + 'px;height:' + dotSize + 'px;background:' + et.color + ';transform:rotate(45deg)"></div>';
+          } else {
+            shapeHtml = '<div style="width:' + dotSize + 'px;height:' + dotSize + 'px;background:' + et.color + ';border-radius:50%"></div>';
+          }
+          evH += '<div style="position:absolute;top:50%;left:' + pct + '%;transform:translate(-50%,-50%)">' + shapeHtml + '</div>';
+        });
+        evH += '</div></div>';
+      });
+      eventsEl.innerHTML = evH;
+    }
+
+    var ro = new ResizeObserver(function() { draw(); });
+    ro.observe(area.querySelector('.besa-svg').parentElement);
+    draw();
+  }
+
+  document.querySelectorAll('[data-besa]').forEach(initBesa);
 }());
 
 /* ── Hotel Pickup: expand / collapse date rows ── */
