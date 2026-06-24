@@ -9701,6 +9701,15 @@
 
     document.addEventListener('click', function () { closeMenu(); });
     menu.addEventListener('click', function (e) { e.stopPropagation(); });
+
+    // Initialize visibility of hotel filter button and cluster-only sort options based on default property
+    (function() {
+      var isCluster = currentProperty !== 'hotel-barcelona';
+      hotelFilterBtn.style.display = isCluster ? '' : 'none';
+      document.querySelectorAll('.ap-sort-cluster-only').forEach(function (el) {
+        el.style.display = isCluster ? '' : 'none';
+      });
+    }());
   }());
 
   /* ── Chat history ────────────────────────────────────── */
@@ -10533,7 +10542,7 @@
   // ── Open panel helpers ────────────────────────────────────────────────────
   function baseOpts() {
     var rangeEnd = new Date(TODAY.getFullYear(), TODAY.getMonth(), TODAY.getDate() + state.days);
-    return { minTier: state.tier, dateFrom: TODAY, dateTo: rangeEnd, hotel: null, categories: null, readFilter: 'unread' };
+    return { minTier: state.tier, dateFrom: TODAY, dateTo: rangeEnd, hotel: null, categories: null, readFilter: 'both' };
   }
 
   function openForDate(dateObj) {
